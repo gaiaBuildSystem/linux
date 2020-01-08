@@ -113,6 +113,7 @@ static int __dwc2_lowlevel_hw_enable(struct dwc2_hsotg *hsotg)
 			goto err_dis_utmi_clk;
 	}
 
+	reset_control_reset(hsotg->reset_sync);
 	reset_control_assert(hsotg->reset);
 	reset_control_assert(hsotg->reset_ecc);
 
@@ -239,6 +240,13 @@ static int dwc2_lowlevel_hw_init(struct dwc2_hsotg *hsotg)
 				       hsotg->reset_ecc);
 	if (ret)
 		return ret;
+
+	hsotg->reset_sync = devm_reset_control_get_optional(hsotg->dev, "dwc2-sync");
+	if (IS_ERR(hsotg->reset_sync)) {
+		ret = PTR_ERR(hsotg->reset_sync);
+		dev_err(hsotg->dev, "error getting sync reset %d\n", ret);
+		return ret;
+	}
 
 	/*
 	 * Attempt to find a generic PHY, then look for an old style
