@@ -59,6 +59,7 @@ void dma_heap_buffer_free(struct dma_buf *dmabuf)
 {
 	dma_buf_put(dmabuf);
 }
+EXPORT_SYMBOL_GPL(dma_heap_buffer_free);
 
 struct dma_buf *dma_heap_buffer_alloc(struct dma_heap *heap, size_t len,
 				      u32 fd_flags,
@@ -79,6 +80,7 @@ struct dma_buf *dma_heap_buffer_alloc(struct dma_heap *heap, size_t len,
 
 	return heap->ops->allocate(heap, len, fd_flags, heap_flags);
 }
+EXPORT_SYMBOL_GPL(dma_heap_buffer_alloc);
 
 int dma_heap_bufferfd_alloc(struct dma_heap *heap, size_t len,
 			    u32 fd_flags,
@@ -99,6 +101,7 @@ int dma_heap_bufferfd_alloc(struct dma_heap *heap, size_t len,
 	}
 	return fd;
 }
+EXPORT_SYMBOL_GPL(dma_heap_bufferfd_alloc);
 
 static int dma_heap_open(struct inode *inode, struct file *file)
 {
