@@ -63,6 +63,11 @@ static int dma_heap_buffer_alloc(struct dma_heap *heap, size_t len,
 	struct dma_buf *dmabuf;
 	int fd;
 
+	if (fd_flags & ~DMA_HEAP_VALID_FD_FLAGS)
+		return -EINVAL;
+
+	if (heap_flags & ~DMA_HEAP_VALID_HEAP_FLAGS)
+		return -EINVAL;
 	/*
 	 * Allocations from all heaps have to begin
 	 * and end on page boundaries.
@@ -107,12 +112,6 @@ static long dma_heap_ioctl_allocate(struct file *file, void *data)
 	int fd;
 
 	if (heap_allocation->fd)
-		return -EINVAL;
-
-	if (heap_allocation->fd_flags & ~DMA_HEAP_VALID_FD_FLAGS)
-		return -EINVAL;
-
-	if (heap_allocation->heap_flags & ~DMA_HEAP_VALID_HEAP_FLAGS)
 		return -EINVAL;
 
 	fd = dma_heap_buffer_alloc(heap, heap_allocation->len,
