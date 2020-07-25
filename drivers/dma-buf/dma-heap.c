@@ -41,6 +41,7 @@ struct dma_heap {
 	dev_t heap_devt;
 	struct list_head list;
 	struct cdev heap_cdev;
+	struct kref refcount;
 };
 
 static LIST_HEAD(heap_list);
@@ -211,6 +212,32 @@ void *dma_heap_get_drvdata(struct dma_heap *heap)
 }
 EXPORT_SYMBOL_NS_GPL(dma_heap_get_drvdata, "DMA_BUF_HEAP");
 
+static void dma_heap_release(struct kref *ref)
+{
+	struct dma_heap *heap = container_of(ref, struct dma_heap, refcount);
+	int minor = MINOR(heap->heap_devt);
+
+	/* Note, we already holding the heap_list_lock here */
+	list_del(&heap->list);
+
+	device_destroy(dma_heap_class, heap->heap_devt);
+	cdev_del(&heap->heap_cdev);
+	xa_erase(&dma_heap_minors, minor);
+
+	kfree(heap);
+}
+
+void dma_heap_put(struct dma_heap *h)
+{
+	/*
+	 * Take the heap_list_lock now to avoid racing with code
+	 * scanning the list and then taking a kref.
+	 */
+	mutex_lock(&heap_list_lock);
+	kref_put(&h->refcount, dma_heap_release);
+	mutex_unlock(&heap_list_lock);
+}
+
 /**
  * dma_heap_get_name - get heap name
  * @heap: DMA-Heap to retrieve the name of
@@ -232,7 +259,7 @@ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
 {
 	struct dma_heap *heap, *h, *err_ret;
 	struct device *dev_ret;
-	unsigned int minor;
+	int minor;
 	int ret;
 
 	if (!exp_info->name || !strcmp(exp_info->name, "")) {
@@ -249,6 +276,7 @@ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
 	if (!heap)
 		return ERR_PTR(-ENOMEM);
 
+	kref_init(&heap->refcount);
 	heap->name = exp_info->name;
 	heap->ops = exp_info->ops;
 	heap->priv = exp_info->priv;
