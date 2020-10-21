@@ -101,10 +101,16 @@ static int __dwc2_lowlevel_hw_enable(struct dwc2_hsotg *hsotg)
 	if (ret)
 		return ret;
 
+	if (hsotg->core_clk) {
+		ret = clk_prepare_enable(hsotg->core_clk);
+		if (ret)
+			goto err_dis_reg;
+	}
+
 	if (hsotg->utmi_clk) {
 		ret = clk_prepare_enable(hsotg->utmi_clk);
 		if (ret)
-			goto err_dis_reg;
+			goto err_dis_core_clk;
 	}
 
 	if (hsotg->clk) {
@@ -147,6 +153,10 @@ err_dis_clk:
 err_dis_utmi_clk:
 	if (hsotg->utmi_clk)
 		clk_disable_unprepare(hsotg->utmi_clk);
+
+err_dis_core_clk:
+	if (hsotg->core_clk)
+		clk_disable_unprepare(hsotg->core_clk);
 
 err_dis_reg:
 	regulator_bulk_disable(ARRAY_SIZE(hsotg->supplies), hsotg->supplies);
@@ -192,6 +202,9 @@ static int __dwc2_lowlevel_hw_disable(struct dwc2_hsotg *hsotg)
 
 	if (hsotg->utmi_clk)
 		clk_disable_unprepare(hsotg->utmi_clk);
+
+	if (hsotg->core_clk)
+		clk_disable_unprepare(hsotg->core_clk);
 
 	return regulator_bulk_disable(ARRAY_SIZE(hsotg->supplies), hsotg->supplies);
 }
@@ -291,6 +304,11 @@ static int dwc2_lowlevel_hw_init(struct dwc2_hsotg *hsotg)
 	if (IS_ERR(hsotg->utmi_clk))
 		return dev_err_probe(hsotg->dev, PTR_ERR(hsotg->utmi_clk),
 				     "cannot get utmi clock\n");
+
+	hsotg->core_clk = devm_clk_get_optional(hsotg->dev, "core");
+	if (IS_ERR(hsotg->core_clk))
+		return dev_err_probe(hsotg->dev, PTR_ERR(hsotg->core_clk),
+				     "cannot get core clock\n");
 
 	/* Regulators */
 	for (i = 0; i < ARRAY_SIZE(hsotg->supplies); i++)
