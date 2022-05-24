@@ -768,6 +768,10 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
 
 	DMA_BUF_TRACE(trace_dma_buf_export, dmabuf);
 
+	ret = dma_buf_stats_setup(dmabuf, file);
+	if (ret)
+		goto err_sysfs;
+
 	return dmabuf;
 
 err_file:
