@@ -1563,7 +1563,6 @@
 				interrupts = <GIC_SPI 34 IRQ_TYPE_LEVEL_HIGH>;
 				fsl,sdma-ram-script-name = "imx/sdma/sdma-imx7d.bin";
 				power-domains = <&audiomix_pd>;
-				status = "disabled";
 			};
 
 			sdma2: dma-controller@30e10000 {
@@ -1576,7 +1575,6 @@
 				interrupts = <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
 				fsl,sdma-ram-script-name = "imx/sdma/sdma-imx7d.bin";
 				power-domains = <&audiomix_pd>;
-				status = "disabled";
 			};
 
 			audio_blk_ctrl: clock-controller@30e20000 {
