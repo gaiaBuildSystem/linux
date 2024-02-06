@@ -631,10 +631,10 @@ EXPORT_SYMBOL_GPL(v4l2_m2m_querybuf);
 void v4l2_m2m_last_buffer_done(struct v4l2_m2m_ctx *m2m_ctx,
 			       struct vb2_v4l2_buffer *vbuf)
 {
+	v4l2_m2m_mark_stopped(m2m_ctx);
+
 	vbuf->flags |= V4L2_BUF_FLAG_LAST;
 	vb2_buffer_done(&vbuf->vb2_buf, VB2_BUF_STATE_DONE);
-
-	v4l2_m2m_mark_stopped(m2m_ctx);
 }
 EXPORT_SYMBOL_GPL(v4l2_m2m_last_buffer_done);
 
