@@ -787,6 +787,8 @@ struct ath12k_base {
 		u32 subsystem_device;
 	} id;
 
+	struct completion restart_completed;
+
 	/* must be last */
 	u8 drv_priv[] __aligned(sizeof(void *));
 };
@@ -806,8 +808,10 @@ int ath12k_core_fetch_bdf(struct ath12k_base *ath12k,
 void ath12k_core_free_bdf(struct ath12k_base *ab, struct ath12k_board_data *bd);
 int ath12k_core_fetch_regdb(struct ath12k_base *ab, struct ath12k_board_data *bd);
 void ath12k_core_halt(struct ath12k *ar);
+int ath12k_core_resume_early(struct ath12k_base *ab);
 int ath12k_core_resume(struct ath12k_base *ab);
 int ath12k_core_suspend(struct ath12k_base *ab);
+int ath12k_core_suspend_late(struct ath12k_base *ab);
 
 const struct firmware *ath12k_core_firmware_request(struct ath12k_base *ab,
 						    const char *filename);
