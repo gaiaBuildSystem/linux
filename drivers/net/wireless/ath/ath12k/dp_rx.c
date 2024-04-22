@@ -233,28 +233,6 @@ static u16 ath12k_dp_rxdesc_get_mpdu_frame_ctrl(struct ath12k_base *ab,
 	return ab->hw_params->hal_ops->rx_desc_get_mpdu_frame_ctl(desc);
 }
 
-static int ath12k_dp_purge_mon_ring(struct ath12k_base *ab)
-{
-	int i, reaped = 0;
-	unsigned long timeout = jiffies + msecs_to_jiffies(DP_MON_PURGE_TIMEOUT_MS);
-
-	do {
-		for (i = 0; i < ab->hw_params->num_rxmda_per_pdev; i++)
-			reaped += ath12k_dp_mon_process_ring(ab, i, NULL,
-							     DP_MON_SERVICE_BUDGET,
-							     ATH12K_DP_RX_MONITOR_MODE);
-
-		/* nothing more to reap */
-		if (reaped < DP_MON_SERVICE_BUDGET)
-			return 0;
-
-	} while (time_before(jiffies, timeout));
-
-	ath12k_warn(ab, "dp mon ring purge timeout");
-
-	return -ETIMEDOUT;
-}
-
 /* Returns number of Rx buffers replenished */
 int ath12k_dp_rx_bufs_replenish(struct ath12k_base *ab, int mac_id,
 				struct dp_rxdma_ring *rx_ring,
@@ -4299,32 +4277,6 @@ int ath12k_dp_rx_pdev_mon_attach(struct ath12k *ar)
 	pmon->mon_last_linkdesc_paddr = 0;
 	pmon->mon_last_buf_cookie = DP_RX_DESC_COOKIE_MAX + 1;
 	spin_lock_init(&pmon->mon_lock);
-
-	return 0;
-}
-
-int ath12k_dp_rx_pktlog_start(struct ath12k_base *ab)
-{
-	/* start reap timer */
-	mod_timer(&ab->mon_reap_timer,
-		  jiffies + msecs_to_jiffies(ATH12K_MON_TIMER_INTERVAL));
-
-	return 0;
-}
-
-int ath12k_dp_rx_pktlog_stop(struct ath12k_base *ab, bool stop_timer)
-{
-	int ret;
-
-	if (stop_timer)
-		del_timer_sync(&ab->mon_reap_timer);
-
-	/* reap all the monitor related rings */
-	ret = ath12k_dp_purge_mon_ring(ab);
-	if (ret) {
-		ath12k_warn(ab, "failed to purge dp mon ring: %d\n", ret);
-		return ret;
-	}
 
 	return 0;
 }
