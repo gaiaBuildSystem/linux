@@ -39,8 +39,20 @@
 
 #define __free(_name)	__cleanup(__free_##_name)
 
+#define __get_and_null(p, nullvalue)   \
+	({                                  \
+		__auto_type __ptr = &(p);   \
+		__auto_type __val = *__ptr; \
+		*__ptr = nullvalue;         \
+		__val;                      \
+	})
+
+static inline __must_check
+const volatile void * __must_check_fn(const volatile void *val)
+{ return val; }
+
 #define no_free_ptr(p) \
-	({ __auto_type __ptr = (p); (p) = NULL; __ptr; })
+	((typeof(p)) __must_check_fn(__get_and_null(p, NULL)))
 
 #define return_ptr(p)	return no_free_ptr(p)
 
