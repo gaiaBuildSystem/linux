@@ -473,6 +473,8 @@
 			  "SODIMM_44";
 };
 
+/delete-node/ &gpu_reserved;
+
 /* Verdin HDMI_1 */
 &hdmi_tx {
 	ddc-i2c-bus = <&i2c5>;
@@ -798,6 +800,12 @@
 	pinctrl-1 = <&pinctrl_i2c5_gpio>;
 	scl-gpios = <&gpio3 26 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
 	sda-gpios = <&gpio3 27 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+};
+
+&mix_gpu_ml {
+	/* Do not use gpu_reserved memory area and rely on contiguous_mem */
+	/delete-property/ memory-region;
+
 };
 
 /* Verdin PCIE_1 */
