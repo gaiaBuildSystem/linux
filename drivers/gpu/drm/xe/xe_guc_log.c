@@ -9,6 +9,7 @@
 
 #include <linux/utsname.h>
 #include <drm/drm_managed.h>
+#include <linux/vmalloc.h>
 
 #include "abi/guc_lfd_abi.h"
 #include "regs/xe_guc_regs.h"
