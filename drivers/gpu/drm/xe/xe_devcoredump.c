@@ -330,6 +330,7 @@ static void devcoredump_snapshot(struct xe_devcoredump *coredump,
 	struct xe_guc *guc = exec_queue_to_guc(q);
 	const char *process_name = "no process";
 	bool cookie;
+	int i;
 
 	ss->snapshot_time = ktime_get_real();
 	ss->boot_time = ktime_get_boottime();
