@@ -232,7 +232,9 @@ sec_dsim_mode_valid(struct drm_encoder *encoder,
 			rounded_rate = clk_round_rate(dsim_dev->clk_pix,
 						      pixel_clock_rate);
 
-			if (rounded_rate != pixel_clock_rate)
+			/* Allow +/-0.5% pixel clock rate deviation */
+			if (rounded_rate < pixel_clock_rate * 995/1000 ||
+			    rounded_rate > pixel_clock_rate * 1005/1000)
 				return MODE_CLOCK_RANGE;
 		}
 	}
