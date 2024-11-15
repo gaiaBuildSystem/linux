@@ -178,6 +178,20 @@ static int vcn_v4_0_3_fw_shared_init(struct amdgpu_device *adev, int inst_idx)
 	return 0;
 }
 
+static int vcn_v4_0_3_fw_shared_init(struct amdgpu_device *adev, int inst_idx)
+{
+	struct amdgpu_vcn4_fw_shared *fw_shared;
+
+	fw_shared = adev->vcn.inst[inst_idx].fw_shared.cpu_addr;
+	fw_shared->present_flag_0 = cpu_to_le32(AMDGPU_FW_SHARED_FLAG_0_UNIFIED_QUEUE);
+	fw_shared->sq.is_enabled = 1;
+
+	if (amdgpu_vcnfw_log)
+		amdgpu_vcn_fwlog_init(&adev->vcn.inst[inst_idx]);
+
+	return 0;
+}
+
 /**
  * vcn_v4_0_3_sw_init - sw init for VCN block
  *
@@ -369,6 +383,11 @@ static int vcn_v4_0_3_hw_init(struct amdgpu_ip_block *ip_block)
 			ring = &adev->vcn.inst[i].ring_enc[0];
 			vinst = &adev->vcn.inst[i];
 			vcn_v4_0_3_hw_init_inst(vinst);
+
+			/* Re-init fw_shared when RAS fatal error occurred */
+			fw_shared = adev->vcn.inst[i].fw_shared.cpu_addr;
+			if (!fw_shared->sq.is_enabled)
+				vcn_v4_0_3_fw_shared_init(adev, i);
 
 			/* Re-init fw_shared when RAS fatal error occurred */
 			fw_shared = adev->vcn.inst[i].fw_shared.cpu_addr;
