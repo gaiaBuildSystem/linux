@@ -1674,8 +1674,11 @@ sec_mipi_dsim_bridge_mode_valid(struct drm_bridge *bridge,
 		if (ret)
 			return MODE_CLOCK_RANGE;
 
-		if (dsim->pms_delta != 0)
+		if (DIV_ROUND_UP(dsim->pms_delta * 100, dsim->pix_clk) > 2) {
+			dev_dbg(dsim->dev, "pms_delta = %d, pix_clk = %d, filtering out mode with more than 2%% value deviation\n",
+				dsim->pms_delta, dsim->pix_clk);
 			return MODE_CLOCK_RANGE;
+		}
 	}
 
 	if (pdata->mode_valid)
