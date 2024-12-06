@@ -6374,6 +6374,14 @@ static void virtnet_sq_free_unused_buf_done(struct virtqueue *vq)
 	netdev_tx_reset_queue(netdev_get_tx_queue(vi->dev, i));
 }
 
+static void virtnet_sq_free_unused_buf_done(struct virtqueue *vq)
+{
+	struct virtnet_info *vi = vq->vdev->priv;
+	int i = vq2txq(vq);
+
+	netdev_tx_reset_queue(netdev_get_tx_queue(vi->dev, i));
+}
+
 static void free_unused_bufs(struct virtnet_info *vi)
 {
 	void *buf;
