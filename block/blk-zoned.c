@@ -1088,6 +1088,7 @@ static void blk_zone_reset_bio_endio(struct bio *bio)
 	struct gendisk *disk = bio->bi_bdev->bd_disk;
 	sector_t sector = bio->bi_iter.bi_sector;
 	struct blk_zone_wplug *zwplug;
+	unsigned long flags;
 
 	/*
 	 * If we have a zone write plug, set its write pointer offset to 0.
@@ -1369,6 +1370,16 @@ static bool blk_zone_wplug_prepare_bio(struct blk_zone_wplug *zwplug,
 	struct gendisk *disk = bio->bi_bdev->bd_disk;
 
 	lockdep_assert_held(&zwplug->lock);
+
+	/*
+	 * If we lost track of the zone write pointer due to a write error,
+	 * the user must either execute a report zones, reset the zone or finish
+	 * the to recover a reliable write pointer position. Fail BIOs if the
+	 * user did not do that as we cannot handle emulated zone append
+	 * otherwise.
+	 */
+	if (zwplug->flags & BLK_ZONE_WPLUG_NEED_WP_UPDATE)
+		return false;
 
 	/*
 	 * If we lost track of the zone write pointer due to a write error,
