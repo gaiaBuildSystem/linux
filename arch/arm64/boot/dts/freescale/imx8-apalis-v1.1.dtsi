@@ -803,7 +803,6 @@
 /* Apalis PCIE1 */
 &pciea {
 	ext_osc = <1>;
-	fsl,max-link-speed = <1>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_reset_moci>;
 	reset-gpio = <&lsio_gpio0 30 GPIO_ACTIVE_LOW>;
