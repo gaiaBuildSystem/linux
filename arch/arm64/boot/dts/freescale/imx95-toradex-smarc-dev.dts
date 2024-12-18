@@ -1,0 +1,57 @@
+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+/*
+ * Copyright 2025 Toradex
+ *
+ * https://www.toradex.com/computer-on-modules/smarc-arm-family/nxp-imx95
+ */
+
+/dts-v1/;
+
+#include "imx95-toradex-smarc.dtsi"
+
+/ {
+	model = "Toradex SMARC iMX95 on Toradex SMARC Development Board";
+	compatible = "toradex,smarc-imx95-dev",
+		     "toradex,smarc-imx95",
+		     "fsl,imx95";
+
+	aliases {
+		eth2 = &enetc_port2;
+	};
+
+};
+
+/* SMARC ENET_1 (On Module PHY) */
+&enetc_port0 {
+	status = "okay";
+};
+
+/* SMARC ENET_2 (On Module PHY) */
+&enetc_port1 {
+	status = "okay";
+};
+
+/* ETH_2 */
+&enetc_port2 {
+	phy-handle = <&ethphy3>;
+	phy-mode = "sgmii";
+	status = "okay";
+};
+
+/* SMARC ENET_1_MDIO, shared between all ethernet ports */
+&netc_emdio {
+	status = "okay";
+
+	ethphy3: ethernet-phy@4 {
+		reg = <4>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_gpio7>;
+		interrupt-parent = <&gpio5>;
+		interrupts = <9 IRQ_TYPE_LEVEL_LOW>;
+	};
+};
+
+/* SMARC SER1, used as the Linux Console */
+&lpuart1 {
+	status = "okay";
+};

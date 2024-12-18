@@ -1,0 +1,216 @@
+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+/*
+ * Copyright 2025 Toradex
+ *
+ * https://www.toradex.com/computer-on-modules/smarc-arm-family/nxp-imx95
+ */
+
+#include <dt-bindings/net/ti-dp83867.h>
+#include "imx95.dtsi"
+
+/ {
+	chosen {
+		stdout-path = "serial1:115200n8";
+	};
+
+	aliases {
+		eth0 = &enetc_port0;
+		eth1 = &enetc_port1;
+		mmc0 = &usdhc1;
+		serial1 = &lpuart1;
+	};
+};
+
+/* SMARC ENET_1 */
+&enetc_port0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_enetc0>;
+	phy-handle = <&ethphy1>;
+	phy-mode = "rgmii-id";
+};
+
+/* SMARC ENET_2 */
+&enetc_port1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_enetc1>;
+	phy-handle = <&ethphy2>;
+	phy-mode = "rgmii-id";
+};
+
+/* SMARC I2C_CAM0 */
+&lpi2c4 {
+	pinctrl-names = "default", "gpio";
+	pinctrl-0 = <&pinctrl_lpi2c4>, <&pinctrl_ctrl_io_exp_int_b>;
+	pinctrl-1 = <&pinctrl_lpi2c4_gpio>, <&pinctrl_ctrl_io_exp_int_b>;
+	#address-cells = <1>;
+	#size-cells = <0>;
+	clock-frequency = <400000>;
+	scl-gpios = <&gpio2 31 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+	sda-gpios = <&gpio2 30 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+	status = "okay";
+
+	som_gpio_expander_0: gpio-expander@20 {
+		compatible = "nxp,pcal6408";
+		reg = <0x20>;
+		#interrupt-cells = <2>;
+		interrupt-controller;
+		interrupt-parent = <&gpio1>;
+		interrupts = <14 IRQ_TYPE_LEVEL_LOW>;
+		#gpio-cells = <2>;
+		gpio-controller;
+	};
+
+	som_gpio_expander_1: gpio-expander@21 {
+		compatible = "nxp,pcal6416";
+		reg = <0x21>;
+		#interrupt-cells = <2>;
+		interrupt-controller;
+		interrupt-parent = <&gpio1>;
+		interrupts = <14 IRQ_TYPE_LEVEL_LOW>;
+		#gpio-cells = <2>;
+		gpio-controller;
+	};
+};
+
+/* SMARC SER1, used as the Linux Console */
+&lpuart1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_uart1>;
+};
+
+/* SMARC ENET_1_MDIO, shared between all ethernet ports */
+&netc_emdio {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_emdio>;
+
+	ethphy1: ethernet-phy@1 {
+		reg = <1>;
+		interrupt-parent = <&som_gpio_expander_1>;
+		interrupts = <6 IRQ_TYPE_LEVEL_LOW>;
+		ti,rx-internal-delay = <DP83867_RGMIIDCTL_2_00_NS>;
+		ti,tx-internal-delay = <DP83867_RGMIIDCTL_2_00_NS>;
+	};
+
+	ethphy2: ethernet-phy@2 {
+		reg = <2>;
+		interrupt-parent = <&som_gpio_expander_1>;
+		interrupts = <6 IRQ_TYPE_LEVEL_LOW>;
+		ti,rx-internal-delay = <DP83867_RGMIIDCTL_2_00_NS>;
+		ti,tx-internal-delay = <DP83867_RGMIIDCTL_2_00_NS>;
+	};
+};
+
+&netc_prb_ierb {
+	netc-interfaces = <NXP_NETC_RGMII>,
+			  <NXP_NETC_RGMII>,
+			  <NXP_NETC_SERIAL>;
+};
+
+/* On-module eMMC */
+&usdhc1 {
+	pinctrl-names = "default", "state_100mhz", "state_200mhz";
+	pinctrl-0 = <&pinctrl_usdhc1>;
+	pinctrl-1 = <&pinctrl_usdhc1>;
+	pinctrl-2 = <&pinctrl_usdhc1_200mhz>;
+	bus-width = <8>;
+	non-removable;
+	no-sdio;
+	no-sd;
+	status = "okay";
+};
+
+&scmi_iomuxc {
+	/* SMARC ENET_1_MDIO, shared between all ethernet ports */
+	pinctrl_emdio: emdiogrp {
+		fsl,pins = <IMX95_PAD_ENET1_MDC__NETCMIX_TOP_NETC_MDC		0x57e>, /* (AK40) SMARC S45 */
+			   <IMX95_PAD_ENET1_MDIO__NETCMIX_TOP_NETC_MDIO		0x97e>; /* (AJ39) SMARC S46 */
+	};
+
+	/* SMARC ENET_1 */
+	pinctrl_enetc0: enetc0grp {
+		fsl,pins = <IMX95_PAD_ENET1_TX_CTL__NETCMIX_TOP_ETH0_RGMII_TX_CTL   0x57e>, /* (AF32) ENET1_TX_CTL */
+			   <IMX95_PAD_ENET1_TXC__NETCMIX_TOP_ETH0_RGMII_TX_CLK      0x58e>, /* (AG31) ENET1_TXC	   */
+			   <IMX95_PAD_ENET1_TD0__NETCMIX_TOP_ETH0_RGMII_TD0         0x57e>, /* (AG33) ENET1_TDO	   */
+			   <IMX95_PAD_ENET1_TD1__NETCMIX_TOP_ETH0_RGMII_TD1         0x57e>, /* (AG35) ENET1_TD1    */
+			   <IMX95_PAD_ENET1_TD2__NETCMIX_TOP_ETH0_RGMII_TD2         0x57e>, /* (AF36) ENET1_TD2    */
+			   <IMX95_PAD_ENET1_TD3__NETCMIX_TOP_ETH0_RGMII_TD3         0x57e>, /* (AG37) ENET1_TD3    */
+			   <IMX95_PAD_ENET1_RX_CTL__NETCMIX_TOP_ETH0_RGMII_RX_CTL   0x57e>, /* (AH34) ENET1_RX_CTL */
+			   <IMX95_PAD_ENET1_RXC__NETCMIX_TOP_ETH0_RGMII_RX_CLK      0x58e>, /* (AJ33) ENET1_RXC    */
+			   <IMX95_PAD_ENET1_RD0__NETCMIX_TOP_ETH0_RGMII_RD0         0x57e>, /* (AJ35) ENET1_RD0    */
+			   <IMX95_PAD_ENET1_RD1__NETCMIX_TOP_ETH0_RGMII_RD1         0x57e>, /* (AK36) ENET1_RD1    */
+			   <IMX95_PAD_ENET1_RD2__NETCMIX_TOP_ETH0_RGMII_RD2         0x57e>, /* (AJ37) ENET1_RD2    */
+			   <IMX95_PAD_ENET1_RD3__NETCMIX_TOP_ETH0_RGMII_RD3         0x57e>; /* (AH38) ENET1_RD3    */
+	};
+
+	/* SMARC ENET_2 */
+	pinctrl_enetc1: enetc1grp {
+		fsl,pins = <IMX95_PAD_ENET2_TX_CTL__NETCMIX_TOP_ETH1_RGMII_TX_CTL   0x57e>, /* (AF24) ENET2_TX_CTL */
+			   <IMX95_PAD_ENET2_TXC__NETCMIX_TOP_ETH1_RGMII_TX_CLK      0x58e>, /* (AG23) ENET2_TXC    */
+			   <IMX95_PAD_ENET2_TD0__NETCMIX_TOP_ETH1_RGMII_TD0         0x57e>, /* (AG25) ENET2_TD0    */
+			   <IMX95_PAD_ENET2_TD1__NETCMIX_TOP_ETH1_RGMII_TD1         0x57e>, /* (AG27) ENET2_TD1    */
+			   <IMX95_PAD_ENET2_TD2__NETCMIX_TOP_ETH1_RGMII_TD2         0x57e>, /* (AF28) ENET2_TD2    */
+			   <IMX95_PAD_ENET2_TD3__NETCMIX_TOP_ETH1_RGMII_TD3         0x57e>, /* (AG29) ENET2_TD3    */
+			   <IMX95_PAD_ENET2_RX_CTL__NETCMIX_TOP_ETH1_RGMII_RX_CTL   0x57e>, /* (AH26) ENET2_RX_CTL */
+			   <IMX95_PAD_ENET2_RXC__NETCMIX_TOP_ETH1_RGMII_RX_CLK      0x58e>, /* (AJ25) ENET2_RXC    */
+			   <IMX95_PAD_ENET2_RD0__NETCMIX_TOP_ETH1_RGMII_RD0         0x57e>, /* (AJ27) ENET2_RD0    */
+			   <IMX95_PAD_ENET2_RD1__NETCMIX_TOP_ETH1_RGMII_RD1         0x57e>, /* (AK28) ENET2_RD1    */
+			   <IMX95_PAD_ENET2_RD2__NETCMIX_TOP_ETH1_RGMII_RD2         0x57e>, /* (AJ29) ENET2_RD2    */
+			   <IMX95_PAD_ENET2_RD3__NETCMIX_TOP_ETH1_RGMII_RD3         0x57e>; /* (AH30) ENET2_RD3    */
+	};
+
+	/* SMARC GPIO7 */
+	pinctrl_gpio7: gpio7grp {
+		fsl,pins = <IMX95_PAD_XSPI1_SCLK__GPIO5_IO_BIT9 0x31e>; /* (AJ43) SMARC P115 */
+	};
+
+	/* SMARC I2C_CAM0 */
+	pinctrl_lpi2c4: lpi2c4grp {
+		fsl,pins = <IMX95_PAD_GPIO_IO31__LPI2C4_SCL	0x40000b9e>, /* (V48) SMARC S5 */
+			   <IMX95_PAD_GPIO_IO30__LPI2C4_SDA	0x40000b9e>; /* (V46) SMARC S7 */
+	};
+
+	pinctrl_lpi2c4_gpio: lpi2c4gpiogrp {
+		fsl,pins = <IMX95_PAD_GPIO_IO31__LPI2C4_SCL	0x40000b9e>, /* (V48) SMARC S5 */
+			   <IMX95_PAD_GPIO_IO30__LPI2C4_SDA	0x40000b9e>; /* (V46) SMARC S7 */
+	};
+
+	/* SMARC CTRL_IO_EXP_INT_B */
+	pinctrl_ctrl_io_exp_int_b: ctrlioexpintbgrp {
+		fsl,pins = <IMX95_PAD_SAI1_RXD0__AONMIX_TOP_GPIO1_IO_BIT14 0x31e>; /* (H52) CTRL_IO_EXP_INT_B */
+	};
+
+	/* SMARC SER1, used as the Linux Console */
+	pinctrl_uart1: uart1grp {
+		fsl,pins = <IMX95_PAD_UART1_TXD__AONMIX_TOP_LPUART1_TX	0x31e>, /* (F52) SMARC P134 */
+			   <IMX95_PAD_UART1_RXD__AONMIX_TOP_LPUART1_RX	0x31e>; /* (E49) SMARC P135 */
+	};
+
+	/* On-module eMMC */
+	pinctrl_usdhc1: usdhc1grp {
+		fsl,pins = <IMX95_PAD_SD1_CLK__USDHC1_CLK        0x158e>, /* (AG39) SD1_CLK    */
+			   <IMX95_PAD_SD1_CMD__USDHC1_CMD        0x138e>, /* (AF40) SD1_CMD    */
+			   <IMX95_PAD_SD1_DATA0__USDHC1_DATA0    0x138e>, /* (AG45) SD1_DATA0  */
+			   <IMX95_PAD_SD1_DATA1__USDHC1_DATA1    0x138e>, /* (AE45) SD1_DATA1  */
+			   <IMX95_PAD_SD1_DATA2__USDHC1_DATA2    0x138e>, /* (AD46) SD1_DATA2  */
+			   <IMX95_PAD_SD1_DATA3__USDHC1_DATA3    0x138e>, /* (AG43) SD1_DATA3  */
+			   <IMX95_PAD_SD1_DATA4__USDHC1_DATA4    0x138e>, /* (AF44) SD1_DATA4  */
+			   <IMX95_PAD_SD1_DATA5__USDHC1_DATA5    0x138e>, /* (AG47) SD1_DATA5  */
+			   <IMX95_PAD_SD1_DATA6__USDHC1_DATA6    0x138e>, /* (AD44) SD1_DATA6  */
+			   <IMX95_PAD_SD1_DATA7__USDHC1_DATA7    0x138e>, /* (AC45) SD1_DATA7  */
+			   <IMX95_PAD_SD1_STROBE__USDHC1_STROBE  0x158e>; /* (AG41) SD1_STROBE */
+	};
+
+	pinctrl_usdhc1_200mhz: usdhc1-200mhzgrp {
+		fsl,pins = <IMX95_PAD_SD1_CLK__USDHC1_CLK        0x15fe>, /* (AG39) SD1_CLK    */
+			   <IMX95_PAD_SD1_CMD__USDHC1_CMD        0x13fe>, /* (AF40) SD1_CMD    */
+			   <IMX95_PAD_SD1_DATA0__USDHC1_DATA0    0x13fe>, /* (AG45) SD1_DATA0  */
+			   <IMX95_PAD_SD1_DATA1__USDHC1_DATA1    0x13fe>, /* (AE45) SD1_DATA1  */
+			   <IMX95_PAD_SD1_DATA2__USDHC1_DATA2    0x13fe>, /* (AD46) SD1_DATA2  */
+			   <IMX95_PAD_SD1_DATA3__USDHC1_DATA3    0x13fe>, /* (AG43) SD1_DATA3  */
+			   <IMX95_PAD_SD1_DATA4__USDHC1_DATA4    0x13fe>, /* (AF44) SD1_DATA4  */
+			   <IMX95_PAD_SD1_DATA5__USDHC1_DATA5    0x13fe>, /* (AG47) SD1_DATA5  */
+			   <IMX95_PAD_SD1_DATA6__USDHC1_DATA6    0x13fe>, /* (AD44) SD1_DATA6  */
+			   <IMX95_PAD_SD1_DATA7__USDHC1_DATA7    0x13fe>, /* (AC45) SD1_DATA7  */
+			   <IMX95_PAD_SD1_STROBE__USDHC1_STROBE  0x15fe>; /* (AG41) SD1_STROBE */
+	};
+};
