@@ -1117,6 +1117,12 @@ properties:
           - const: toradex,verdin-imx8mp          # Verdin iMX8M Plus Module
           - const: fsl,imx8mp
 
+      - description: Toradex Boards with SMARC iMX95 Modules
+        items:
+          - const: toradex,smarc-imx95-dev # Toradex SMARC iMX95 Module on Toradex SMARC Development Board
+          - const: toradex,smarc-imx95     # Toradex SMARC iMX95 Module
+          - const: fsl,imx95
+
       - description:
           TQMa8MPxL is a series of LGA SOM featuring NXP i.MX8MP system-on-chip
           variants. It is designed to be soldered on different carrier boards.
