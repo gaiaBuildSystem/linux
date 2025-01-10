@@ -20,6 +20,41 @@
 	chosen {
 		stdout-path = &uart4;
 	};
+
+	connector {
+		compatible = "gpio-usb-b-connector", "usb-b-connector";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_usb0_id>;
+		id-gpios = <&gpio2 10 GPIO_ACTIVE_HIGH>;
+		label = "USB0";
+		self-powered;
+		type = "micro";
+		vbus-supply = <&reg_usb0_vbus>;
+
+		port {
+			usb_dr_connector: endpoint {
+				remote-endpoint = <&usb3_0_dwc>;
+			};
+		};
+	};
+
+	reg_usb0_vbus: regulator-usb0-vbus {
+		compatible = "regulator-fixed";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_usb0_en_oc>;
+		gpios = <&gpio1 12 GPIO_ACTIVE_HIGH>;
+		enable-active-high;
+		regulator-name = "USB0_EN_OC#";
+	};
+
+	reg_usb1_vbus: regulator-usb1-vbus {
+		compatible = "regulator-fixed";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_usb1_en_oc>;
+		gpios = <&gpio1 14 GPIO_ACTIVE_HIGH>;
+		enable-active-high;
+		regulator-name = "USB2_EN_OC#";
+	};
 };
 
 &A53_0 {
@@ -268,6 +303,34 @@
 	pinctrl-0 = <&pinctrl_uart4>;
 };
 
+/* SMARC USB0 */
+&usb3_0 {
+	fsl,disable-port-power-control;
+};
+
+/* SMARC USB1..4 */
+&usb3_1 {
+	fsl,disable-port-power-control;
+};
+
+&usb_dwc3_0 {
+	adp-disable;
+	dr_mode = "otg";
+	hnp-disable;
+	srp-disable;
+	usb-role-switch;
+
+	port {
+		usb3_0_dwc: endpoint {
+			remote-endpoint = <&usb_dr_connector>;
+		};
+	};
+};
+
+&usb_dwc3_1 {
+	dr_mode = "host";
+};
+
 /* On-module eMMC */
 &usdhc3 {
 	pinctrl-names = "default", "state_100mhz", "state_200mhz";
@@ -374,6 +437,21 @@
 	pinctrl_uart4: uart4grp {
 		fsl,pins = <MX8MP_IOMUXC_UART4_RXD__UART4_DCE_RX	0x1c4>, /* (AJ15) SER1_RX */ /* SMARC P135 */
 			   <MX8MP_IOMUXC_UART4_TXD__UART4_DCE_TX	0x1c4>; /* (AH15) SER1_TX */ /* SMARC P134 */
+	};
+
+	/* SMARC USB0_OTG_ID */
+	pinctrl_usb0_id: usb0idgrp {
+		fsl,pins = <MX8MP_IOMUXC_SD1_RESET_B__GPIO2_IO10	0x1c4>; /* (AJ20) USB0_OTG_ID_1V8 */ /* SMARC P64 */
+	};
+
+	/* SMARC USB0_EN_OC# */
+	pinctrl_usb0_en_oc: usb0enocgrp {
+		fsl,pins = <MX8MP_IOMUXC_GPIO1_IO12__GPIO1_IO12		0x04>; /* (A5) USB0_EN_OC#_1V8 */ /* SMARC P62 */
+	};
+
+	/* On module USB Hub VBUS, or SMARC USB2_EN_OC# depending on assembling */
+	pinctrl_usb1_en_oc: usb1enocgrp {
+		fsl,pins = <MX8MP_IOMUXC_GPIO1_IO14__GPIO1_IO14		0x04>; /* (A4) USB2_EN_OC#_1V8 */ /* optional SMARC P71 */
 	};
 
 	/* On-module eMMC */

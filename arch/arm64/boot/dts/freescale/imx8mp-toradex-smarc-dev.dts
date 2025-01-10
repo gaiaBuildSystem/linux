@@ -46,3 +46,21 @@
 &uart4 {
 	status = "okay";
 };
+
+/* SMARC USB0 */
+&usb3_0 {
+	status = "okay";
+};
+
+/* SMARC USB1..4 */
+&usb3_1 {
+	status = "okay";
+};
+
+&usb3_phy0 {
+	status = "okay";
+};
+
+&usb3_phy1 {
+	status = "okay";
+};
