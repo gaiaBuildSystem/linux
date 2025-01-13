@@ -11,6 +11,7 @@
 		mmc0 = &usdhc3;
 		mmc1 = &usdhc2;
 		mmc2 = &usdhc1;
+		rtc0 = &rtc_i2c;
 		serial0 = &uart1;
 		serial1 = &uart4;
 		serial2 = &uart2;
@@ -172,6 +173,28 @@
 	sda-gpios = <&gpio5 15 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
 	status = "okay";
 
+	som_gpio_expander: gpio-expander@21 {
+		compatible = "nxp,pcal6408";
+		reg = <0x21>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_pcal6408>;
+		#interrupt-cells = <2>;
+		interrupt-controller;
+		interrupt-parent = <&gpio3>;
+		interrupts = <9 IRQ_TYPE_LEVEL_LOW>;
+		#gpio-cells = <2>;
+		gpio-controller;
+		gpio-line-names =
+			"SMARC_GPIO0",
+			"SMARC_GPIO1",
+			"SMARC_GPIO2",
+			"SMARC_GPIO3",
+			"SMARC_LCD0_VDD_EN",
+			"SMARC_LCD0_BKLT_EN",
+			"SMARC_LCD1_VDD_EN",
+			"SMARC_LCD1_BKLT_EN";
+	};
+
 	pca9450: pmic@25 {
 		compatible = "nxp,pca9450c";
 		reg = <0x25>;
@@ -255,6 +278,22 @@
 				regulator-name = "+V3.3_1.8_SD (PMIC LDO5)";
 			};
 		};
+	};
+
+	rtc_i2c: rtc@32 {
+		compatible = "epson,rx8130";
+		reg = <0x32>;
+	};
+
+	temperature-sensor@48 {
+		compatible = "ti,tmp1075";
+		reg = <0x48>;
+	};
+
+	eeprom@50 {
+		compatible = "st,24c02";
+		reg = <0x50>;
+		pagesize = <16>;
 	};
 };
 
@@ -404,6 +443,11 @@
 	pinctrl_i2c1_gpio: i2c1gpiogrp {
 		fsl,pins = <MX8MP_IOMUXC_I2C1_SCL__GPIO5_IO14		0x400001c6>, /* (AC8) CTRL_I2C_SCL */
 			   <MX8MP_IOMUXC_I2C1_SDA__GPIO5_IO15		0x400001c6>; /* (AH7) CTRL_I2C_SDA */
+	};
+
+	/* PCAL6408 Interrupt */
+	pinctrl_pcal6408: pcal6408intgrp {
+		fsl,pins = <MX8MP_IOMUXC_NAND_DATA03__GPIO3_IO09	0x1c4>; /* (N24) GPIO_EX_INT# */
 	};
 
 	/* PMIC Interrupt */
