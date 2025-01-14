@@ -163,6 +163,10 @@
 		fsl,pins = <IMX95_PAD_XSPI1_SCLK__GPIO5_IO_BIT9 0x31e>; /* (AJ43) SMARC P115 */
 	};
 
+	pinctrl_ctrl_io_exp_int_b: ioexpintgrp {
+		fsl,pins = <IMX95_PAD_SAI1_RXD0__AONMIX_TOP_GPIO1_IO_BIT14 0x31e>; /* (H52) CTRL_IO_EXP_INT_B */
+	};
+
 	/* SMARC I2C_CAM0 */
 	pinctrl_lpi2c4: lpi2c4grp {
 		fsl,pins = <IMX95_PAD_GPIO_IO31__LPI2C4_SCL	0x40000b9e>, /* (V48) SMARC S5 */
@@ -172,11 +176,6 @@
 	pinctrl_lpi2c4_gpio: lpi2c4gpiogrp {
 		fsl,pins = <IMX95_PAD_GPIO_IO31__LPI2C4_SCL	0x40000b9e>, /* (V48) SMARC S5 */
 			   <IMX95_PAD_GPIO_IO30__LPI2C4_SDA	0x40000b9e>; /* (V46) SMARC S7 */
-	};
-
-	/* SMARC CTRL_IO_EXP_INT_B */
-	pinctrl_ctrl_io_exp_int_b: ctrlioexpintbgrp {
-		fsl,pins = <IMX95_PAD_SAI1_RXD0__AONMIX_TOP_GPIO1_IO_BIT14 0x31e>; /* (H52) CTRL_IO_EXP_INT_B */
 	};
 
 	/* SMARC SER1, used as the Linux Console */
