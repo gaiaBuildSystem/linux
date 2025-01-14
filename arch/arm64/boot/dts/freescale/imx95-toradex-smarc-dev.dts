@@ -16,7 +16,7 @@
 		     "fsl,imx95";
 
 	aliases {
-		eth2 = &enetc_port2;
+		ethernet2 = &enetc_port2;
 	};
 
 };
