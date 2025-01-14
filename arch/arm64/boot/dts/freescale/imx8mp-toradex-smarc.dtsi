@@ -57,6 +57,14 @@
 		enable-active-high;
 		regulator-name = "USB2_EN_OC#";
 	};
+
+	sound_hdmi: sound-hdmi {
+		compatible = "fsl,imx-audio-hdmi";
+		model = "audio-hdmi";
+		audio-cpu = <&aud2htx>;
+		hdmi-out;
+		status = "disabled";
+	};
 };
 
 &A53_0 {
@@ -162,6 +170,20 @@
 	phy-handle = <&fec_phy>;
 	phy-mode = "rgmii-id";
 	fsl,magic-packet;
+};
+
+&gpu_2d {
+	status = "okay";
+};
+
+&gpu_3d {
+	status = "okay";
+};
+
+/* SMARC HDMI */
+&hdmi {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_hdmi>;
 };
 
 /* On-module I2C */
@@ -361,6 +383,14 @@
 	};
 };
 
+&ml_vipsi {
+	status = "okay";
+};
+
+&mix_gpu_ml {
+	status = "okay";
+};
+
 /* SMARC SER0 */
 &uart1 {
 	pinctrl-names = "default";
@@ -426,6 +456,22 @@
 	status = "okay";
 };
 
+&vpu_g1 {
+	status = "okay";
+};
+
+&vpu_g2 {
+	status = "okay";
+};
+
+&vpu_vc8000e {
+	status = "okay";
+};
+
+&vpu_v4l2 {
+	status = "okay";
+};
+
 &iomuxc {
 	/* ETH_0 RGMII (On-module PHY) */
 	pinctrl_eqos: eqosgrp {
@@ -474,6 +520,13 @@
 	/* SMARC GBE1_SDP */
 	pinctrl_fec_1588_event: fec1588eventgrp {
 		fsl,pins = <MX8MP_IOMUXC_SAI1_RXC__ENET1_1588_EVENT0_OUT	0x4>; /* SMARC P5 - GBE1_SDP */
+	};
+
+	/* SMARC HDMI */
+	pinctrl_hdmi: hdmigrp {
+		fsl,pins = <MX8MP_IOMUXC_HDMI_DDC_SCL__HDMIMIX_HDMI_SCL		0x400001c6>, /* SMARC P105 - HDMI_CTRL_CK */
+			   <MX8MP_IOMUXC_HDMI_DDC_SDA__HDMIMIX_HDMI_SDA		0x400001c6>, /* SMARC P106 - HDMI_CTRL_DAT */
+			   <MX8MP_IOMUXC_HDMI_HPD__HDMIMIX_HDMI_HPD		0x180>;      /* SMARC P104 - HDMI_HPD */
 	};
 
 	/* On-module I2C */

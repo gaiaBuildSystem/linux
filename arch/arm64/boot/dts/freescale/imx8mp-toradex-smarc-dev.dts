@@ -48,6 +48,10 @@
 	};
 };
 
+&aud2htx {
+	status = "okay";
+};
+
 /* SMARC GBE0 */
 &eqos {
 	status = "okay";
@@ -83,6 +87,32 @@
 	assigned-clock-parents = <&clk IMX8MP_AUDIO_PLL1_OUT>;
 	assigned-clock-rates = <24576000>;
 	fsl,sai-mclk-direction-output;
+	status = "okay";
+};
+
+/* SMARC HDMI */
+&hdmi {
+	status = "okay";
+};
+
+&hdmiphy {
+	status = "okay";
+};
+
+&hdmi_pavi {
+	status = "okay";
+};
+
+&irqsteer_hdmi {
+	status = "okay";
+};
+
+&lcdif3 {
+	status = "okay";
+};
+
+/* SMARC HDMI Audio */
+&sound_hdmi {
 	status = "okay";
 };
 
