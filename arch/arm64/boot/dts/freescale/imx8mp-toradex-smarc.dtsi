@@ -12,6 +12,7 @@
 		mmc1 = &usdhc2;
 		mmc2 = &usdhc1;
 		rtc0 = &rtc_i2c;
+		rtc1 = &snvs_rtc;
 		serial0 = &uart1;
 		serial1 = &uart4;
 		serial2 = &uart2;
