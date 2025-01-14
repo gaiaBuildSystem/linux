@@ -21,17 +21,17 @@
 
 };
 
-/* SMARC ENET_1 (On Module PHY) */
+/* SMARC GBE0 */
 &enetc_port0 {
 	status = "okay";
 };
 
-/* SMARC ENET_2 (On Module PHY) */
+/* SMARC GBE1 */
 &enetc_port1 {
 	status = "okay";
 };
 
-/* ETH_2 */
+/* SMARC SERDES_0 - ETH2 */
 &enetc_port2 {
 	phy-handle = <&ethphy3>;
 	phy-mode = "sgmii";
