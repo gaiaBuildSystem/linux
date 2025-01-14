@@ -14,8 +14,8 @@
 	};
 
 	aliases {
-		eth0 = &enetc_port0;
-		eth1 = &enetc_port1;
+		ethernet0 = &enetc_port0;
+		ethernet1 = &enetc_port1;
 		mmc0 = &usdhc1;
 		serial1 = &lpuart1;
 	};
