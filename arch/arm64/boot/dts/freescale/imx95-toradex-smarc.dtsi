@@ -72,6 +72,29 @@
 	};
 };
 
+/* SMARC SPI1 */
+&lpspi4 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_lpspi4>;
+	cs-gpios = <&gpio2 18 GPIO_ACTIVE_LOW>,
+		   <&gpio5 11 GPIO_ACTIVE_LOW>,
+		   <&gpio5 13 GPIO_ACTIVE_LOW>;
+	status = "okay";
+
+	som_tpm: tpm@2 {
+		compatible = "infineon,slb9670", "tcg,tpm_tis-spi";
+		reg = <0x2>;
+		spi-max-frequency = <18500000>;
+	};
+};
+
+/* SMARC SPI0 */
+&lpspi6 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_lpspi6>;
+	num-cs = <2>;
+};
+
 /* SMARC SER1, used as the Linux Console */
 &lpuart1 {
 	pinctrl-names = "default";
@@ -176,6 +199,25 @@
 	pinctrl_lpi2c4_gpio: lpi2c4gpiogrp {
 		fsl,pins = <IMX95_PAD_GPIO_IO31__LPI2C4_SCL	0x40000b9e>, /* (V48) SMARC S5 */
 			   <IMX95_PAD_GPIO_IO30__LPI2C4_SDA	0x40000b9e>; /* (V46) SMARC S7 */
+	};
+
+	/* SMARC SPI1 */
+	pinctrl_lpspi4: lpspi4grp {
+		fsl,pins = <IMX95_PAD_GPIO_IO37__LPSPI4_SCK		0x3fe>, /*  (Y52) SMARC P56 - SPI1_CK   */
+			   <IMX95_PAD_GPIO_IO36__LPSPI4_SOUT		0x3fe>, /*  (Y48) SMARC P58 - SPI1_DO   */
+			   <IMX95_PAD_GPIO_IO19__LPSPI4_SIN		0x3fe>, /*  (R45) SMARC P57 - SPI1_DIN  */
+			   <IMX95_PAD_GPIO_IO33__GPIO5_IO_BIT13		0x3fe>, /*  (W45) SPI1_TPM_CS#          */
+			   <IMX95_PAD_GPIO_IO18__GPIO2_IO_BIT18		0x3fe>, /*  (P52) SMARC P54 - SPI1_CS0# */
+			   <IMX95_PAD_XSPI1_SS1_B__GPIO5_IO_BIT11	0x3fe>; /* (AH42) SMARC P55 - SPI1_CS1# */
+	};
+
+	/* SMARC SPI0 */
+	pinctrl_lpspi6: lpspi6grp {
+		fsl,pins = <IMX95_PAD_GPIO_IO00__LPSPI6_PCS0		0x3fe>, /* (J49) SMARC P43 - SPI0_CS0# */
+			   <IMX95_PAD_GPIO_IO24__LPSPI6_PCS1		0x3fe>, /* (T48) SMARC P31 - SPI0_CS1# */
+			   <IMX95_PAD_GPIO_IO01__LPSPI6_SIN		0x3fe>, /* (J51) SMARC P45 - SPI0_DIN  */
+			   <IMX95_PAD_GPIO_IO02__LPSPI6_SOUT		0x3fe>, /* (K48) SMARC P46 - SPI0_DO   */
+			   <IMX95_PAD_GPIO_IO03__LPSPI6_SCK		0x3fe>; /* (K52) SMARC P44 - SPI0_CK   */
 	};
 
 	/* SMARC SER1, used as the Linux Console */

@@ -51,6 +51,11 @@
 	};
 };
 
+/* SMARC SPI0 */
+&lpspi6 {
+	status = "okay";
+};
+
 /* SMARC SER1, used as the Linux Console */
 &lpuart1 {
 	status = "okay";
