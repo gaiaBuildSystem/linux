@@ -197,8 +197,8 @@
 	};
 
 	pinctrl_lpi2c4_gpio: lpi2c4gpiogrp {
-		fsl,pins = <IMX95_PAD_GPIO_IO31__LPI2C4_SCL	0x40000b9e>, /* (V48) SMARC S5 */
-			   <IMX95_PAD_GPIO_IO30__LPI2C4_SDA	0x40000b9e>; /* (V46) SMARC S7 */
+		fsl,pins = <IMX95_PAD_GPIO_IO31__GPIO2_IO_BIT31	0x40000b9e>, /* (V48) SMARC S5 */
+			   <IMX95_PAD_GPIO_IO30__GPIO2_IO_BIT30	0x40000b9e>; /* (V46) SMARC S7 */
 	};
 
 	/* SMARC SPI1 */
