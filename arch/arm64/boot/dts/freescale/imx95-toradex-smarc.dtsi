@@ -17,6 +17,7 @@
 		ethernet0 = &enetc_port0;
 		ethernet1 = &enetc_port1;
 		mmc0 = &usdhc1;
+		rtc0 = &rtc_i2c;
 		serial1 = &lpuart1;
 	};
 };
@@ -35,6 +36,30 @@
 	pinctrl-0 = <&pinctrl_enetc1>;
 	phy-handle = <&ethphy2>;
 	phy-mode = "rgmii-id";
+};
+
+/* SMARC I2C_GP */
+&lpi2c2 {
+	pinctrl-names = "default", "gpio";
+	pinctrl-0 = <&pinctrl_lpi2c2>;
+	pinctrl-1 = <&pinctrl_lpi2c2_gpio>;
+	#address-cells = <1>;
+	#size-cells = <0>;
+	clock-frequency = <400000>;
+	scl-gpios = <&gpio1 2 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+	sda-gpios = <&gpio1 3 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+};
+
+/* SMARC I2C_PM */
+&lpi2c3 {
+	pinctrl-names = "default", "gpio";
+	pinctrl-0 = <&pinctrl_lpi2c3>;
+	pinctrl-1 = <&pinctrl_lpi2c3_gpio>;
+	#address-cells = <1>;
+	#size-cells = <0>;
+	clock-frequency = <400000>;
+	scl-gpios = <&gpio2 29 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+	sda-gpios = <&gpio2 28 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
 };
 
 /* SMARC I2C_CAM0 */
@@ -70,6 +95,46 @@
 		#gpio-cells = <2>;
 		gpio-controller;
 	};
+
+	rtc_i2c: rtc@32 {
+		compatible = "epson,rx8130";
+		reg = <0x32>;
+	};
+
+	temperature-sensor@48 {
+		compatible = "ti,tmp1075";
+		reg = <0x48>;
+	};
+
+	eeprom@50 {
+		compatible = "st,24c02";
+		reg = <0x50>;
+		pagesize = <16>;
+	};
+};
+
+/* SMARC I2C_LCD */
+&lpi2c5 {
+	pinctrl-names = "default", "gpio";
+	pinctrl-0 = <&pinctrl_lpi2c5>;
+	pinctrl-1 = <&pinctrl_lpi2c5_gpio>;
+	#address-cells = <1>;
+	#size-cells = <0>;
+	clock-frequency = <100000>;
+	scl-gpios = <&gpio2 23 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+	sda-gpios = <&gpio2 22 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+};
+
+/* SMARC I2C_CAM1 */
+&lpi2c7 {
+	pinctrl-names = "default", "gpio";
+	pinctrl-0 = <&pinctrl_lpi2c7>;
+	pinctrl-1 = <&pinctrl_lpi2c7_gpio>;
+	#address-cells = <1>;
+	#size-cells = <0>;
+	clock-frequency = <400000>;
+	scl-gpios = <&gpio2 9 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+	sda-gpios = <&gpio2 8 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
 };
 
 /* SMARC SPI1 */
@@ -190,16 +255,64 @@
 		fsl,pins = <IMX95_PAD_SAI1_RXD0__AONMIX_TOP_GPIO1_IO_BIT14 0x31e>; /* CTRL_IO_EXP_INT_B */
 	};
 
+	/* SMARC I2C_GP */
+	pinctrl_lpi2c2: lpi2c2grp {
+		fsl,pins = <IMX95_PAD_I2C2_SCL__AONMIX_TOP_LPI2C2_SCL	0x40001b9e>, /* SMARC S48 - I2C_GP_CK  */
+			   <IMX95_PAD_I2C2_SDA__AONMIX_TOP_LPI2C2_SDA	0x40001b9e>; /* SMARC S49 - I2C_GP_DAT */
+	};
+
+	/* SMARC I2C_GP as GPIOs */
+	pinctrl_lpi2c2_gpio: lpi2c2gpiogrp {
+		fsl,pins = <IMX95_PAD_I2C2_SCL__AONMIX_TOP_GPIO1_IO_BIT2	0x40001b9e>, /* SMARC S48 - I2C_GP_CK  */
+			   <IMX95_PAD_I2C2_SDA__AONMIX_TOP_GPIO1_IO_BIT3	0x40001b9e>; /* SMARC S49 - I2C_GP_DAT */
+	};
+
+	/* SMARC I2C_PM */
+	pinctrl_lpi2c3: lpi2c3grp {
+		fsl,pins = <IMX95_PAD_GPIO_IO28__LPI2C3_SDA     0x40001b9e>, /* SMARC P122 - I2C_PM_DAT */
+			   <IMX95_PAD_GPIO_IO29__LPI2C3_SCL     0x40001b9e>; /* SMARC P121 - I2C_PM_CK  */
+	};
+
+	/* SMARC I2C_PM as GPIOs */
+	pinctrl_lpi2c3_gpio: lpi2c3gpiogrp {
+		fsl,pins = <IMX95_PAD_GPIO_IO28__GPIO2_IO_BIT28     0x40001b9e>, /* SMARC P122 - I2C_PM_DAT */
+			   <IMX95_PAD_GPIO_IO29__GPIO2_IO_BIT29     0x40001b9e>; /* SMARC P121 - I2C_PM_CK  */
+	};
+
 	/* SMARC I2C_CAM0 */
 	pinctrl_lpi2c4: lpi2c4grp {
-		fsl,pins = <IMX95_PAD_GPIO_IO31__LPI2C4_SCL	0x40000b9e>, /* SMARC S5 - I2C_CAM0_CK  */
-			   <IMX95_PAD_GPIO_IO30__LPI2C4_SDA	0x40000b9e>; /* SMARC S7 - I2C_CAM0_DAT */
+		fsl,pins = <IMX95_PAD_GPIO_IO31__LPI2C4_SCL	0x40001b9e>, /* SMARC S5 - I2C_CAM0_CK  */
+			   <IMX95_PAD_GPIO_IO30__LPI2C4_SDA	0x40001b9e>; /* SMARC S7 - I2C_CAM0_DAT */
 	};
 
 	/* SMARC I2C_CAM0 as GPIOs */
 	pinctrl_lpi2c4_gpio: lpi2c4gpiogrp {
-		fsl,pins = <IMX95_PAD_GPIO_IO31__GPIO2_IO_BIT31	0x40000b9e>, /* SMARC S5 - I2C_CAM0_CK  */
-			   <IMX95_PAD_GPIO_IO30__GPIO2_IO_BIT30	0x40000b9e>; /* SMARC S7 - I2C_CAM0_DAT */
+		fsl,pins = <IMX95_PAD_GPIO_IO31__GPIO2_IO_BIT31	0x40001b9e>, /* SMARC S5 - I2C_CAM0_CK  */
+			   <IMX95_PAD_GPIO_IO30__GPIO2_IO_BIT30	0x40001b9e>; /* SMARC S7 - I2C_CAM0_DAT */
+	};
+
+	/* SMARC I2C_LCD */
+	pinctrl_lpi2c5: lpi2c5grp {
+		fsl,pins = <IMX95_PAD_GPIO_IO22__LPI2C5_SDA	0x40001b9e>, /* SMARC S140 - I2C_LCD_DAT */
+			   <IMX95_PAD_GPIO_IO23__LPI2C5_SCL	0x40001b9e>; /* SMARC S139 - I2C_LCD_CK  */
+	};
+
+	/* SMARC I2C_LCD as GPIOs */
+	pinctrl_lpi2c5_gpio: lpi2c5gpiogrp {
+		fsl,pins = <IMX95_PAD_GPIO_IO22__GPIO2_IO_BIT22	0x40001b9e>, /* SMARC S140 - I2C_LCD_DAT */
+			   <IMX95_PAD_GPIO_IO23__GPIO2_IO_BIT23	0x40001b9e>; /* SMARC S139 - I2C_LCD_CK  */
+	};
+
+	/* SMARC I2C_CAM1 */
+	pinctrl_lpi2c7: lpi2c7grp {
+		fsl,pins = <IMX95_PAD_GPIO_IO08__LPI2C7_SDA	0x40001b9e>, /* SMARC S2 - I2C_CAM1_DAT */
+			   <IMX95_PAD_GPIO_IO09__LPI2C7_SCL	0x40001b9e>; /* SMARC S1 - I2C_CAM1_CK  */
+	};
+
+	/* SMARC I2C_CAM1 as GPIOs */
+	pinctrl_lpi2c7_gpio: lpi2c7gpiogrp {
+		fsl,pins = <IMX95_PAD_GPIO_IO08__GPIO2_IO_BIT8	0x40001b9e>, /* SMARC S2 - I2C_CAM1_DAT */
+			   <IMX95_PAD_GPIO_IO09__GPIO2_IO_BIT9	0x40001b9e>; /* SMARC S1 - I2C_CAM1_CK  */
 	};
 
 	/* SMARC SPI1 */
