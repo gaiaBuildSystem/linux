@@ -158,3 +158,8 @@
 &usb3_phy1 {
 	status = "okay";
 };
+
+/* SMARC SDIO */
+&usdhc2 {
+	status = "okay";
+};
