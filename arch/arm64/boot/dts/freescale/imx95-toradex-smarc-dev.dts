@@ -38,6 +38,57 @@
 	status = "okay";
 };
 
+/* SMARC I2C_GP */
+&lpi2c2 {
+	status = "okay";
+
+	temperature-sensor@4f {
+		compatible = "ti,tmp1075";
+		reg = <0x4f>;
+	};
+
+	eeprom@57 {
+		compatible = "st,24c02";
+		reg = <0x57>;
+		pagesize = <16>;
+	};
+
+};
+
+/* SMARC I2C_PM */
+&lpi2c3 {
+	clock-frequency = <100000>;
+	status = "okay";
+
+	fan: fan@18 {
+		compatible = "ti,amc6821";
+		reg = <0x18>;
+		#cooling-cells = <2>;
+	};
+
+	/* Current measurement into module VCC */
+	hwmon@40 {
+		compatible = "ti,ina226";
+		reg = <0x40>;
+		shunt-resistor = <5000>;
+	};
+};
+
+/* SMARC I2C_CAM0 */
+&lpi2c4 {
+	status = "okay";
+};
+
+/* SMARC I2C_LCD */
+&lpi2c5 {
+	status = "okay";
+};
+
+/* SMARC I2C_CAM1 */
+&lpi2c7 {
+	status = "okay";
+};
+
 /* SMARC MDIO, shared between all ethernet ports */
 &netc_emdio {
 	status = "okay";
