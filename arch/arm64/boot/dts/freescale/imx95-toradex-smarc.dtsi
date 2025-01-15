@@ -143,13 +143,13 @@
 };
 
 &scmi_iomuxc {
-	/* SMARC ENET_1_MDIO, shared between all ethernet ports */
+	/* SMARC MDIO, shared between all ethernet ports */
 	pinctrl_emdio: emdiogrp {
-		fsl,pins = <IMX95_PAD_ENET1_MDC__NETCMIX_TOP_NETC_MDC		0x57e>, /* (AK40) SMARC S45 */
-			   <IMX95_PAD_ENET1_MDIO__NETCMIX_TOP_NETC_MDIO		0x97e>; /* (AJ39) SMARC S46 */
+		fsl,pins = <IMX95_PAD_ENET1_MDC__NETCMIX_TOP_NETC_MDC		0x57e>, /* (AK40) SMARC S45 - MDIO_CLK */
+			   <IMX95_PAD_ENET1_MDIO__NETCMIX_TOP_NETC_MDIO		0x97e>; /* (AJ39) SMARC S46 - MDIO_DAT */
 	};
 
-	/* SMARC ENET_1 */
+	/* SMARC GBE0 */
 	pinctrl_enetc0: enetc0grp {
 		fsl,pins = <IMX95_PAD_ENET1_TX_CTL__NETCMIX_TOP_ETH0_RGMII_TX_CTL   0x57e>, /* (AF32) ENET1_TX_CTL */
 			   <IMX95_PAD_ENET1_TXC__NETCMIX_TOP_ETH0_RGMII_TX_CLK      0x58e>, /* (AG31) ENET1_TXC	   */
@@ -165,7 +165,7 @@
 			   <IMX95_PAD_ENET1_RD3__NETCMIX_TOP_ETH0_RGMII_RD3         0x57e>; /* (AH38) ENET1_RD3    */
 	};
 
-	/* SMARC ENET_2 */
+	/* SMARC GBE1 */
 	pinctrl_enetc1: enetc1grp {
 		fsl,pins = <IMX95_PAD_ENET2_TX_CTL__NETCMIX_TOP_ETH1_RGMII_TX_CTL   0x57e>, /* (AF24) ENET2_TX_CTL */
 			   <IMX95_PAD_ENET2_TXC__NETCMIX_TOP_ETH1_RGMII_TX_CLK      0x58e>, /* (AG23) ENET2_TXC    */
@@ -183,7 +183,7 @@
 
 	/* SMARC GPIO7 */
 	pinctrl_gpio7: gpio7grp {
-		fsl,pins = <IMX95_PAD_XSPI1_SCLK__GPIO5_IO_BIT9 0x31e>; /* (AJ43) SMARC P115 */
+		fsl,pins = <IMX95_PAD_XSPI1_SCLK__GPIO5_IO_BIT9 0x31e>; /* (AJ43) SMARC P115 - GPIO7 */
 	};
 
 	pinctrl_ctrl_io_exp_int_b: ioexpintgrp {
@@ -192,13 +192,13 @@
 
 	/* SMARC I2C_CAM0 */
 	pinctrl_lpi2c4: lpi2c4grp {
-		fsl,pins = <IMX95_PAD_GPIO_IO31__LPI2C4_SCL	0x40000b9e>, /* (V48) SMARC S5 */
-			   <IMX95_PAD_GPIO_IO30__LPI2C4_SDA	0x40000b9e>; /* (V46) SMARC S7 */
+		fsl,pins = <IMX95_PAD_GPIO_IO31__LPI2C4_SCL	0x40000b9e>, /* (V48) SMARC S5 - I2C_CAM0_CK  */
+			   <IMX95_PAD_GPIO_IO30__LPI2C4_SDA	0x40000b9e>; /* (V46) SMARC S7 - I2C_CAM0_DAT */
 	};
 
 	pinctrl_lpi2c4_gpio: lpi2c4gpiogrp {
-		fsl,pins = <IMX95_PAD_GPIO_IO31__GPIO2_IO_BIT31	0x40000b9e>, /* (V48) SMARC S5 */
-			   <IMX95_PAD_GPIO_IO30__GPIO2_IO_BIT30	0x40000b9e>; /* (V46) SMARC S7 */
+		fsl,pins = <IMX95_PAD_GPIO_IO31__GPIO2_IO_BIT31	0x40000b9e>, /* (V48) SMARC S5 - I2C_CAM0_CK  */
+			   <IMX95_PAD_GPIO_IO30__GPIO2_IO_BIT30	0x40000b9e>; /* (V46) SMARC S7 - I2C_CAM0_DAT */
 	};
 
 	/* SMARC SPI1 */
@@ -222,8 +222,8 @@
 
 	/* SMARC SER1, used as the Linux Console */
 	pinctrl_uart1: uart1grp {
-		fsl,pins = <IMX95_PAD_UART1_TXD__AONMIX_TOP_LPUART1_TX	0x31e>, /* (F52) SMARC P134 */
-			   <IMX95_PAD_UART1_RXD__AONMIX_TOP_LPUART1_RX	0x31e>; /* (E49) SMARC P135 */
+		fsl,pins = <IMX95_PAD_UART1_TXD__AONMIX_TOP_LPUART1_TX	0x31e>, /* (F52) SMARC P134 - SER1_TX */
+			   <IMX95_PAD_UART1_RXD__AONMIX_TOP_LPUART1_RX	0x31e>; /* (E49) SMARC P135 - SER1_RX */
 	};
 
 	/* On-module eMMC */
