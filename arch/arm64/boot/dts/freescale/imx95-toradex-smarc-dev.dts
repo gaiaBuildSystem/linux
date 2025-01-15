@@ -19,6 +19,19 @@
 		ethernet2 = &enetc_port2;
 	};
 
+	/* SMARC DP0 */
+	dp0_connector: dp0-connector {
+		compatible = "dp-connector";
+		label = "DP0";
+		type = "full-size";
+
+		port {
+			dp0_connector_in: endpoint {
+				remote-endpoint = <&sn65dsi86_out>;
+			};
+		};
+	};
+
 	reg_carrier_1p8v: regulator-carrier-1p8v {
 		compatible = "regulator-fixed";
 		regulator-max-microvolt = <1800000>;
@@ -54,6 +67,14 @@
 			sound-dai = <&sai3>;
 		};
 	};
+};
+
+&display_pixel_link {
+	status = "okay";
+};
+
+&dpu {
+	status = "okay";
 };
 
 /* SMARC GBE0 */
@@ -140,7 +161,7 @@
 		#address-cells = <1>;
 		#size-cells = <0>;
 
-		/* DSI-I2C */
+		/* DSI I2C */
 		i2c_dsi: i2c@0 {
 			reg = <0>;
 			#address-cells = <1>;
@@ -184,7 +205,36 @@
 	status = "okay";
 };
 
+&mipi_dsi {
+	status = "okay";
+};
+
+&pixel_interleaver {
+	#address-cells = <1>;
+	#size-cells = <0>;
+	status = "okay";
+
+	channel@0 {
+		reg = <0>;
+		status = "okay";
+	};
+};
+
 /* SMARC I2S0 */
 &sai3 {
 	status = "okay";
+};
+
+/* SMARC DP 0 */
+&som_dsi2dp_bridge {
+	status = "okay";
+
+	ports {
+		port@1 {
+			reg = <1>;
+			sn65dsi86_out: endpoint {
+				remote-endpoint = <&dp0_connector_in>;
+			};
+		};
+	};
 };
