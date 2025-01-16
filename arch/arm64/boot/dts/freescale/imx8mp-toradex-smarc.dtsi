@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later OR MIT
 /* Copyright (C) 2024 Toradex */
 
+#include <dt-bindings/phy/phy-imx8-pcie.h>
 #include <dt-bindings/net/ti-dp83867.h>
 #include "imx8mp.dtsi"
 
@@ -427,6 +428,21 @@
 	status = "okay";
 };
 
+/* SMARC PCIE_A */
+&pcie {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_pcie>;
+	host-wake-gpios = <&gpio4 0 GPIO_ACTIVE_LOW>;
+	reset-gpios = <&gpio4 19 GPIO_ACTIVE_LOW>;
+};
+
+&pcie_phy {
+	clocks = <&hsio_blk_ctrl>;
+	clock-names = "ref";
+	fsl,clkreq-unsupported;
+	fsl,refclk-pad-mode = <IMX8_PCIE_REFCLK_PAD_OUTPUT>;
+};
+
 /* SMARC SER0 */
 &uart1 {
 	pinctrl-names = "default";
@@ -663,6 +679,12 @@
 	/* PCAL6408 Interrupt */
 	pinctrl_pcal6408: pcal6408intgrp {
 		fsl,pins = <MX8MP_IOMUXC_NAND_DATA03__GPIO3_IO09	0x1c4>; /* GPIO_EX_INT# */
+	};
+
+	/* SMARC PCIE_A */
+	pinctrl_pcie: pciegrp {
+		fsl,pins = <MX8MP_IOMUXC_SAI1_RXFS__GPIO4_IO00	0x1c0>, /* SMARC S146 - PCIE_WAKE# */
+			   <MX8MP_IOMUXC_SAI1_TXD7__GPIO4_IO19	0x04>;  /* SMARC P75 - PCIE_A_RST# */
 	};
 
 	/* PMIC Interrupt */

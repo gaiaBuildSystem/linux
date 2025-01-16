@@ -153,6 +153,15 @@
 	status = "okay";
 };
 
+/* SMARC PCIE_A, M2 Key B */
+&pcie {
+	status = "okay";
+};
+
+&pcie_phy {
+	status = "okay";
+};
+
 /* SMARC HDMI Audio */
 &sound_hdmi {
 	status = "okay";
