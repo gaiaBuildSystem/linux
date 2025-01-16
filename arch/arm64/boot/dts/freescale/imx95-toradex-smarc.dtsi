@@ -6,6 +6,7 @@
  */
 
 #include <dt-bindings/net/ti-dp83867.h>
+#include <dt-bindings/phy/phy-imx8-pcie.h>
 #include "imx95.dtsi"
 
 / {
@@ -289,6 +290,23 @@
 			  <NXP_NETC_SERIAL>;
 };
 
+/* SMARC PCIE_A */
+&pcie0 {
+	pinctrl-0 = <&pinctrl_pcie0>;
+	pinctrl-names = "default";
+	host-wake-gpios = <&som_gpio_expander_0 0 GPIO_ACTIVE_LOW>;
+	reset-gpios = <&som_gpio_expander_0 2 GPIO_ACTIVE_LOW>;
+	fsl,refclk-pad-mode = <IMX8_PCIE_REFCLK_PAD_OUTPUT>;
+};
+
+/* SMARC PCIE_B */
+&pcie1 {
+	pinctrl-0 = <&pinctrl_pcie1>;
+	pinctrl-names = "default";
+	reset-gpios = <&som_gpio_expander_0 1 GPIO_ACTIVE_LOW>;
+	fsl,refclk-pad-mode = <IMX8_PCIE_REFCLK_PAD_OUTPUT>;
+};
+
 /* SMARC I2S0 */
 &sai3 {
 	#sound-dai-cells = <0>;
@@ -445,6 +463,16 @@
 			   <IMX95_PAD_GPIO_IO01__LPSPI6_SIN		0x3fe>, /* SMARC P45 - SPI0_DIN  */
 			   <IMX95_PAD_GPIO_IO02__LPSPI6_SOUT		0x3fe>, /* SMARC P46 - SPI0_DO   */
 			   <IMX95_PAD_GPIO_IO03__LPSPI6_SCK		0x3fe>; /* SMARC P44 - SPI0_CK   */
+	};
+
+	/* SMARC PCIE_A */
+	pinctrl_pcie0: pcie0grp {
+		fsl,pins = <IMX95_PAD_GPIO_IO32__HSIOMIX_TOP_PCIE1_CLKREQ_B	0x40001b1e>; /* SMARC P78 - PCIE_A_CKREQ# */
+	};
+
+	/* SMARC PCIE_B */
+	pinctrl_pcie1: pcie1grp {
+		fsl,pins = <IMX95_PAD_GPIO_IO35__HSIOMIX_TOP_PCIE2_CLKREQ_B	0x40001b1e>; /* SMARC P77 - PCIE_B_CKREQ# */
 	};
 
 	/* SMARC I2S0 */

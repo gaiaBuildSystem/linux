@@ -227,6 +227,16 @@
 	status = "okay";
 };
 
+/* SMARC PCIE_A / M2 Key B */
+&pcie0 {
+	status = "okay";
+};
+
+/* SMARC PCIE_B /  M2 Key E */
+&pcie1 {
+	status = "okay";
+};
+
 &pixel_interleaver {
 	#address-cells = <1>;
 	#size-cells = <0>;
