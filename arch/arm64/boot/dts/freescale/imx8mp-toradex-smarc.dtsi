@@ -97,6 +97,31 @@
 	cpu-supply = <&reg_vdd_arm>;
 };
 
+/* SMARC SPI0 */
+&ecspi1 {
+	#address-cells = <1>;
+	#size-cells = <0>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_ecspi1>;
+	cs-gpios = <0>, <&gpio4 28 GPIO_ACTIVE_LOW>;
+};
+
+/* SMARC SPI1 */
+&ecspi2 {
+	#address-cells = <1>;
+	#size-cells = <0>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_ecspi2>, <&pinctrl_tpm_cs>;
+	cs-gpios = <0>, <&gpio4 3 GPIO_ACTIVE_LOW>, <&gpio3 6 GPIO_ACTIVE_LOW>;
+	status = "okay";
+
+	tpm@2 {
+		compatible = "infineon,slb9670", "tcg,tpm_tis-spi";
+		reg = <2>;
+		spi-max-frequency = <18500000>;
+	};
+};
+
 /* SMARC GBE0 */
 &eqos {
 	pinctrl-names = "default";
@@ -550,6 +575,24 @@
 };
 
 &iomuxc {
+	/* SMARC SPI0 */
+	pinctrl_ecspi1: ecspi1grp {
+		fsl,pins = <MX8MP_IOMUXC_ECSPI1_MISO__ECSPI1_MISO	0x1c4>,	/* SMARC P45 - SPI0_DIN */
+			   <MX8MP_IOMUXC_ECSPI1_MOSI__ECSPI1_MOSI	0x4>,	/* SMARC P46 - SPI0_DO */
+			   <MX8MP_IOMUXC_ECSPI1_SCLK__ECSPI1_SCLK	0x4>,	/* SMARC P44 - SPI0_CK */
+			   <MX8MP_IOMUXC_ECSPI1_SS0__ECSPI1_SS0		0x1c4>,	/* SMARC P43 - SPI0_CS0# */
+			   <MX8MP_IOMUXC_SAI3_RXFS__GPIO4_IO28		0x1c4>;	/* SMARC P31 - SPI0_CS1# */
+	};
+
+	/* SMARC SPI1 */
+	pinctrl_ecspi2: ecspi2grp {
+		fsl,pins = <MX8MP_IOMUXC_ECSPI2_MISO__ECSPI2_MISO	0x1c4>,	/* SMARC P56 - SPI1_DIN */
+			   <MX8MP_IOMUXC_ECSPI2_MOSI__ECSPI2_MOSI	0x4>,	/* SMARC P57 - SPI1_DO */
+			   <MX8MP_IOMUXC_ECSPI2_SCLK__ECSPI2_SCLK	0x4>,	/* SMARC P58 - SPI1_CK */
+			   <MX8MP_IOMUXC_ECSPI2_SS0__ECSPI2_SS0		0x1c4>,	/* SMARC P54 - SPI1_CS0# */
+			   <MX8MP_IOMUXC_SAI1_RXD1__GPIO4_IO03		0x1c4>;	/* SMARC P55 - SPI1_CS1# */
+	};
+
 	/* ETH_0 RGMII (On-module PHY) */
 	pinctrl_eqos: eqosgrp {
 		fsl,pins = <MX8MP_IOMUXC_ENET_RD0__ENET_QOS_RGMII_RD0			0x90>, /* ETH0_RGMII_RXD0 */
@@ -705,6 +748,16 @@
 	/* SMARC AUDIO_MCK */
 	pinctrl_sai1_mclk: sai1mclkgrp {
 		fsl,pins = <MX8MP_IOMUXC_SAI1_MCLK__AUDIOMIX_SAI1_MCLK		0x96>; /* SMARC S38 - AUDIO_MCK */
+	};
+
+	/* TPM_CS# */
+	pinctrl_tpm_cs: tpmcsgrp {
+		fsl,pins = <MX8MP_IOMUXC_NAND_DATA00__GPIO3_IO06	0x82>; /* TPM_CS# */
+	};
+
+	/* WIFI_BT_WKUP_HOST/TPM_INT# */
+	pinctrl_tpm_irq_wifi_bt_wkup: tpmirq-wifibtwkupgrp {
+		fsl,pins = <MX8MP_IOMUXC_SAI1_RXD2__GPIO4_IO04		0x16>; /* WIFI_BT_WKUP_HOST/TPM_INT# */
 	};
 
 	/* SMARC SER0 */

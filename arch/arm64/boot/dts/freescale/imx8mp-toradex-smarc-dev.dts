@@ -52,6 +52,11 @@
 	status = "okay";
 };
 
+/* SMARC SPI0 */
+&ecspi1 {
+	status = "okay";
+};
+
 /* SMARC GBE0 */
 &eqos {
 	status = "okay";
