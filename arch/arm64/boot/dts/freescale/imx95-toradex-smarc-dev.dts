@@ -205,6 +205,24 @@
 	status = "okay";
 };
 
+/* SMARC SER0, RS485 */
+&lpuart2 {
+	linux,rs485-enabled-at-boot-time;
+	rs485-rts-active-low;
+	rs485-rx-during-tx;
+	status = "reserved"; //TODO: currently used by the system manager
+};
+
+/* SMARC SER3, RS232 */
+&lpuart3 {
+	status = "okay";
+};
+
+/* SMARC SER2 */
+&lpuart6 {
+	status = "okay";
+};
+
 &mipi_dsi {
 	status = "okay";
 };
