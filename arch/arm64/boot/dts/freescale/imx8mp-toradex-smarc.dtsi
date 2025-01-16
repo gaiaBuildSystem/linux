@@ -185,6 +185,18 @@
 	fsl,magic-packet;
 };
 
+/* SMARC CAN1 */
+&flexcan1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_flexcan1>;
+};
+
+/* SMARC CAN0 */
+&flexcan2 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_flexcan2>;
+};
+
 &gpu_2d {
 	status = "okay";
 };
@@ -567,6 +579,18 @@
 	/* SMARC GBE1_SDP */
 	pinctrl_fec_1588_event: fec1588eventgrp {
 		fsl,pins = <MX8MP_IOMUXC_SAI1_RXC__ENET1_1588_EVENT0_OUT	0x4>; /* SMARC P5 - GBE1_SDP */
+	};
+
+	/* SMARC CAN1 */
+	pinctrl_flexcan1: flexcan1grp {
+		fsl,pins = <MX8MP_IOMUXC_SAI2_TXC__CAN1_RX	0x154>,	/* SMARC P146 - CAN1_RX */
+			   <MX8MP_IOMUXC_SAI2_RXC__CAN1_TX	0x154>;	/* SMARC P145 - CAN1_TX */
+	};
+
+	/* SMARC CAN0 */
+	pinctrl_flexcan2: flexcan2grp {
+		fsl,pins = <MX8MP_IOMUXC_SAI2_MCLK__CAN2_RX	0x154>,	/* SMARC P144 - CAN0_RX */
+			   <MX8MP_IOMUXC_SAI2_TXD0__CAN2_TX	0x154>;	/* SMARC P143 - CAN0_TX */
 	};
 
 	/* SMARC HDMI */

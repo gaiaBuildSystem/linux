@@ -62,6 +62,16 @@
 	status = "okay";
 };
 
+/* SMARC CAN1 */
+&flexcan1 {
+	status = "okay";
+};
+
+/* SMARC CAN0 */
+&flexcan2 {
+	status = "okay";
+};
+
 /* SMARC I2C_GP */
 &i2c4 {
 	/* Audio Codec */
