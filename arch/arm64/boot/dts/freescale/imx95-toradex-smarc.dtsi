@@ -18,7 +18,10 @@
 		ethernet1 = &enetc_port1;
 		mmc0 = &usdhc1;
 		rtc0 = &rtc_i2c;
+		serial0 = &lpuart2;
 		serial1 = &lpuart1;
+		serial2 = &lpuart6;
+		serial3 = &lpuart3;
 	};
 
 	clk_dsi2dp_bridge: clock {
@@ -221,6 +224,26 @@
 &lpuart1 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_uart1>;
+};
+
+/* SMARC SER0 */
+&lpuart2 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_uart2>;
+	uart-has-rtscts;
+};
+
+/* SMARC SER3 */
+&lpuart3 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_uart3>;
+};
+
+/* SMARC SER2 */
+&lpuart6 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_uart6>;
+	uart-has-rtscts;
 };
 
 &mipi_dsi {
@@ -443,6 +466,28 @@
 	pinctrl_uart1: uart1grp {
 		fsl,pins = <IMX95_PAD_UART1_TXD__AONMIX_TOP_LPUART1_TX	0x31e>, /* SMARC P134 - SER1_TX */
 			   <IMX95_PAD_UART1_RXD__AONMIX_TOP_LPUART1_RX	0x31e>; /* SMARC P135 - SER1_RX */
+	};
+
+	/* SMARC SER0 */
+	pinctrl_uart2: uart2grp {
+		fsl,pins = <IMX95_PAD_SAI1_TXC__AONMIX_TOP_LPUART2_CTS_B	0x31e>, /* SMARC P132 - SER0_CTS# */
+			   <IMX95_PAD_SAI1_TXD0__AONMIX_TOP_LPUART2_RTS_B	0x31e>, /* SMARC P131 - SER0_RTS# */
+			   <IMX95_PAD_UART2_RXD__AONMIX_TOP_LPUART2_RX		0x31e>, /* SMARC P130 - SER0_RX   */
+			   <IMX95_PAD_UART2_TXD__AONMIX_TOP_LPUART2_TX		0x31e>; /* SMARC P129 - SER0_TX   */
+	};
+
+	/* SMARC SER3 */
+	pinctrl_uart3: uart3grp {
+		fsl,pins = <IMX95_PAD_GPIO_IO14__LPUART3_TX	0x31e>, /* SMARC P140 - SER3_TX */
+			   <IMX95_PAD_GPIO_IO15__LPUART3_RX	0x31e>; /* SMARC P141 - SER3_RX */
+	};
+
+	/* SMARC SER2 */
+	pinctrl_uart6: uart6grp {
+		fsl,pins = <IMX95_PAD_GPIO_IO34__LPUART6_CTS_B	0x31e>, /* SMARC P139 - SER2_CTS# */
+			   <IMX95_PAD_GPIO_IO07__LPUART6_RTS_B	0x31e>, /* SMARC P138 - SER2_RTS# */
+			   <IMX95_PAD_GPIO_IO05__LPUART6_RX	0x31e>, /* SMARC P137 - SER2_RX   */
+			   <IMX95_PAD_GPIO_IO04__LPUART6_TX	0x31e>; /* SMARC P136 - SER2_TX   */
 	};
 
 	/* On-module eMMC */
