@@ -253,7 +253,7 @@
 	status = "okay";
 };
 
-/* SMARC DP 0 */
+/* SMARC DP0 */
 &som_dsi2dp_bridge {
 	status = "okay";
 

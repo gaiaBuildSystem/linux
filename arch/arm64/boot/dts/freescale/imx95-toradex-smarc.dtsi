@@ -131,7 +131,7 @@
 		gpio-controller;
 	};
 
-	/* SMARC DP 0 */
+	/* SMARC DP0 */
 	som_dsi2dp_bridge: bridge@2c {
 		compatible = "ti,sn65dsi86";
 		reg = <0x2c>;
