@@ -185,11 +185,6 @@
 	status = "okay";
 };
 
-/* SMARC SER3, RS232. */
-&uart3 {
-	status = "okay";
-};
-
 /* SMARC SER1, used as the Linux Console */
 &uart4 {
 	status = "okay";
