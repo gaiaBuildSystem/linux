@@ -182,19 +182,6 @@
 	status = "okay";
 };
 
-/* SMARC MDIO, shared between all ethernet ports */
-&netc_emdio {
-	status = "okay";
-
-	ethphy3: ethernet-phy@4 {
-		reg = <4>;
-		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_gpio7>;
-		interrupt-parent = <&gpio5>;
-		interrupts = <9 IRQ_TYPE_LEVEL_LOW>;
-	};
-};
-
 /* SMARC SPI0 */
 &lpspi6 {
 	status = "okay";
@@ -225,6 +212,19 @@
 
 &mipi_dsi {
 	status = "okay";
+};
+
+/* SMARC MDIO, shared between all ethernet ports */
+&netc_emdio {
+	status = "okay";
+
+	ethphy3: ethernet-phy@4 {
+		reg = <4>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_gpio7>;
+		interrupt-parent = <&gpio5>;
+		interrupts = <9 IRQ_TYPE_LEVEL_LOW>;
+	};
 };
 
 /* SMARC PCIE_A / M2 Key B */
