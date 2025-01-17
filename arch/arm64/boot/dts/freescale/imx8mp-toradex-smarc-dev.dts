@@ -172,13 +172,11 @@
 	linux,rs485-enabled-at-boot-time;
 	rs485-rts-active-low;
 	rs485-rx-during-tx;
-	uart-has-rtscts;
 	status = "okay";
 };
 
 /* SMARC SER2 */
 &uart2 {
-	uart-has-rtscts;
 	status = "okay";
 };
 
