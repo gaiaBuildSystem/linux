@@ -223,6 +223,137 @@
 	pinctrl-0 = <&pinctrl_flexcan2>;
 };
 
+&gpio1 {
+	gpio-line-names = "SMARC_GPIO7", /* 0 */
+			  "SMARC_GPIO8",
+			  "",
+			  "PMIC_INT#",
+			  "",
+			  "SMARC_GPIO9",
+			  "SMARC_GPIO10",
+			  "SMARC_GPIO11",
+			  "SMARC_GPIO12",
+			  "",
+			  "SMARC_GPIO5", /* 10 */
+			  "",
+			  "SMARC_USB0_EN_OC#",
+			  "SMARC_GPIO13",
+			  "SMARC_USB2_EN_OC#";
+};
+
+&gpio2 {
+	gpio-line-names = "", /* 0 */
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "SMARC_USB0_OTG_ID", /* 10 */
+			  "",
+			  "SMARC_SDIO_CD#",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "SMARC_SDIO_PWR_EN";
+};
+
+&gpio3 {
+	gpio-line-names = "ETH_0_INT#",	/* 0 */
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "GPIO_EX_INT#",
+			  "", /* 10 */
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "SMARC_I2C_PM_DAT", /* 20 */
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "SMARC_I2C_PM_CK";
+};
+
+&gpio4 {
+	gpio-line-names = "SMARC_PCIE_WAKE#", /* 0 */
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "", /* 10 */
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "SMARC_GPIO4",
+			  "SMARC_PCIE_A_RST#",
+			  "", /* 20 */
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "SMARC_GPIO6";
+};
+
+&gpio5 {
+	gpio-line-names = "", /* 0 */
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "", /* 10 */
+			  "",
+			  "",
+			  "",
+			  "CTRL_I2C_SCL",
+			  "CTRL_I2C_SDA",
+			  "SMARC_I2C_LCD_CK",
+			  "SMARC_I2C_LCD_DAT",
+			  "SMARC_I2C_CAM0_CK",
+			  "SMARC_I2C_CAM0_DAT",
+			  "SMARC_I2C_GP_CK", /* 20 */
+			  "SMARC_I2C_GP_DAT";
+};
+
 &gpu_2d {
 	status = "okay";
 };
@@ -652,6 +783,61 @@
 	pinctrl_flexcan2: flexcan2grp {
 		fsl,pins = <MX8MP_IOMUXC_SAI2_MCLK__CAN2_RX	0x154>,	/* SMARC P144 - CAN0_RX */
 			   <MX8MP_IOMUXC_SAI2_TXD0__CAN2_TX	0x154>;	/* SMARC P143 - CAN0_TX */
+	};
+
+	/* SMARC GPIO4 */
+	pinctrl_gpio4: gpio4grp {
+		fsl,pins = <MX8MP_IOMUXC_SAI1_TXD6__GPIO4_IO18	0x144>; /* SMARC P112 - GPIO4 */
+	};
+
+	/* SMARC GPIO5 */
+	pinctrl_gpio5: gpio5grp {
+		fsl,pins = <MX8MP_IOMUXC_GPIO1_IO10__GPIO1_IO10	0x144>; /* SMARC P113 - GPIO5 */
+	};
+
+	/* SMARC GPIO5 as PWM */
+	pinctrl_gpio5_pwm: gpio5pwmgrp {
+		fsl,pins = <MX8MP_IOMUXC_GPIO1_IO10__PWM3_OUT	0x12>; /* SMARC P113 - PWM_OUT */
+	};
+
+	/* SMARC GPIO6 */
+	pinctrl_gpio6: gpio6grp {
+		fsl,pins = <MX8MP_IOMUXC_SAI3_RXC__GPIO4_IO29	0x144>; /* SMARC P114 - GPIO6 */
+	};
+
+	/* SMARC GPIO7 */
+	pinctrl_gpio7: gpio7grp {
+		fsl,pins = <MX8MP_IOMUXC_GPIO1_IO00__GPIO1_IO00	0x144>; /* SMARC P115 - GPIO7 */
+	};
+
+	/* SMARC GPIO8 */
+	pinctrl_gpio8: gpio8grp {
+		fsl,pins = <MX8MP_IOMUXC_GPIO1_IO01__GPIO1_IO01	0x144>; /* SMARC P116 - GPIO8 */
+	};
+
+	/* SMARC GPIO9 */
+	pinctrl_gpio9: gpio9grp {
+		fsl,pins = <MX8MP_IOMUXC_GPIO1_IO05__GPIO1_IO05	0x144>; /* SMARC P117 - GPIO9 */
+	};
+
+	/* SMARC GPIO10 */
+	pinctrl_gpio10: gpio10grp {
+		fsl,pins = <MX8MP_IOMUXC_GPIO1_IO06__GPIO1_IO06	0x144>; /* SMARC P118 - GPIO10 */
+	};
+
+	/* SMARC GPIO11 */
+	pinctrl_gpio11: gpio11grp {
+		fsl,pins = <MX8MP_IOMUXC_GPIO1_IO07__GPIO1_IO07	0x144>; /* SMARC P119 - GPIO11 */
+	};
+
+	/* SMARC GPIO12 */
+	pinctrl_gpio12: gpio12grp {
+		fsl,pins = <MX8MP_IOMUXC_GPIO1_IO08__GPIO1_IO08	0x144>; /* SMARC S142 - GPIO12 */
+	};
+
+	/* SMARC GPIO13 */
+	pinctrl_gpio13: gpio13grp {
+		fsl,pins = <MX8MP_IOMUXC_GPIO1_IO13__GPIO1_IO13	0x144>; /* SMARC S123 - GPIO13 */
 	};
 
 	/* SMARC HDMI */
