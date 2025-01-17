@@ -266,3 +266,8 @@
 		};
 	};
 };
+
+/* SMARC SDIO */
+&usdhc2 {
+	status = "okay";
+};
