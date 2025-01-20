@@ -733,6 +733,13 @@
 	status = "okay";
 };
 
+&wdog1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_wdog>;
+	fsl,ext-reset-output;
+	status = "okay";
+};
+
 &iomuxc {
 	/* On-module Bluetooth */
 	pinctrl_bt_uart: btuartgrp {
@@ -1167,5 +1174,10 @@
 	/* On-module Wi-Fi power enable */
 	pinctrl_wifi_pwr_en: wifipwrengrp {
 		fsl,pins = <MX8MP_IOMUXC_NAND_DQS__GPIO3_IO14	0x104>; /* CTRL_EN_WIFI */
+	};
+
+	/* SoC Watchdog */
+	pinctrl_wdog: wdoggrp {
+		fsl,pins = <MX8MP_IOMUXC_GPIO1_IO02__WDOG1_WDOG_B	0x4>; /* CTRL_SOC_WDOG */
 	};
 };
