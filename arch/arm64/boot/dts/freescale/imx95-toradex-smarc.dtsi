@@ -99,6 +99,124 @@
 	pinctrl-0 = <&pinctrl_flexcan2>;
 };
 
+&gpio1 {
+	gpio-line-names = "", /* 0 */
+			  "",
+			  "SMARC_I2C_GP_CK",
+			  "SMARC_I2C_GP_DAT",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "", /* 10 */
+			  "",
+			  "",
+			  "",
+			  "CTRL_IO_EXP_INT_B";
+	status = "okay";
+};
+
+&gpio2 {
+	gpio-line-names = "SMARC_SPI0_CS0#", /* 0 */
+			  "SMARC_SPI0_CS1#",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "SMARC_GPIO5",
+			  "",
+			  "SMARC_I2C_CAM1_DAT",
+			  "SMARC_I2C_CAM1_CK",
+			  "SMARC_GPIO12", /* 10 */
+			  "SMARC_GPIO13",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "SMARC_SPI1_CS0#",
+			  "",
+			  "", /* 20 */
+			  "",
+			  "SMARC_I2C_LCD_DAT",
+			  "SMARC_I2C_LCD_CK",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "SMARC_I2C_PM_DAT",
+			  "SMARC_I2C_PM_CK",
+			  "SMARC_I2C_CAM0_DAT", /* 30 */
+			  "SMARC_I2C_CAM0_CK";
+	status = "okay";
+};
+
+&gpio3 {
+	gpio-line-names = "SMARC_SDIO_CD#", /* 0 */
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "SMARC_SDIO_PWR_EN";
+	status = "okay";
+};
+
+&gpio4 {
+	gpio-line-names = "", /* 0 */
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "", /* 10 */
+			  "",
+			  "",
+			  "",
+			  "SMARC_GPIO11",
+			  "SMARC_GPIO10",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "", /* 20 */
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "SMARC_SMB_ALERT#";
+	status = "okay";
+};
+
+&gpio5 {
+	gpio-line-names = "SMARC_GPIO2", /* 0 */
+			  "SMARC_GPIO3",
+			  "SMARC_GPIO4",
+			  "SMARC_GPIO6",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "SMARC_GPIO9",
+			  "SMARC_GPIO7",
+			  "SMARC_GPIO8", /* 10 */
+			  "SMARC_SPI1_CS1#",
+			  "",
+			  "SPI1_TPM_CS#";
+	status = "okay";
+};
+
 /* SMARC I2C_GP */
 &lpi2c2 {
 	pinctrl-names = "default", "gpio";
@@ -427,9 +545,69 @@
 			   <IMX95_PAD_GPIO_IO27__CAN2_RX	0x39e>; /* SMARC P146 - CAN1_RX */
 	};
 
+	/* SMARC GPIO2 */
+	pinctrl_gpio2: gpio2grp {
+		fsl,pins = <IMX95_PAD_XSPI1_DATA0__GPIO5_IO_BIT0	0x31e>; /* SMARC P110 - GPIO2 */
+	};
+
+	/* SMARC GPIO3 */
+	pinctrl_gpio3: gpio3grp {
+		fsl,pins = <IMX95_PAD_XSPI1_DATA1__GPIO5_IO_BIT1	0x31e>; /* SMARC P111 - GPIO3 */
+	};
+
+	/* SMARC GPIO4 */
+	pinctrl_gpio4: gpio4grp {
+		fsl,pins = <IMX95_PAD_XSPI1_DATA2__GPIO5_IO_BIT2	0x31e>; /* SMARC P112 - GPIO4 */
+	};
+
+	/* SMARC GPIO5 */
+	pinctrl_gpio5: gpio5grp {
+		fsl,pins = <IMX95_PAD_GPIO_IO06__GPIO2_IO_BIT6	0x31e>; /* SMARC P113 - GPIO5 */
+	};
+
+	/* SMARC GPIO5 as PWM */
+	pinctrl_gpio5_pwm: gpio5pwmgrp {
+		fsl,pins = <IMX95_PAD_GPIO_IO06__TPM5_CH0	0x11e>; /* SMARC P113 - PWM_OUT */
+	};
+
+	/* SMARC GPIO6 */
+	pinctrl_gpio6: gpio6grp {
+		fsl,pins = <IMX95_PAD_XSPI1_DATA3__GPIO5_IO_BIT3	0x31e>; /* SMARC P114 - GPIO6 */
+	};
+
 	/* SMARC GPIO7 */
 	pinctrl_gpio7: gpio7grp {
 		fsl,pins = <IMX95_PAD_XSPI1_SCLK__GPIO5_IO_BIT9 0x31e>; /* SMARC P115 - GPIO7 */
+	};
+
+	/* SMARC GPIO8 */
+	pinctrl_gpio8: gpio8grp {
+		fsl,pins = <IMX95_PAD_XSPI1_SS0_B__GPIO5_IO_BIT10	0x31e>; /* SMARC P116 - GPIO8 */
+	};
+
+	/* SMARC GPIO9 */
+	pinctrl_gpio9: gpio9grp {
+		fsl,pins = <IMX95_PAD_XSPI1_DQS__GPIO5_IO_BIT8	0x31e>; /* SMARC P117 - GPIO9 */
+	};
+
+	/* SMARC GPIO10 */
+	pinctrl_gpio10: gpio10grp {
+		fsl,pins = <IMX95_PAD_ENET2_MDIO__GPIO4_IO_BIT15	0x31e>; /* SMARC P118 - GPIO10 */
+	};
+
+	/* SMARC GPIO11 */
+	pinctrl_gpio11: gpio11grp {
+		fsl,pins = <IMX95_PAD_ENET2_MDC__GPIO4_IO_BIT14	0x31e>; /* SMARC P119 - GPIO11 */
+	};
+
+	/* SMARC GPIO12 */
+	pinctrl_gpio12: gpio12grp {
+		fsl,pins = <IMX95_PAD_GPIO_IO10__GPIO2_IO_BIT10	0x31e>; /* SMARC S142 - GPIO12 */
+	};
+
+	/* SMARC GPIO13 */
+	pinctrl_gpio13: gpio13grp {
+		fsl,pins = <IMX95_PAD_GPIO_IO11__GPIO2_IO_BIT11	0x31e>; /* SMARC S123 - GPIO13 */
 	};
 
 	pinctrl_ctrl_io_exp_int_b: ioexpintgrp {
@@ -543,6 +721,11 @@
 	pinctrl_sai3_mclk: sai3mclkgrp {
 		fsl,pins =
 			<IMX95_PAD_GPIO_IO17__SAI3_MCLK				0x31e>; /* SMARC S42 - AUDIO_MCK */
+	};
+
+	/* SMARC SMB_ALERT# */
+	pinctrl_smb_alert_gpio: smbalertgrp {
+		fsl,pins = <IMX95_PAD_CCM_CLKO3__GPIO4_IO_BIT28	0x31e>; /* SMARC P1 - SMB_ALERT# */
 	};
 
 	/* SMARC SER1, used as the Linux Console */
