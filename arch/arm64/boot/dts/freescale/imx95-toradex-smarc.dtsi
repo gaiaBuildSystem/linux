@@ -262,6 +262,15 @@
 		interrupts = <14 IRQ_TYPE_LEVEL_LOW>;
 		#gpio-cells = <2>;
 		gpio-controller;
+		gpio-line-names =
+			"SMARC_PCIE_WAKE#", /* 0 */
+			"SMARC_PCIE_B_RST#",
+			"SMARC_PCIE_A_RST#",
+			"SMARC_USB0_OTG_ID",
+			"SMARC_USB0_EN", /* SMARC USB0_EN_OC# - Open Drain Output */
+			"SMARC_USB0_OC#", /* SMARC USB0_EN_OC# - Over-Current Sense Input */
+			"",
+			"SMARC_PCIE_C_RST#";
 	};
 
 	som_gpio_expander_1: gpio-expander@21 {
@@ -273,6 +282,25 @@
 		interrupts = <14 IRQ_TYPE_LEVEL_LOW>;
 		#gpio-cells = <2>;
 		gpio-controller;
+		gpio-line-names =
+			"SMARC_GPIO0", /* 0 */
+			"SMARC_GPIO1",
+			"SMARC_LCD0_VDD_EN",
+			"SMARC_LCD0_BKLT_EN",
+			"SMARC_LCD1_VDD_EN",
+			"SMARC_LCD1_BKLT_EN",
+			"",
+			"",
+			"",
+			"",
+			"", /* 10 */
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"SMARC_SDIO_WP";
 	};
 
 	/* SMARC DP0 */
