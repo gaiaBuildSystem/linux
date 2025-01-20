@@ -277,6 +277,24 @@
 	};
 };
 
+/* SMARC USB0 */
+&usb2 {
+	status = "okay";
+};
+
+/* SMARC USB1..4 */
+&usb3 {
+	status = "okay";
+};
+
+&usb3_dwc3 {
+	status = "okay";
+};
+
+&usb3_phy {
+	status = "okay";
+};
+
 /* SMARC SDIO */
 &usdhc2 {
 	status = "okay";
