@@ -406,7 +406,7 @@
 	};
 };
 
-/* SMARC ENET_1_MDIO, shared between all ethernet ports */
+/* SMARC MDIO, shared between all ethernet ports */
 &netc_emdio {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_emdio>;
