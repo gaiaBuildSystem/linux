@@ -32,6 +32,22 @@
 		clock-frequency = <27000000>;
 	};
 
+	connector {
+		compatible = "gpio-usb-b-connector", "usb-b-connector";
+		/* SMARC P64 - USB0_OTG_ID */
+		id-gpios = <&som_gpio_expander_0 3 GPIO_ACTIVE_LOW>;
+		label = "USB0";
+		self-powered;
+		type = "micro";
+		vbus-supply = <&reg_usb0_vbus>;
+
+		port {
+			usb_dr_connector: endpoint {
+				remote-endpoint = <&usb0_otg_id>;
+			};
+		};
+	};
+
 	reg_module_1p8v: regulator-module-1p8v {
 		compatible = "regulator-fixed";
 		regulator-max-microvolt = <1800000>;
@@ -46,6 +62,22 @@
 		regulator-min-microvolt = <1200000>;
 		regulator-name = "On-module +V1.2_DP";
 		vin-supply = <&reg_module_1p8v>;
+	};
+
+	reg_usb0_vbus: regulator-usb0-vbus {
+		compatible = "regulator-fixed";
+		/* SMARC P62 - USB0_EN_OC# */
+		gpios = <&som_gpio_expander_0 4 GPIO_ACTIVE_HIGH>;
+		enable-active-high;
+		regulator-name = "USB0_EN_OC#";
+	};
+
+	reg_usb1_vbus: regulator-usb1-vbus {
+		compatible = "regulator-fixed";
+		/* CTRL_V_BUS_USB_HUB or SMARC P71 - USB2_EN_OC# */
+		gpios = <&som_gpio_expander_0 6 GPIO_ACTIVE_HIGH>;
+		enable-active-high;
+		regulator-name = "CTRL_V_BUS_USB_HUB";
 	};
 
 	reg_usdhc2_vmmc: regulator-vmmc-usdhc2 {
@@ -495,6 +527,31 @@
 			       <3612672000>, <393216000>,
 			       <361267200>, <12288000>;
 	fsl,sai-mclk-direction-output;
+};
+
+/* SMARC USB0 */
+&usb2 {
+	adp-disable;
+	dr_mode = "otg";
+	hnp-disable;
+	srp-disable;
+	usb-role-switch;
+	vbus-supply = <&reg_usb0_vbus>;
+
+	port {
+		usb0_otg_id: endpoint {
+			remote-endpoint = <&usb_dr_connector>;
+		};
+	};
+};
+
+/* SMARC USB1..4  */
+&usb3_dwc3 {
+	dr_mode = "host";
+};
+
+&usb3_phy {
+	vbus-supply = <&reg_usb1_vbus>;
 };
 
 /* On-module eMMC */
