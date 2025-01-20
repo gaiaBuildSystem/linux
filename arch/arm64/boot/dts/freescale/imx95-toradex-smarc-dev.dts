@@ -94,6 +94,16 @@
 	status = "okay";
 };
 
+/* SMARC CAN0 */
+&flexcan1 {
+	status = "okay";
+};
+
+/* SMARC CAN1 */
+&flexcan2 {
+	status = "okay";
+};
+
 /* SMARC I2C_GP */
 &lpi2c2 {
 	status = "okay";

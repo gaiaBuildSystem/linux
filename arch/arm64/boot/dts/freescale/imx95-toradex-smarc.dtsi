@@ -87,6 +87,18 @@
 	phy-mode = "rgmii-id";
 };
 
+/* SMARC CAN0 */
+&flexcan1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_flexcan1>;
+};
+
+/* SMARC CAN1 */
+&flexcan2 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_flexcan2>;
+};
+
 /* SMARC I2C_GP */
 &lpi2c2 {
 	pinctrl-names = "default", "gpio";
@@ -401,6 +413,18 @@
 			   <IMX95_PAD_ENET2_RD1__NETCMIX_TOP_ETH1_RGMII_RD1         0x57e>, /* ENET2_RD1    */
 			   <IMX95_PAD_ENET2_RD2__NETCMIX_TOP_ETH1_RGMII_RD2         0x57e>, /* ENET2_RD2    */
 			   <IMX95_PAD_ENET2_RD3__NETCMIX_TOP_ETH1_RGMII_RD3         0x57e>; /* ENET2_RD3    */
+	};
+
+	/* SMARC CAN0 */
+	pinctrl_flexcan1: flexcan1grp {
+		fsl,pins = <IMX95_PAD_PDM_CLK__AONMIX_TOP_CAN1_TX		0x39e>, /* SMARC P143 - CAN0_TX */
+			   <IMX95_PAD_PDM_BIT_STREAM0__AONMIX_TOP_CAN1_RX	0x39e>; /* SMARC P144 - CAN0_RX */
+	};
+
+	/* SMARC CAN1 */
+	pinctrl_flexcan2: flexcan2grp {
+		fsl,pins = <IMX95_PAD_GPIO_IO25__CAN2_TX	0x39e>, /* SMARC P145 - CAN1_TX */
+			   <IMX95_PAD_GPIO_IO27__CAN2_RX	0x39e>; /* SMARC P146 - CAN1_RX */
 	};
 
 	/* SMARC GPIO7 */
