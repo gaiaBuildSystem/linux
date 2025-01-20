@@ -436,6 +436,11 @@
 		fsl,pins = <IMX95_PAD_SAI1_RXD0__AONMIX_TOP_GPIO1_IO_BIT14 0x31e>; /* CTRL_IO_EXP_INT_B */
 	};
 
+	/* SMARC LCD0_BKLT_PWM */
+	pinctrl_lcd0_bklt_pwm_tpm3: lcd0bklt-pwm-tpm3grp {
+		fsl,pins = <IMX95_PAD_GPIO_IO12__TPM3_CH2	0x11e>; /* SMARC S141 - LCD0_BKLT_PWM */
+	};
+
 	/* SMARC I2C_GP */
 	pinctrl_lpi2c2: lpi2c2grp {
 		fsl,pins = <IMX95_PAD_I2C2_SCL__AONMIX_TOP_LPI2C2_SCL	0x40001b9e>, /* SMARC S48 - I2C_GP_CK  */
