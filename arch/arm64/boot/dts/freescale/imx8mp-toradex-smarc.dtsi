@@ -343,8 +343,8 @@
 	gpio-line-names = "", /* 0 */
 			  "",
 			  "",
-			  "",
-			  "",
+			  "SMARC_I2C_CAM1_CK",
+			  "SMARC_I2C_CAM1_DAT",
 			  "",
 			  "",
 			  "",
@@ -554,6 +554,17 @@
 	};
 };
 
+/* SMARC I2C_CAM1 */
+&i2c5 {
+	pinctrl-names = "default", "gpio";
+	pinctrl-0 = <&pinctrl_i2c5>;
+	pinctrl-1 = <&pinctrl_i2c5_gpio>;
+	clock-frequency = <400000>;
+	scl-gpios = <&gpio5 3 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+	sda-gpios = <&gpio5 4 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+	single-master;
+};
+
 /* SMARC I2C_PM */
 &i2c6 {
 	pinctrl-names = "default", "gpio";
@@ -749,6 +760,11 @@
 			   <MX8MP_IOMUXC_SD1_RESET_B__UART3_DCE_RTS	0x1c4>; /* WiFi_UART_CTS */
 	};
 
+	/* SMARC CAM_MCK */
+	pinctrl_csi_mclk: csimclkgrp {
+		fsl,pins = <MX8MP_IOMUXC_GPIO1_IO15__CCM_CLKO2	0x16>; /* SMARC S6 - CAM_MCK  */
+	};
+
 	/* SMARC SPI0 */
 	pinctrl_ecspi1: ecspi1grp {
 		fsl,pins = <MX8MP_IOMUXC_ECSPI1_MISO__ECSPI1_MISO	0x1c4>,	/* SMARC P45 - SPI0_DIN */
@@ -936,6 +952,18 @@
 	pinctrl_i2c4_gpio: i2c4gpiogrp {
 		fsl,pins = <MX8MP_IOMUXC_I2C4_SCL__GPIO5_IO20		0x400001c6>, /* SMARC S48 - I2C_GP_CK */
 			   <MX8MP_IOMUXC_I2C4_SDA__GPIO5_IO21		0x400001c6>; /* SMARC S49 - I2C_GP_DAT */
+	};
+
+	/* SMARC I2C_CAM1 */
+	pinctrl_i2c5: i2c5grp {
+		fsl,pins = <MX8MP_IOMUXC_SPDIF_RX__I2C5_SDA	0x400001c6>, /* SMARC S2 - I2C_CAM1_DAT  */
+			   <MX8MP_IOMUXC_SPDIF_TX__I2C5_SCL	0x400001c6>; /* SMARC S1 - I2C_CAM1_CK  */
+	};
+
+	/* SMARC I2C_CAM1 as GPIOs */
+	pinctrl_i2c5_gpio: i2c5gpiogrp {
+		fsl,pins = <MX8MP_IOMUXC_SPDIF_RX__GPIO5_IO04	0x400001c6>, /* SMARC S2 - I2C_CAM1_DAT  */
+			   <MX8MP_IOMUXC_SPDIF_TX__GPIO5_IO03	0x400001c6>; /* SMARC S1 - I2C_CAM1_CK  */
 	};
 
 	/* SMARC I2C_PM */
