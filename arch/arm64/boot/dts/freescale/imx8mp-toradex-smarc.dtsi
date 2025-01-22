@@ -621,6 +621,10 @@
 	fsl,refclk-pad-mode = <IMX8_PCIE_REFCLK_PAD_OUTPUT>;
 };
 
+&snvs_pwrkey {
+	status = "okay";
+};
+
 /* SMARC SER0 */
 &uart1 {
 	pinctrl-names = "default";
