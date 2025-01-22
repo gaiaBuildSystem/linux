@@ -623,6 +623,24 @@
 	fsl,refclk-pad-mode = <IMX8_PCIE_REFCLK_PAD_OUTPUT>;
 };
 
+/* SMARC LCD1_BKLT_PWM */
+&pwm1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_pwm_1>;
+};
+
+/* SMARC LCD0_BKLT_PWM */
+&pwm2 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_pwm_2>;
+};
+
+/* SMARC GPIO5 as PWM */
+&pwm3 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_gpio5_pwm>;
+};
+
 &snvs_pwrkey {
 	status = "okay";
 };
@@ -983,6 +1001,16 @@
 	pinctrl_i2c6_gpio: i2c6gpiogrp {
 		fsl,pins = <MX8MP_IOMUXC_HDMI_CEC__GPIO3_IO28	0x400001c6>, /* SMARC P121 - I2C_PM_CK */
 			   <MX8MP_IOMUXC_SAI5_RXC__GPIO3_IO20	0x400001c6>; /* SMARC P122 - I2C_PM_DAT */
+	};
+
+	/* SMARC LCD1_BKLT_PWM */
+	pinctrl_pwm_1: pwm1grp {
+		fsl,pins = <MX8MP_IOMUXC_SPDIF_EXT_CLK__PWM1_OUT	0x12>; /* SMARC S122 - LCD1_BKLT_PWM */
+	};
+
+	/* SMARC LCD0_BKLT_PWM */
+	pinctrl_pwm_2: pwm2grp {
+		fsl,pins = <MX8MP_IOMUXC_GPIO1_IO11__PWM2_OUT	0x12>; /* SMARC S141 - LCD0_BKLT_PWM */
 	};
 
 	/* PCAL6408 Interrupt */
