@@ -289,7 +289,7 @@
 			  "",
 			  "",
 			  "LVDS_DSI_SEL",
-			  "",
+			  "MCU_INT#",
 			  "GPIO_EX_INT#",
 			  "", /* 10 */
 			  "",
@@ -1005,6 +1005,10 @@
 
 	pinctrl_lvds_dsi_sel: lvdsdsiselgrp {
 		fsl,pins = <MX8MP_IOMUXC_NAND_DATA01__GPIO3_IO07	0x104>; /* LVDS_DSI_SEL */
+	};
+
+	pinctrl_mcu_int: mcuintgrp {
+		fsl,pins = <MX8MP_IOMUXC_NAND_DATA02__GPIO3_IO08	0x1C0>; /* MCU_INT# */
 	};
 
 	/* SMARC LCD1_BKLT_PWM */
