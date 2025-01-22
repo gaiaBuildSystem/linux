@@ -43,6 +43,19 @@
 		};
 	};
 
+	gpio-keys {
+		compatible = "gpio-keys";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_sleep>;
+
+		key-sleep {
+			debounce-interval = <10>;
+			gpios = <&gpio3 1 GPIO_ACTIVE_LOW>;
+			label = "SMARC_SLEEP#";
+			linux,code = <KEY_SLEEP>;
+		};
+	};
+
 	reg_usb0_vbus: regulator-usb0-vbus {
 		compatible = "regulator-fixed";
 		pinctrl-names = "default";
@@ -282,7 +295,7 @@
 
 &gpio3 {
 	gpio-line-names = "ETH_0_INT#",	/* 0 */
-			  "",
+			  "SLEEP#",
 			  "",
 			  "",
 			  "",
@@ -1056,6 +1069,11 @@
 			   <MX8MP_IOMUXC_SAI3_TXC__AUDIOMIX_SAI3_TX_BCLK	0x94>, /* SMARC S53 - I2S2_CK */
 			   <MX8MP_IOMUXC_SAI3_TXD__AUDIOMIX_SAI3_TX_DATA00	0x94>, /* SMARC S51 - I2S2_SDOUT */
 			   <MX8MP_IOMUXC_SAI3_TXFS__AUDIOMIX_SAI3_TX_SYNC	0x94>; /* SMARC S50 - I2S2_LRCLK */
+	};
+
+	/* SMARC SLEEP# */
+	pinctrl_sleep: sleepgrp {
+		fsl,pins = <MX8MP_IOMUXC_NAND_CE0_B__GPIO3_IO01	0x1C0>; /* SMARC S149 - SLEEP# */
 	};
 
 	/* SMARC SMB_ALERT# */
