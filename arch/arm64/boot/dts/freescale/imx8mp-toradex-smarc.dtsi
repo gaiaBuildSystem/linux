@@ -7,6 +7,8 @@
 
 / {
 	aliases {
+		can0 = &flexcan2;
+		can1 = &flexcan1;
 		ethernet0 = &eqos;
 		ethernet1 = &fec;
 		mmc0 = &usdhc3;
