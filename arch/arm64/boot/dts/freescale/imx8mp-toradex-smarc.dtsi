@@ -28,7 +28,7 @@
 		compatible = "gpio-usb-b-connector", "usb-b-connector";
 		pinctrl-names = "default";
 		pinctrl-0 = <&pinctrl_usb0_id>;
-		id-gpios = <&gpio2 10 GPIO_ACTIVE_HIGH>;
+		id-gpios = <&gpio5 2 GPIO_ACTIVE_HIGH>;
 		label = "USB0";
 		self-powered;
 		type = "micro";
@@ -266,7 +266,7 @@
 			  "",
 			  "",
 			  "",
-			  "SMARC_USB0_OTG_ID", /* 10 */
+			  "", /* 10 */
 			  "",
 			  "SMARC_SDIO_CD#",
 			  "",
@@ -346,7 +346,7 @@
 &gpio5 {
 	gpio-line-names = "", /* 0 */
 			  "",
-			  "",
+			  "SMARC_USB0_OTG_ID",
 			  "SMARC_I2C_CAM1_CK",
 			  "SMARC_I2C_CAM1_DAT",
 			  "",
@@ -1056,7 +1056,7 @@
 
 	/* SMARC USB0_OTG_ID */
 	pinctrl_usb0_id: usb0idgrp {
-		fsl,pins = <MX8MP_IOMUXC_SD1_RESET_B__GPIO2_IO10	0x1c4>; /* SMARC P64 - USB0_OTG_ID */
+		fsl,pins = <MX8MP_IOMUXC_SAI3_MCLK__GPIO5_IO02	0x1c4>; /* SMARC P64 - USB0_OTG_ID */
 	};
 
 	/* SMARC USB0_EN_OC# */
