@@ -288,7 +288,7 @@
 			  "",
 			  "",
 			  "",
-			  "",
+			  "LVDS_DSI_SEL",
 			  "",
 			  "GPIO_EX_INT#",
 			  "", /* 10 */
@@ -626,13 +626,13 @@
 /* SMARC LCD1_BKLT_PWM */
 &pwm1 {
 	pinctrl-names = "default";
-	pinctrl-0 = <&pinctrl_pwm_1>;
+	pinctrl-0 = <&pinctrl_lcd1_bklt_pwm1>;
 };
 
 /* SMARC LCD0_BKLT_PWM */
 &pwm2 {
 	pinctrl-names = "default";
-	pinctrl-0 = <&pinctrl_pwm_2>;
+	pinctrl-0 = <&pinctrl_lcd0_bklt_pwm2>;
 };
 
 /* SMARC GPIO5 as PWM */
@@ -1003,13 +1003,17 @@
 			   <MX8MP_IOMUXC_SAI5_RXC__GPIO3_IO20	0x400001c6>; /* SMARC P122 - I2C_PM_DAT */
 	};
 
+	pinctrl_lvds_dsi_sel: lvdsdsiselgrp {
+		fsl,pins = <MX8MP_IOMUXC_NAND_DATA01__GPIO3_IO07	0x104>; /* LVDS_DSI_SEL */
+	};
+
 	/* SMARC LCD1_BKLT_PWM */
-	pinctrl_pwm_1: pwm1grp {
+	pinctrl_lcd1_bklt_pwm1: pwm1grp {
 		fsl,pins = <MX8MP_IOMUXC_SPDIF_EXT_CLK__PWM1_OUT	0x12>; /* SMARC S122 - LCD1_BKLT_PWM */
 	};
 
 	/* SMARC LCD0_BKLT_PWM */
-	pinctrl_pwm_2: pwm2grp {
+	pinctrl_lcd0_bklt_pwm2: pwm2grp {
 		fsl,pins = <MX8MP_IOMUXC_GPIO1_IO11__PWM2_OUT	0x12>; /* SMARC S141 - LCD0_BKLT_PWM */
 	};
 
