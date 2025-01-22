@@ -78,6 +78,8 @@
 		pinctrl-0 = <&pinctrl_wifi_pwr_en>;
 		gpio = <&gpio3 14 GPIO_ACTIVE_HIGH>;
 		enable-active-high;
+		regulator-max-microvolt = <3300000>;
+		regulator-min-microvolt = <3300000>;
 		regulator-name = "CTRL_EN_WIFI";
 		startup-delay-us = <2000>;
 	};
