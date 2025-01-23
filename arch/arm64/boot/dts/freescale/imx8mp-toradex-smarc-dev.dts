@@ -103,6 +103,11 @@
 	};
 };
 
+/* SMARC I2C_CAM0 */
+&i2c3 {
+	status = "okay";
+};
+
 /* SMARC I2C_GP */
 &i2c4 {
 	/* Audio Codec */
@@ -133,6 +138,11 @@
 		reg = <0x57>;
 		pagesize = <16>;
 	};
+};
+
+/* SMARC I2C_CAM1 */
+&i2c5 {
+	status = "okay";
 };
 
 /* SMARC I2C_PM */
