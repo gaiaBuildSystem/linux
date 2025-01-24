@@ -724,6 +724,15 @@
 			   <IMX95_PAD_DAP_TMS_SWDIO__LPUART5_RTS_B	0x31e>; /* WiFI_UART_R_CTS */
 	};
 
+	/* SMARC CAM_MCK */
+	pinctrl_cam_mck: cammckgrp {
+		fsl,pins = < IMX95_PAD_CCM_CLKO1__CCMSRCGPCMIX_TOP_CLKO_1	0x51e>; /* SMARC S6 - CAM_MCK */
+	};
+
+	pinctrl_ec_int: ecintgrp {
+		fsl,pins = < IMX95_PAD_SAI1_TXFS__AONMIX_TOP_GPIO1_IO_BIT11	0x31e>; /* SAI1_TXFS - EC_MCU_INT# */
+	};
+
 	/* SMARC MDIO, shared between all ethernet ports */
 	pinctrl_emdio: emdiogrp {
 		fsl,pins = <IMX95_PAD_ENET1_MDC__NETCMIX_TOP_NETC_MDC		0x57e>, /* SMARC S45 - MDIO_CLK */
