@@ -35,6 +35,13 @@
 		clock-frequency = <27000000>;
 	};
 
+	clk_serdes_eth_ref: clock-eth-ref {
+		compatible = "gpio-gate-clock";
+		#clock-cells = <0>;
+		/* CTRL_ETH_REF_CLK_STBY# */
+		enable-gpios = <&som_gpio_expander_1 13 GPIO_ACTIVE_HIGH>;
+	};
+
 	connector {
 		compatible = "gpio-usb-b-connector", "usb-b-connector";
 		/* SMARC P64 - USB0_OTG_ID */
@@ -131,6 +138,12 @@
 	pinctrl-0 = <&pinctrl_enetc1>;
 	phy-handle = <&ethphy2>;
 	phy-mode = "rgmii-id";
+};
+
+/* SMARC SERDES_0 */
+&enetc_port2 {
+	clocks = <&clk_serdes_eth_ref>;
+	clock-names = "enet_ref_clk";
 };
 
 /* SMARC CAN0 */
