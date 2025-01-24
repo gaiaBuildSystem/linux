@@ -629,6 +629,18 @@
 	};
 };
 
+/* SMARC LCD0_BKLT_PWM */
+&tpm3 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_lcd0_bklt_pwm>;
+};
+
+/* SMARC LCD1_BKLT_PWM */
+&tpm4 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_lcd1_bklt_pwm>;
+};
+
 /* SMARC GPIO5 as PWM */
 &tpm5 {
 	pinctrl-names = "default";
@@ -842,8 +854,13 @@
 	};
 
 	/* SMARC LCD0_BKLT_PWM */
-	pinctrl_lcd0_bklt_pwm_tpm3: lcd0bklt-pwm-tpm3grp {
-		fsl,pins = <IMX95_PAD_GPIO_IO12__TPM3_CH2	0x11e>; /* SMARC S141 - LCD0_BKLT_PWM */
+	pinctrl_lcd0_bklt_pwm: lcd0bkltpwmgrp {
+		fsl,pins = <IMX95_PAD_GPIO_IO12__TPM3_CH2	0x51e>; /* SMARC S141 - LCD0_BKLT_PWM */
+	};
+
+	/* SMARC LCD1_BKLT_PWM */
+	pinctrl_lcd1_bklt_pwm: lcd1bkltpwmgrp {
+		fsl,pins = <IMX95_PAD_GPIO_IO13__TPM4_CH2	0x51e>; /* SMARC S122 - LCD1_BKLT_PWM */
 	};
 
 	/* SMARC I2C_GP */
