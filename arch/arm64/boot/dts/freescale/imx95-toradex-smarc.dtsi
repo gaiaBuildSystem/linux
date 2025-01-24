@@ -127,7 +127,7 @@
 /* SMARC GBE0 */
 &enetc_port0 {
 	pinctrl-names = "default";
-	pinctrl-0 = <&pinctrl_enetc0>;
+	pinctrl-0 = <&pinctrl_enetc0>, <&pinctrl_enetc0_1588_tmr>;
 	phy-handle = <&ethphy1>;
 	phy-mode = "rgmii-id";
 };
@@ -135,7 +135,7 @@
 /* SMARC GBE1 */
 &enetc_port1 {
 	pinctrl-names = "default";
-	pinctrl-0 = <&pinctrl_enetc1>;
+	pinctrl-0 = <&pinctrl_enetc1>, <&pinctrl_enetc1_1588_tmr>;
 	phy-handle = <&ethphy2>;
 	phy-mode = "rgmii-id";
 };
@@ -734,6 +734,11 @@
 			   <IMX95_PAD_ENET1_RD3__NETCMIX_TOP_ETH0_RGMII_RD3         0x57e>; /* ENET1_RD3    */
 	};
 
+	/* SMARC GBE0_SDP */
+	pinctrl_enetc0_1588_tmr: enetc01588tmrgrp {
+		fsl,pins = <IMX95_PAD_CCM_CLKO2__NETCMIX_TOP_NETC_TMR_1588_PP1	0x51e>; /* SMARC P6 - GBE0_SDP */
+	};
+
 	/* SMARC GBE1 */
 	pinctrl_enetc1: enetc1grp {
 		fsl,pins = <IMX95_PAD_ENET2_TX_CTL__NETCMIX_TOP_ETH1_RGMII_TX_CTL   0x57e>, /* ENET2_TX_CTL */
@@ -748,6 +753,11 @@
 			   <IMX95_PAD_ENET2_RD1__NETCMIX_TOP_ETH1_RGMII_RD1         0x57e>, /* ENET2_RD1    */
 			   <IMX95_PAD_ENET2_RD2__NETCMIX_TOP_ETH1_RGMII_RD2         0x57e>, /* ENET2_RD2    */
 			   <IMX95_PAD_ENET2_RD3__NETCMIX_TOP_ETH1_RGMII_RD3         0x57e>; /* ENET2_RD3    */
+	};
+
+	/* SMARC GBE1_SDP */
+	pinctrl_enetc1_1588_tmr: enetc11588tmrgrp {
+		fsl,pins = < IMX95_PAD_CCM_CLKO4__NETCMIX_TOP_NETC_TMR_1588_PP2	0x51e>; /* SMARC P5 - GBE1_SDP */
 	};
 
 	/* SMARC CAN0 */
