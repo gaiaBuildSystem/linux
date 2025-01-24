@@ -616,6 +616,12 @@
 	};
 };
 
+/* SMARC GPIO5 as PWM */
+&tpm5 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_gpio5_pwm>;
+};
+
 /* SMARC USB0 */
 &usb2 {
 	adp-disable;
