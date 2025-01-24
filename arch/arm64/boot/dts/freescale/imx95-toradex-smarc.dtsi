@@ -10,10 +10,6 @@
 #include "imx95.dtsi"
 
 / {
-	chosen {
-		stdout-path = "serial1:115200n8";
-	};
-
 	aliases {
 		can0 = &flexcan1;
 		can1 = &flexcan2;
@@ -27,6 +23,10 @@
 		serial1 = &lpuart1;
 		serial2 = &lpuart6;
 		serial3 = &lpuart3;
+	};
+
+	chosen {
+		stdout-path = "serial1:115200n8";
 	};
 
 	clk_dsi2dp_bridge: clock {
