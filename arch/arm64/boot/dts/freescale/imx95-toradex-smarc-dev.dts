@@ -112,7 +112,7 @@
 		compatible = "wlf,wm8904";
 		reg = <0x1a>;
 		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_sai3>;
+		pinctrl-0 = <&pinctrl_sai3>, <&pinctrl_sai3_mclk>;
 		#sound-dai-cells = <0>;
 		clocks = <&scmi_clk IMX95_CLK_SAI3>;
 		clock-names = "mclk";
