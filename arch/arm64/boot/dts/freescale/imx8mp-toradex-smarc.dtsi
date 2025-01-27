@@ -706,6 +706,7 @@
 	adp-disable;
 	dr_mode = "otg";
 	hnp-disable;
+	maximum-speed = "high-speed";
 	srp-disable;
 	usb-role-switch;
 
