@@ -25,12 +25,16 @@
 
 #define GPIO_SWPORTA_DR		0x00
 #define GPIO_SWPORTA_DDR	0x04
+#define GPIO_SWPORTA_CTL	0x08
 #define GPIO_SWPORTB_DR		0x0c
 #define GPIO_SWPORTB_DDR	0x10
+#define GPIO_SWPORTB_CTL	0x14
 #define GPIO_SWPORTC_DR		0x18
 #define GPIO_SWPORTC_DDR	0x1c
+#define GPIO_SWPORTC_CTL	0x20
 #define GPIO_SWPORTD_DR		0x24
 #define GPIO_SWPORTD_DDR	0x28
+#define GPIO_SWPORTD_CTL	0x2c
 #define GPIO_INTEN		0x30
 #define GPIO_INTMASK		0x34
 #define GPIO_INTTYPE_LEVEL	0x38
@@ -50,6 +54,7 @@
 #define GPIO_EXT_PORT_STRIDE	0x04 /* register stride 32 bits */
 #define GPIO_SWPORT_DR_STRIDE	0x0c /* register stride 3*32 bits */
 #define GPIO_SWPORT_DDR_STRIDE	0x0c /* register stride 3*32 bits */
+#define GPIO_SWPORT_CTL_STRIDE	0x0c /* register stride 3*32 bits */
 
 #define GPIO_REG_OFFSET_V1	0
 #define GPIO_REG_OFFSET_V2	1
@@ -542,6 +547,8 @@ static int dwapb_gpio_add_port(struct dwapb_gpio *gpio,
 	if (!port->ctx)
 		return -ENOMEM;
 #endif
+
+	writel(0, gpio->regs + gpio_reg_convert(gpio, pp->idx * GPIO_SWPORTA_CTL));
 
 	dat = gpio->regs + GPIO_EXT_PORTA + pp->idx * GPIO_EXT_PORT_STRIDE;
 	set = gpio->regs + GPIO_SWPORTA_DR + pp->idx * GPIO_SWPORT_DR_STRIDE;
