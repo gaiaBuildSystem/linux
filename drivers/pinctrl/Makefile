@@ -70,7 +70,6 @@ obj-y				+= actions/
 obj-y				+= airoha/
 obj-$(CONFIG_PINCTRL_ASPEED)	+= aspeed/
 obj-y				+= bcm/
-obj-$(CONFIG_PINCTRL_BERLIN)	+= berlin/
 obj-y				+= cirrus/
 obj-y				+= cix/
 obj-y				+= freescale/
