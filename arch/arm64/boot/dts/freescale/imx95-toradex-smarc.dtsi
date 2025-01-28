@@ -534,6 +534,10 @@
 			  <NXP_NETC_SERIAL>;
 };
 
+&netc_timer {
+	status = "okay";
+};
+
 /* SMARC PCIE_A */
 &pcie0 {
 	pinctrl-0 = <&pinctrl_pcie0>;
