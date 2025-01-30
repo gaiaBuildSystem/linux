@@ -286,6 +286,13 @@
 	clock-frequency = <400000>;
 	scl-gpios = <&gpio1 2 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
 	sda-gpios = <&gpio1 3 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+	status = "okay";
+
+	eeprom@50 {
+		compatible = "st,24c32";
+		reg = <0x50>;
+		pagesize = <32>;
+	};
 };
 
 /* SMARC I2C_PM */
