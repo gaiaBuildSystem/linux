@@ -568,9 +568,9 @@
 	status = "okay";
 
 	eeprom@50 {
-		compatible = "st,24c02";
+		compatible = "st,24c32";
 		reg = <0x50>;
-		pagesize = <16>;
+		pagesize = <32>;
 	};
 };
 
