@@ -103,6 +103,18 @@
 		startup-delay-us = <20000>;
 	};
 
+	reg_usdhc2_vqmmc: regulator-usdhc2-vqmmc {
+		compatible = "regulator-gpio";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_usdhc2_vsel>;
+		gpios = <&gpio3 19 GPIO_ACTIVE_HIGH>;
+		regulator-max-microvolt = <3300000>;
+		regulator-min-microvolt = <1800000>;
+		states = <1800000 0x1>,
+			 <3300000 0x0>;
+		regulator-name = "PMIC_SD2_VSEL";
+	};
+
 	reg_wifi_en: regulator-wifi-en {
 		compatible = "regulator-fixed";
 		/* CTRL_EN_WIFI */
@@ -221,7 +233,20 @@
 			  "",
 			  "",
 			  "",
-			  "SMARC_SDIO_PWR_EN";
+			  "SMARC_SDIO_PWR_EN",
+			  "",
+			  "",
+			  "", /* 10 */
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "PMIC_SD2_VSEL";
 	status = "okay";
 };
 
@@ -705,6 +730,7 @@
 	pinctrl-3 = <&pinctrl_usdhc2_sleep>, <&pinctrl_usdhc2_cd>;
 	cd-gpios = <&gpio3 0 GPIO_ACTIVE_LOW>;
 	vmmc-supply = <&reg_usdhc2_vmmc>;
+	vqmmc-supply = <&reg_usdhc2_vqmmc>;
 	wp-gpios = <&som_gpio_expander_1 15 GPIO_ACTIVE_HIGH>;
 };
 
@@ -1062,8 +1088,7 @@
 			   <IMX95_PAD_SD2_DATA0__USDHC2_DATA0		0x138e>, /* SMARC P39 - SDIO_D0  */
 			   <IMX95_PAD_SD2_DATA1__USDHC2_DATA1		0x138e>, /* SMARC P40 - SDIO_D1  */
 			   <IMX95_PAD_SD2_DATA2__USDHC2_DATA2		0x138e>, /* SMARC P41 - SDIO_D2  */
-			   <IMX95_PAD_SD2_DATA3__USDHC2_DATA3		0x138e>, /* SMARC P42 - SDIO_D3  */
-			   <IMX95_PAD_SD2_VSELECT__USDHC2_VSELECT	0x4>;    /* PMIC_SD2_VSEL */
+			   <IMX95_PAD_SD2_DATA3__USDHC2_DATA3		0x138e>; /* SMARC P42 - SDIO_D3  */
 	};
 
 	/* SMARC SDIO */
@@ -1073,8 +1098,7 @@
 			   <IMX95_PAD_SD2_DATA0__USDHC2_DATA0		0x13fe>, /* SMARC P39 - SDIO_D0  */
 			   <IMX95_PAD_SD2_DATA1__USDHC2_DATA1		0x13fe>, /* SMARC P40 - SDIO_D1  */
 			   <IMX95_PAD_SD2_DATA2__USDHC2_DATA2		0x13fe>, /* SMARC P41 - SDIO_D2  */
-			   <IMX95_PAD_SD2_DATA3__USDHC2_DATA3		0x13fe>, /* SMARC P42 - SDIO_D3  */
-			   <IMX95_PAD_SD2_VSELECT__USDHC2_VSELECT	0x4>;    /* PMIC_SD2_VSEL */
+			   <IMX95_PAD_SD2_DATA3__USDHC2_DATA3		0x13fe>; /* SMARC P42 - SDIO_D3  */
 	};
 
 	/* SMARC SDIO */
@@ -1084,8 +1108,7 @@
 			   <IMX95_PAD_SD2_DATA0__USDHC2_DATA0		0x400>, /* SMARC P39 - SDIO_D0  */
 			   <IMX95_PAD_SD2_DATA1__USDHC2_DATA1		0x400>, /* SMARC P40 - SDIO_D1  */
 			   <IMX95_PAD_SD2_DATA2__USDHC2_DATA2		0x400>, /* SMARC P41 - SDIO_D2  */
-			   <IMX95_PAD_SD2_DATA3__USDHC2_DATA3		0x400>, /* SMARC P42 - SDIO_D3  */
-			   <IMX95_PAD_SD2_VSELECT__USDHC2_VSELECT	0x4>;   /* PMIC_SD2_VSEL */
+			   <IMX95_PAD_SD2_DATA3__USDHC2_DATA3		0x400>; /* SMARC P42 - SDIO_D3  */
 	};
 
 	/* SMARC SDIO_CD# */
@@ -1096,6 +1119,10 @@
 	/* SMARC SDIO_PWR_EN */
 	pinctrl_usdhc2_pwr_en: usdhc2-pwrengrp {
 		fsl,pins = <IMX95_PAD_SD2_RESET_B__GPIO3_IO_BIT7	0x11e>; /* SMARC P37 - SDIO_PWR_EN */
+	};
+
+	pinctrl_usdhc2_vsel: usdhc2-vselgrp {
+		fsl,pins = <IMX95_PAD_SD2_VSELECT__GPIO3_IO_BIT19	0x4>; /* PMIC_SD2_VSEL */
 	};
 
 	/* On-module Wi-Fi */
