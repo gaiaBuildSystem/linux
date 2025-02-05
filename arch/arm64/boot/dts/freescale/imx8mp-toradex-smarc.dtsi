@@ -74,7 +74,7 @@
 		regulator-name = "USB2_EN_OC#";
 	};
 
-	reg_usdhc2_sd: regulator-usdhc2 {
+	reg_usdhc2_vmmc: regulator-usdhc2-vmmc {
 		compatible = "regulator-fixed";
 		pinctrl-names = "default";
 		pinctrl-0 = <&pinctrl_usdhc2_pwr_en>;
@@ -85,6 +85,19 @@
 		regulator-min-microvolt = <3300000>;
 		regulator-name = "3V3_SD";
 		startup-delay-us = <20000>;
+	};
+
+	reg_usdhc2_vqmmc: regulator-usdhc2-vqmmc {
+		compatible = "regulator-gpio";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_usdhc2_vsel>;
+		gpios = <&gpio1 4 GPIO_ACTIVE_HIGH>;
+		regulator-max-microvolt = <3300000>;
+		regulator-min-microvolt = <1800000>;
+		states = <1800000 0x1>,
+			 <3300000 0x0>;
+		regulator-name = "PMIC_USDHC_VSELECT";
+		vin-supply = <&reg_sd_3v3_1v8>;
 	};
 
 	reg_wifi_en: regulator-wifi-en {
@@ -257,7 +270,7 @@
 			  "SMARC_GPIO8",
 			  "",
 			  "PMIC_INT#",
-			  "",
+			  "PMIC_USDHC_VSELECT",
 			  "SMARC_GPIO9",
 			  "SMARC_GPIO10",
 			  "SMARC_GPIO11",
@@ -754,8 +767,8 @@
 	assigned-clocks = <&clk IMX8MP_CLK_USDHC2>;
 	assigned-clock-rates = <400000000>;
 	cd-gpios = <&gpio2 12 GPIO_ACTIVE_LOW>;
-	vmmc-supply = <&reg_usdhc2_sd>;
-	vqmmc-supply = <&reg_sd_3v3_1v8>;
+	vmmc-supply = <&reg_usdhc2_vmmc>;
+	vqmmc-supply = <&reg_usdhc2_vqmmc>;
 	wp-gpios = <&gpio2 20 GPIO_ACTIVE_HIGH>;
 };
 
@@ -1172,8 +1185,7 @@
 
 	/* SMARC SDIO */
 	pinctrl_usdhc2: usdhc2grp {
-		fsl,pins = <MX8MP_IOMUXC_GPIO1_IO04__USDHC2_VSELECT	0x4>,   /* PMIC_USDHC_VSELECT */
-			   <MX8MP_IOMUXC_SD2_CLK__USDHC2_CLK		0x190>, /* SMARC P36 - SDIO_CK */
+		fsl,pins = <MX8MP_IOMUXC_SD2_CLK__USDHC2_CLK		0x190>, /* SMARC P36 - SDIO_CK */
 			   <MX8MP_IOMUXC_SD2_CMD__USDHC2_CMD		0x1d0>, /* SMARC P34 - SDIO_CMD */
 			   <MX8MP_IOMUXC_SD2_DATA0__USDHC2_DATA0	0x1d0>, /* SMARC P39 - SDIO_DO */
 			   <MX8MP_IOMUXC_SD2_DATA1__USDHC2_DATA1	0x1d0>, /* SMARC P40 - SDIO_D1 */
@@ -1183,8 +1195,7 @@
 
 	/* SMARC SDIO 100MHz */
 	pinctrl_usdhc2_100mhz: usdhc2-100mhzgrp {
-		fsl,pins = <MX8MP_IOMUXC_GPIO1_IO04__USDHC2_VSELECT	0x4>,   /* PMIC_USDHC_VSELECT */
-			   <MX8MP_IOMUXC_SD2_CLK__USDHC2_CLK		0x194>, /* SMARC P36 - SDIO_CK */
+		fsl,pins = <MX8MP_IOMUXC_SD2_CLK__USDHC2_CLK		0x194>, /* SMARC P36 - SDIO_CK */
 			   <MX8MP_IOMUXC_SD2_CMD__USDHC2_CMD		0x1d4>, /* SMARC P34 - SDIO_CMD */
 			   <MX8MP_IOMUXC_SD2_DATA0__USDHC2_DATA0	0x1d4>, /* SMARC P39 - SDIO_DO */
 			   <MX8MP_IOMUXC_SD2_DATA1__USDHC2_DATA1	0x1d4>, /* SMARC P40 - SDIO_D1 */
@@ -1194,8 +1205,7 @@
 
 	/* SMARC SDIO 200MHz */
 	pinctrl_usdhc2_200mhz: usdhc2-200mhzgrp {
-		fsl,pins = <MX8MP_IOMUXC_GPIO1_IO04__USDHC2_VSELECT	0x4>,   /* PMIC_USDHC_VSELECT */
-			   <MX8MP_IOMUXC_SD2_CLK__USDHC2_CLK		0x196>, /* SMARC P36 - SDIO_CK */
+		fsl,pins = <MX8MP_IOMUXC_SD2_CLK__USDHC2_CLK		0x196>, /* SMARC P36 - SDIO_CK */
 			   <MX8MP_IOMUXC_SD2_CMD__USDHC2_CMD		0x1d6>, /* SMARC P34 - SDIO_CMD */
 			   <MX8MP_IOMUXC_SD2_DATA0__USDHC2_DATA0	0x1d6>, /* SMARC P39 - SDIO_DO */
 			   <MX8MP_IOMUXC_SD2_DATA1__USDHC2_DATA1	0x1d6>, /* SMARC P40 - SDIO_D1 */
@@ -1220,13 +1230,16 @@
 
 	/* SMARC SDIO Sleep - Avoid backfeeding with removed card power */
 	pinctrl_usdhc2_sleep: usdhc2slpgrp {
-		fsl,pins = <MX8MP_IOMUXC_GPIO1_IO04__USDHC2_VSELECT	0x0>,   /* PMIC_USDHC_VSELECT */
-			   <MX8MP_IOMUXC_SD2_CLK__USDHC2_CLK		0x100>, /* SMARC P36 - SDIO_CK */
+		fsl,pins = <MX8MP_IOMUXC_SD2_CLK__USDHC2_CLK		0x100>, /* SMARC P36 - SDIO_CK */
 			   <MX8MP_IOMUXC_SD2_CMD__USDHC2_CMD		0x100>, /* SMARC P34 - SDIO_CMD */
 			   <MX8MP_IOMUXC_SD2_DATA0__USDHC2_DATA0	0x100>, /* SMARC P39 - SDIO_DO */
 			   <MX8MP_IOMUXC_SD2_DATA1__USDHC2_DATA1	0x100>, /* SMARC P39 - SDIO_D1 */
 			   <MX8MP_IOMUXC_SD2_DATA2__USDHC2_DATA2	0x100>, /* SMARC P39 - SDIO_D2 */
 			   <MX8MP_IOMUXC_SD2_DATA3__USDHC2_DATA3	0x100>; /* SMARC P39 - SDIO_D3 */
+	};
+
+	pinctrl_usdhc2_vsel: usdhc2vselgrp {
+		fsl,pins = <MX8MP_IOMUXC_GPIO1_IO04__GPIO1_IO04	0x4>; /* PMIC_USDHC_VSELECT */
 	};
 
 	/* SMARC SDIO_WP */
