@@ -52,6 +52,7 @@
 			debounce-interval = <10>;
 			gpios = <&gpio3 1 GPIO_ACTIVE_LOW>;
 			label = "SMARC_SLEEP#";
+			wakeup-source;
 			linux,code = <KEY_SLEEP>;
 		};
 	};
