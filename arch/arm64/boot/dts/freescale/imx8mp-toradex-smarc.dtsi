@@ -744,6 +744,7 @@
 	pinctrl-0 = <&pinctrl_usdhc1>;
 	pinctrl-1 = <&pinctrl_usdhc1_100mhz>;
 	pinctrl-2 = <&pinctrl_usdhc1_200mhz>;
+	keep-power-in-suspend;
 	non-removable;
 	vmmc-supply = <&reg_wifi_en>;
 	status = "okay";
