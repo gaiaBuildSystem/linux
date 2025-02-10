@@ -545,16 +545,12 @@
 
 	ethphy1: ethernet-phy@1 {
 		reg = <1>;
-		interrupt-parent = <&som_gpio_expander_1>;
-		interrupts = <6 IRQ_TYPE_LEVEL_LOW>;
 		ti,rx-internal-delay = <DP83867_RGMIIDCTL_2_00_NS>;
 		ti,tx-internal-delay = <DP83867_RGMIIDCTL_2_00_NS>;
 	};
 
 	ethphy2: ethernet-phy@2 {
 		reg = <2>;
-		interrupt-parent = <&som_gpio_expander_1>;
-		interrupts = <6 IRQ_TYPE_LEVEL_LOW>;
 		ti,rx-internal-delay = <DP83867_RGMIIDCTL_2_00_NS>;
 		ti,tx-internal-delay = <DP83867_RGMIIDCTL_2_00_NS>;
 	};
