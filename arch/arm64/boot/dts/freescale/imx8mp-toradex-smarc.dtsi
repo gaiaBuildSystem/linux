@@ -144,7 +144,7 @@
 	#size-cells = <0>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_ecspi1>;
-	cs-gpios = <0>, <&gpio4 28 GPIO_ACTIVE_LOW>;
+	cs-gpios = <&gpio5 9 GPIO_ACTIVE_LOW>, <&gpio4 28 GPIO_ACTIVE_LOW>;
 };
 
 /* SMARC SPI1 */
@@ -153,7 +153,9 @@
 	#size-cells = <0>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_ecspi2>, <&pinctrl_tpm_cs>;
-	cs-gpios = <0>, <&gpio4 3 GPIO_ACTIVE_LOW>, <&gpio3 6 GPIO_ACTIVE_LOW>;
+	cs-gpios = <&gpio5 13 GPIO_ACTIVE_LOW>,
+		   <&gpio4 3 GPIO_ACTIVE_LOW>,
+		   <&gpio3 6 GPIO_ACTIVE_LOW>;
 	status = "okay";
 
 	tpm@2 {
@@ -315,7 +317,7 @@
 			  "",
 			  "",
 			  "",
-			  "",
+			  "TPM_CS#",
 			  "LVDS_DSI_SEL",
 			  "MCU_INT#",
 			  "GPIO_EX_INT#",
@@ -344,7 +346,7 @@
 	gpio-line-names = "SMARC_PCIE_WAKE#", /* 0 */
 			  "",
 			  "",
-			  "",
+			  "SMARC_SPI1_CS1#",
 			  "",
 			  "",
 			  "",
@@ -369,7 +371,7 @@
 			  "",
 			  "",
 			  "",
-			  "",
+			  "SMARC_SPI0_CS1#",
 			  "SMARC_GPIO6";
 };
 
@@ -383,11 +385,11 @@
 			  "",
 			  "",
 			  "",
-			  "",
+			  "SMARC_SPI0_CS0#",
 			  "", /* 10 */
 			  "",
 			  "",
-			  "",
+			  "SMARC_SPI1_CS0#",
 			  "CTRL_I2C_SCL",
 			  "CTRL_I2C_SDA",
 			  "SMARC_I2C_LCD_CK",
@@ -829,7 +831,7 @@
 		fsl,pins = <MX8MP_IOMUXC_ECSPI1_MISO__ECSPI1_MISO	0x1c4>, /* SMARC P45 - SPI0_DIN */
 			   <MX8MP_IOMUXC_ECSPI1_MOSI__ECSPI1_MOSI	0x4>,   /* SMARC P46 - SPI0_DO */
 			   <MX8MP_IOMUXC_ECSPI1_SCLK__ECSPI1_SCLK	0x4>,   /* SMARC P44 - SPI0_CK */
-			   <MX8MP_IOMUXC_ECSPI1_SS0__ECSPI1_SS0		0x1c4>, /* SMARC P43 - SPI0_CS0# */
+			   <MX8MP_IOMUXC_ECSPI1_SS0__GPIO5_IO09		0x1c4>, /* SMARC P43 - SPI0_CS0# */
 			   <MX8MP_IOMUXC_SAI3_RXFS__GPIO4_IO28		0x1c4>; /* SMARC P31 - SPI0_CS1# */
 	};
 
@@ -838,7 +840,7 @@
 		fsl,pins = <MX8MP_IOMUXC_ECSPI2_MISO__ECSPI2_MISO	0x1c4>, /* SMARC P56 - SPI1_DIN */
 			   <MX8MP_IOMUXC_ECSPI2_MOSI__ECSPI2_MOSI	0x4>,   /* SMARC P57 - SPI1_DO */
 			   <MX8MP_IOMUXC_ECSPI2_SCLK__ECSPI2_SCLK	0x4>,   /* SMARC P58 - SPI1_CK */
-			   <MX8MP_IOMUXC_ECSPI2_SS0__ECSPI2_SS0		0x1c4>, /* SMARC P54 - SPI1_CS0# */
+			   <MX8MP_IOMUXC_ECSPI2_SS0__GPIO5_IO13		0x1c4>, /* SMARC P54 - SPI1_CS0# */
 			   <MX8MP_IOMUXC_SAI1_RXD1__GPIO4_IO03		0x1c4>; /* SMARC P55 - SPI1_CS1# */
 	};
 
