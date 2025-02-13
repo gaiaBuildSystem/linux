@@ -281,6 +281,16 @@
 	};
 };
 
+/* SMARC LCD0_BKLT_PWM */
+&tpm3 {
+	status = "okay";
+};
+
+/* SMARC LCD1_BKLT_PWM */
+&tpm4 {
+	status = "okay";
+};
+
 /* SMARC USB0 */
 &usb2 {
 	status = "okay";
