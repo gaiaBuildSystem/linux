@@ -203,6 +203,16 @@
 	status = "okay";
 };
 
+/* SMARC LCD1_BKLT_PWM */
+&pwm1 {
+	status = "okay";
+};
+
+/* SMARC LCD0_BKLT_PWM */
+&pwm2 {
+	status = "okay";
+};
+
 /* SMARC HDMI Audio */
 &sound_hdmi {
 	status = "okay";
