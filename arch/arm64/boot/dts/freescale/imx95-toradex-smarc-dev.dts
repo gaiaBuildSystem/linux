@@ -108,6 +108,27 @@
 	status = "okay";
 };
 
+&gpio2 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_gpio12>, <&pinctrl_gpio13>;
+};
+
+&gpio4 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_gpio10>, <&pinctrl_gpio11>;
+};
+
+&gpio5 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_gpio2>,
+		    <&pinctrl_gpio3>,
+		    <&pinctrl_gpio4>,
+		    <&pinctrl_gpio6>,
+		    <&pinctrl_gpio7>,
+		    <&pinctrl_gpio8>,
+		    <&pinctrl_gpio9>;
+};
+
 /* SMARC I2C_GP */
 &lpi2c2 {
 	status = "okay";
