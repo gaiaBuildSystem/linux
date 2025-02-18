@@ -7,6 +7,8 @@
 
 /dts-v1/;
 
+#include <dt-bindings/pwm/pwm.h>
+
 #include "imx95-toradex-smarc.dtsi"
 
 / {
@@ -166,10 +168,14 @@
 	clock-frequency = <100000>;
 	status = "okay";
 
-	fan: fan@18 {
+	fan_controller: fan@18 {
 		compatible = "ti,amc6821";
 		reg = <0x18>;
-		#cooling-cells = <2>;
+		#pwm-cells = <2>;
+
+		fan {
+			pwms = <&fan_controller 40000 PWM_POLARITY_INVERTED>;
+		};
 	};
 
 	/* Current measurement into module VCC */
