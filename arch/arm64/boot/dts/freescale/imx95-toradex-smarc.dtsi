@@ -742,8 +742,6 @@
 };
 
 &wdog3 {
-	pinctrl-names = "default";
-	pinctrl-0 = <&pinctrl_wdog3>;
 	fsl,ext-reset-output;
 	status = "okay";
 };
@@ -1139,9 +1137,5 @@
 			   <IMX95_PAD_SD3_DATA1__USDHC3_DATA1	0x13fe>, /* SD3_DATA2 */
 			   <IMX95_PAD_SD3_DATA2__USDHC3_DATA2	0x13fe>, /* SD3_DATA3 */
 			   <IMX95_PAD_SD3_DATA3__USDHC3_DATA3	0x13fe>; /* SD3_DATA4 */
-	};
-
-	pinctrl_wdog3: wdog3grp {
-		fsl,pins = <IMX95_PAD_WDOG_ANY__AONMIX_TOP_WDOG_ANY	0x31e>; /* CTRL_SOC_WDOG */
 	};
 };
