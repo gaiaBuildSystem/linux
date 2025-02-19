@@ -441,6 +441,8 @@
 	status = "okay";
 };
 
+/delete-node/ &gpu_reserved;
+
 /* SMARC HDMI */
 &hdmi {
 	pinctrl-names = "default";
@@ -668,6 +670,8 @@
 };
 
 &mix_gpu_ml {
+	/* Do not use gpu_reserved memory area and rely on contiguous_mem */
+	/delete-property/ memory-region;
 	status = "okay";
 };
 
