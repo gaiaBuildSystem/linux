@@ -291,15 +291,10 @@
 /* SMARC DP0 */
 &som_dsi2dp_bridge {
 	status = "okay";
+};
 
-	ports {
-		port@1 {
-			reg = <1>;
-			sn65dsi86_out: endpoint {
-				remote-endpoint = <&dp0_connector_in>;
-			};
-		};
-	};
+&sn65dsi86_out {
+	remote-endpoint = <&dp0_connector_in>;
 };
 
 /* SMARC LCD0_BKLT_PWM */
