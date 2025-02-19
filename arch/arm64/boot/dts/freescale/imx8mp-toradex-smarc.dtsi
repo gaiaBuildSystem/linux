@@ -143,6 +143,26 @@
 	cpu-supply = <&reg_vdd_arm>;
 };
 
+&dsp_reserved {
+	status = "disabled";
+};
+
+&dsp_reserved_heap {
+	status = "disabled";
+};
+
+&dsp_vdev0buffer {
+	status = "disabled";
+};
+
+&dsp_vdev0vring0 {
+	status = "disabled";
+};
+
+&dsp_vdev0vring1 {
+	status = "disabled";
+};
+
 /* SMARC SPI0 */
 &ecspi1 {
 	#address-cells = <1>;
