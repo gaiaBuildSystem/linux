@@ -1840,10 +1840,11 @@
 				compatible = "nxp,imx93-adc";
 				reg = <0x44530000 0x10000>;
 				interrupts = <GIC_SPI 199 IRQ_TYPE_LEVEL_HIGH>,
-						<GIC_SPI 200 IRQ_TYPE_LEVEL_HIGH>,
-						<GIC_SPI 201 IRQ_TYPE_LEVEL_HIGH>;
+					     <GIC_SPI 200 IRQ_TYPE_LEVEL_HIGH>,
+					     <GIC_SPI 201 IRQ_TYPE_LEVEL_HIGH>;
 				clocks = <&scmi_clk IMX95_CLK_ADC>;
 				clock-names = "ipg";
+				#io-channel-cells = <1>;
 				status = "disabled";
 			};
 
