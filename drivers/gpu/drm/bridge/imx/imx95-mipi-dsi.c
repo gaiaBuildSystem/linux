@@ -848,12 +848,16 @@ imx95_dsi_validate_mode(struct imx95_dsi *dsi, const struct drm_display_mode *mo
 {
 	struct drm_bridge *bridge = dw_mipi_dsi_get_bridge(dsi->dmd);
 
+#if 0
 	/* Get the last bridge */
 	while (drm_bridge_get_next_bridge(bridge))
 		bridge = drm_bridge_get_next_bridge(bridge);
 
 	if ((bridge->ops & DRM_BRIDGE_OP_DETECT) &&
 	    (bridge->ops & DRM_BRIDGE_OP_EDID)) {
+#else
+	{
+#endif
 		/*
 		 * Since clk_round_rate() returns unreasonable rate for
 		 * dsi->clk_pixel, we have to validate mode against
