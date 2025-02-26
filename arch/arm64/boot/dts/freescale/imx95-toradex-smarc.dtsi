@@ -138,6 +138,11 @@
 			alloc-ranges = <0 0x80000000 0 0x7F000000>;
 			linux,cma-default;
 		};
+
+		vpu_boot: vpu_boot@a0000000 {
+			reg = <0 0xa0000000 0 0x100000>;
+			no-map;
+		};
 	};
 };
 
@@ -754,6 +759,11 @@
 	non-removable;
 	vmmc-supply = <&reg_wifi_en>;
 	status = "okay";
+};
+
+&vpuctrl {
+	boot = <&vpu_boot>;
+	sram = <&sram1>;
 };
 
 &wdog3 {
