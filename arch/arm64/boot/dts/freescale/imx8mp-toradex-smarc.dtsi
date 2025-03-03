@@ -113,11 +113,6 @@
 		startup-delay-us = <2000>;
 	};
 
-	reserved-memory {
-		/* Use the kernel configuration settings instead */
-		/delete-node/ linux,cma;
-	};
-
 	sound_hdmi: sound-hdmi {
 		compatible = "fsl,imx-audio-hdmi";
 		model = "audio-hdmi";
