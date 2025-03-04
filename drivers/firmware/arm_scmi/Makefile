@@ -28,3 +28,6 @@ ifeq ($(CONFIG_THUMB2_KERNEL)$(CONFIG_CC_IS_CLANG),yy)
 # hooks are inserted via the -pg switch.
 CFLAGS_REMOVE_smc.o += $(CC_FLAGS_FTRACE)
 endif
+
+# enable debug
+ccflags-y += -DDEBUG

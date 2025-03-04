@@ -1806,6 +1806,10 @@ long clk_round_rate(struct clk *clk, unsigned long rate)
 	if (ret)
 		return ret;
 
+	/* debug by print the requested clock */
+	pr_info("clk_round_rate: %s: requested rate %lu, rounded rate %lu\n",
+		clk->core->name, rate, req.rate);
+
 	return req.rate;
 }
 EXPORT_SYMBOL_GPL(clk_round_rate);
@@ -2593,6 +2597,10 @@ int clk_set_rate(struct clk *clk, unsigned long rate)
 		clk_core_rate_protect(clk->core);
 
 	clk_prepare_unlock();
+
+	/* debug by print the requested clock */
+	pr_info("%s: requested set rate %lu\n",
+		clk->core->name, rate);
 
 	return ret;
 }
@@ -3423,7 +3431,7 @@ static int clk_dump_show(struct seq_file *s, void *data)
 }
 DEFINE_SHOW_ATTRIBUTE(clk_dump);
 
-#undef CLOCK_ALLOW_WRITE_DEBUGFS
+#define CLOCK_ALLOW_WRITE_DEBUGFS 1
 #ifdef CLOCK_ALLOW_WRITE_DEBUGFS
 /*
  * This can be dangerous, therefore don't provide any real compile time

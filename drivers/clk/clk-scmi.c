@@ -54,8 +54,15 @@ static long scmi_clk_round_rate(struct clk_hw *hw, unsigned long rate,
 	 * after the rate is set and we'll know what rate the clock is
 	 * running at then.
 	 */
-	if (clk->info->rate_discrete)
+	if (clk->info->rate_discrete) {
+		dev_info(
+			clk->dev,
+			"%s :: rate %lu, discrete rate\n",
+			clk->info->name, rate
+		);
+
 		return rate;
+	}
 
 	fmin = clk->info->range.min_rate;
 	fmax = clk->info->range.max_rate;
@@ -67,6 +74,13 @@ static long scmi_clk_round_rate(struct clk_hw *hw, unsigned long rate,
 	ftmp = rate - fmin;
 	ftmp += clk->info->range.step_size - 1; /* to round up */
 	do_div(ftmp, clk->info->range.step_size);
+
+	/* debug these values */
+	dev_info(
+		clk->dev,
+		"%s :: rate %lu, fmin %llu, fmax %llu, step %llu, ftmp %llu\n",
+		clk->info->name, rate, fmin, fmax, clk->info->range.step_size, ftmp
+	);
 
 	return ftmp * clk->info->range.step_size + fmin;
 }

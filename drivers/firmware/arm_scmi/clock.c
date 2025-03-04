@@ -401,6 +401,14 @@ iter_clk_describe_update_state(struct scmi_iterator_state *st,
 	st->num_returned = NUM_RETURNED(flags);
 	p->clk->rate_discrete = RATE_DISCRETE(flags);
 
+	/* debug if the clk is discrete or not */
+	dev_info(
+		p->dev,
+		"Clock %s is %s\n",
+		p->clk->name,
+		p->clk->rate_discrete ? "discrete" : "continuous"
+	);
+
 	/* Warn about out of spec replies ... */
 	if (!p->clk->rate_discrete &&
 	    (st->num_returned != 3 || st->num_remaining != 0)) {
@@ -528,10 +536,25 @@ static int scmi_clock_rate_set(const struct scmi_protocol_handle *ph,
 {
 	int ret;
 	u32 flags = 0;
+	u64 _rate  = 0;
 	struct scmi_xfer *t;
 	struct scmi_clock_set_rate *cfg;
 	struct clock_info *ci = ph->get_priv(ph);
 	struct scmi_clock_info *clk = ci->clk + clk_id;
+
+
+	scmi_clock_rate_get(ph, clk_id, &_rate);
+	dev_info(
+		ph->dev,
+		"Before setting clock %s it was at %llu Hz\n",
+		clk->name, _rate
+	);
+
+	dev_info(
+		ph->dev,
+		"Setting clock %s to %llu Hz\n",
+		clk->name, rate
+	);
 
 	if (SUPPORTS_GET_PERMISSIONS(clk->attributes) &&
 	    !(clk->perm & CLOCK_RATE_CONTROL_ALLOWED))
@@ -544,6 +567,9 @@ static int scmi_clock_rate_set(const struct scmi_protocol_handle *ph,
 	if (ci->max_async_req &&
 	    atomic_inc_return(&ci->cur_async_req) < ci->max_async_req)
 		flags |= CLOCK_SET_ASYNC;
+
+	/* always set it up ? */
+	/* flags |= CLOCK_SET_ROUND_AUTO; */
 
 	cfg = t->tx.buf;
 	cfg->flags = cpu_to_le32(flags);

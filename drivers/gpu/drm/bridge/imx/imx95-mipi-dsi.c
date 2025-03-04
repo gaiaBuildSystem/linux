@@ -854,14 +854,17 @@ imx95_dsi_validate_mode(struct imx95_dsi *dsi, const struct drm_display_mode *mo
 
 	if ((bridge->ops & DRM_BRIDGE_OP_DETECT) &&
 	    (bridge->ops & DRM_BRIDGE_OP_EDID)) {
-		/*
-		 * Since clk_round_rate() returns unreasonable rate for
-		 * dsi->clk_pixel, we have to validate mode against
-		 * magic mode clock rates.
-		 */
-		if (mode->clock != 297000 && mode->clock != 148500 &&
-		    mode->clock != 74250)
+		unsigned long pixel_clock_rate = mode->clock * 1000;
+		unsigned long rounded_rate;
+
+		/* Allow +/-0.5% pixel clock rate deviation */
+		rounded_rate = clk_round_rate(dsi->clk_pixel, pixel_clock_rate);
+		if (rounded_rate < pixel_clock_rate * 995 / 1000 ||
+		    rounded_rate > pixel_clock_rate * 1005 / 1000) {
+			dev_dbg(dsi->dev, "failed to round clock for mode " DRM_MODE_FMT "\n",
+				DRM_MODE_ARG(mode));
 			return MODE_NOCLOCK;
+		}
 	}
 
 	return MODE_OK;
@@ -893,6 +896,33 @@ imx95_dsi_validate_phy(struct imx95_dsi *dsi, const struct drm_display_mode *mod
 	return MODE_OK;
 }
 
+static bool imx95_dsi_mode_fixup(void *priv_data,
+	const struct drm_display_mode *mode,
+	struct drm_display_mode *adjusted_mode)
+{
+	struct imx95_dsi *dsi = priv_data;
+	unsigned long pixel_clock_rate;
+	unsigned long rounded_rate;
+
+	dev_dbg(dsi->dev, "req clock %d for mode " DRM_MODE_FMT "\n",
+		mode->clock, DRM_MODE_ARG(mode));
+
+	pixel_clock_rate = mode->clock * 1000;
+	rounded_rate = clk_round_rate(dsi->clk_pixel, pixel_clock_rate);
+
+	memcpy(adjusted_mode, mode, sizeof(*mode));
+	adjusted_mode->clock = rounded_rate / 1000;
+
+	dev_dbg(dsi->dev, "adj clock %d for mode " DRM_MODE_FMT "\n",
+			adjusted_mode->clock, DRM_MODE_ARG(mode));
+
+	/* pixel link always generates active low HSYNC and VSYNC */
+	adjusted_mode->flags &= ~(DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC);
+	adjusted_mode->flags |= DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC;
+
+	return true;
+}
+
 static enum drm_mode_status
 imx95_dsi_mode_valid(void *priv_data, const struct drm_display_mode *mode,
 		     unsigned long mode_flags, u32 lanes, u32 format)
@@ -916,30 +946,6 @@ imx95_dsi_mode_valid(void *priv_data, const struct drm_display_mode *mode,
 	}
 
 	return MODE_OK;
-}
-
-static bool imx95_dsi_mode_fixup(void *priv_data,
-				 const struct drm_display_mode *mode,
-				 struct drm_display_mode *adjusted_mode)
-{
-	struct imx95_dsi *dsi = priv_data;
-	unsigned long pixel_clock_rate;
-	unsigned long rounded_rate;
-
-	pixel_clock_rate = mode->clock * 1000;
-	rounded_rate = clk_round_rate(dsi->clk_pixel, pixel_clock_rate);
-
-	memcpy(adjusted_mode, mode, sizeof(*mode));
-	adjusted_mode->clock = rounded_rate / 1000;
-
-	dev_dbg(dsi->dev, "adj clock %d for mode " DRM_MODE_FMT "\n",
-		adjusted_mode->clock, DRM_MODE_ARG(mode));
-
-	/* pixel link always generates active low HSYNC and VSYNC */
-	adjusted_mode->flags &= ~(DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC);
-	adjusted_mode->flags |= DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC;
-
-	return true;
 }
 
 static int

@@ -35,10 +35,10 @@
 
 &dpu {
 	assigned-clocks = <&scmi_clk IMX95_CLK_DISP1PIX>,
-			  <&scmi_clk IMX95_CLK_VIDEOPLL1_VCO>,
-			  <&scmi_clk IMX95_CLK_VIDEOPLL1>;
+					  <&scmi_clk IMX95_CLK_VIDEOPLL1_VCO>,
+					  <&scmi_clk IMX95_CLK_VIDEOPLL1>;
 	assigned-clock-parents = <&scmi_clk IMX95_CLK_VIDEOPLL1>;
-	assigned-clock-rates = <0>, <4008000000>, <445333334>;
+	assigned-clock-rates = <0>, <4009500000>, <445500000>;
 };
 
 &lpi2c2 {
