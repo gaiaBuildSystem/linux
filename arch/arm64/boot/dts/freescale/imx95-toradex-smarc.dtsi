@@ -45,7 +45,7 @@
 	connector {
 		compatible = "gpio-usb-b-connector", "usb-b-connector";
 		/* SMARC P64 - USB0_OTG_ID */
-		id-gpios = <&som_gpio_expander_0 3 GPIO_ACTIVE_LOW>;
+		id-gpios = <&som_gpio_expander_0 3 GPIO_ACTIVE_HIGH>;
 		label = "USB0";
 		self-powered;
 		type = "micro";
