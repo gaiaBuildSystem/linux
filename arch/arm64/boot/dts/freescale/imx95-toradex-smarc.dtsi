@@ -722,6 +722,10 @@
 	};
 };
 
+&usb3 {
+	fsl,disable-port-power-control;
+};
+
 /* SMARC USB1..4  */
 &usb3_dwc3 {
 	dr_mode = "host";
