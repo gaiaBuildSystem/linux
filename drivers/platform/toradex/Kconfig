@@ -1,0 +1,18 @@
+menuconfig TORADEX_PLATFORMS
+	bool "Platform support for Toradex hardware"
+	help
+	  Say Y here to be able to choose driver support for Toradex
+	  devices. This option alone does not add any kernel code.
+
+if TORADEX_PLATFORMS
+config TORADEX_EC
+	tristate "Toradex Embedded Controller driver"
+	depends on I2C
+	select REGMAP_I2C
+	help
+	  Say Y here to add support for the features implemented by the
+	  Embedded Controller on the Toradex Modules.
+	  To compile this driver as a module, choose M here; the module will be
+	  called toradex-ec.
+
+endif # TORADEX_PLATFORMS
