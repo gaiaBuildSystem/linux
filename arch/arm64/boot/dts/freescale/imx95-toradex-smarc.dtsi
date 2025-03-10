@@ -413,6 +413,11 @@
 			"SMARC_SDIO_WP";
 	};
 
+	embedded-controller@28 {
+		compatible = "toradex,smarc-imx95-ec", "toradex,embedded-controller";
+		reg = <0x28>;
+	};
+
 	/* SMARC DP0 */
 	som_dsi2dp_bridge: bridge@2c {
 		compatible = "ti,sn65dsi86";
