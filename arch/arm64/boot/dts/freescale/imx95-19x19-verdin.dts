@@ -6,6 +6,9 @@
 #include "imx95-19x19-evk.dts"
 
 / {
+	model = "Toradex i.MX 95 Verdin Evaluation Kit";
+	compatible = "fsl,imx95-19x19-evk", "fsl,imx95";
+
 	aliases {
 		ethernet0 = &enetc_port0;
 		ethernet1 = &enetc_port1;
