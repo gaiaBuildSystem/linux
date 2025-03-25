@@ -19,6 +19,7 @@
 		mmc1 = &usdhc2;
 		mmc2 = &usdhc3;
 		rtc0 = &rtc_i2c;
+		rtc1 = &scmi_bbm;
 		serial0 = &lpuart2;
 		serial1 = &lpuart1;
 		serial2 = &lpuart6;
