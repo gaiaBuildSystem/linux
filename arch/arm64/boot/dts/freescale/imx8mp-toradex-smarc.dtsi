@@ -48,8 +48,7 @@
 		pinctrl-names = "default";
 		pinctrl-0 = <&pinctrl_sleep>;
 
-		key-sleep {
-			debounce-interval = <10>;
+		smarc_key_sleep: key-sleep {
 			gpios = <&gpio3 1 GPIO_ACTIVE_LOW>;
 			label = "SMARC_SLEEP#";
 			wakeup-source;
