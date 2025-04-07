@@ -658,6 +658,7 @@
 };
 
 &phyx1 {
+	fsl,refclk-pad-mode = <IMX8_PCIE_REFCLK_PAD_INPUT>;
 	status = "okay";
 };
 
@@ -666,7 +667,6 @@
 	compatible = "fsl,imx8qxp-pcie", "snps,dw-pcie";
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_pcieb &pinctrl_wifi>;
-	ext_osc = <1>;
 	fsl,max-link-speed = <1>;
 	reset-gpio = <&lsio_gpio4 0 GPIO_ACTIVE_LOW>;
 	vpcie-supply = <&reg_module_wifi>;
