@@ -802,7 +802,6 @@
 
 /* Apalis PCIE1 */
 &pciea {
-	ext_osc = <1>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_reset_moci>;
 	reset-gpio = <&lsio_gpio0 30 GPIO_ACTIVE_LOW>;
@@ -812,7 +811,6 @@
 /* On-module Wi-Fi */
 &pcieb {
 	vpcie-supply = <&reg_module_wifi>;
-	ext_osc = <1>;
 	fsl,max-link-speed = <1>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_pcieb &pinctrl_wifi>;
@@ -821,14 +819,17 @@
 };
 
 &phyx1 {
+	fsl,refclk-pad-mode = <IMX8_PCIE_REFCLK_PAD_INPUT>;
 	status = "okay";
 };
 
 &phyx2_0 {
+	fsl,refclk-pad-mode = <IMX8_PCIE_REFCLK_PAD_INPUT>;
 	status = "okay";
 };
 
 &phyx2_1 {
+	fsl,refclk-pad-mode = <IMX8_PCIE_REFCLK_PAD_INPUT>;
 	status = "okay";
 };
 
@@ -869,11 +870,6 @@
 	assigned-clock-parents = <&aud_pll_div0_lpcg 0>, <&aud_rec1_lpcg 0>;
 	assigned-clock-rates = <0>, <0>, <786432000>, <49152000>, <12288000>,
 			       <722534400>, <45158400>, <11289600>, <49152000>;
-};
-
-/* Apalis SATA1 */
-&sata {
-	ext_osc = <1>;
 };
 
 /* Apalis SPDIF1 */
