@@ -113,6 +113,9 @@ static int __dwc2_lowlevel_hw_enable(struct dwc2_hsotg *hsotg)
 			goto err_dis_utmi_clk;
 	}
 
+	reset_control_assert(hsotg->reset);
+	reset_control_assert(hsotg->reset_ecc);
+
 	if (hsotg->uphy) {
 		ret = usb_phy_init(hsotg->uphy);
 	} else if (hsotg->plat && hsotg->plat->phy_init) {
@@ -128,6 +131,11 @@ static int __dwc2_lowlevel_hw_enable(struct dwc2_hsotg *hsotg)
 
 	if (ret)
 		goto err_dis_clk;
+
+	reset_control_deassert(hsotg->reset);
+	udelay(10);
+	reset_control_deassert(hsotg->reset_ecc);
+	udelay(50);
 
 	return 0;
 
@@ -217,7 +225,6 @@ static int dwc2_lowlevel_hw_init(struct dwc2_hsotg *hsotg)
 		return dev_err_probe(hsotg->dev, PTR_ERR(hsotg->reset),
 				     "error getting reset control\n");
 
-	reset_control_deassert(hsotg->reset);
 	ret = devm_add_action_or_reset(hsotg->dev, dwc2_reset_control_assert,
 				       hsotg->reset);
 	if (ret)
@@ -228,7 +235,6 @@ static int dwc2_lowlevel_hw_init(struct dwc2_hsotg *hsotg)
 		return dev_err_probe(hsotg->dev, PTR_ERR(hsotg->reset_ecc),
 				     "error getting reset control for ecc\n");
 
-	reset_control_deassert(hsotg->reset_ecc);
 	ret = devm_add_action_or_reset(hsotg->dev, dwc2_reset_control_assert,
 				       hsotg->reset_ecc);
 	if (ret)
