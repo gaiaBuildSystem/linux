@@ -433,7 +433,7 @@
 	};
 
 	embedded-controller@28 {
-		compatible = "toradex,smarc-imx95-ec", "toradex,embedded-controller";
+		compatible = "toradex,smarc-imx95-ec", "toradex,smarc-ec";
 		reg = <0x28>;
 	};
 
