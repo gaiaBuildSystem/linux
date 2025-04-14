@@ -13,6 +13,4 @@ source "drivers/platform/olpc/Kconfig"
 
 source "drivers/platform/surface/Kconfig"
 
-source "drivers/platform/toradex/Kconfig"
-
 source "drivers/platform/x86/Kconfig"
