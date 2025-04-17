@@ -360,6 +360,9 @@ static int imx95_dsi_select_input(struct imx95_dsi *dsi)
 	struct device_node *remote0, *remote1 = NULL;
 	struct device_node *remote_pi0, *remote_pi1 = NULL;
 	struct device_node *remote_ldb_ch0, *remote_ldb_ch1 = NULL;
+	struct device_node *remote_ldb_ch1_remote;
+	struct device_node *remote_ldb_ch1_remote_port;
+	bool remote_dual_link_ldb = false;
 	u32 port;
 	int ret;
 
@@ -384,10 +387,33 @@ static int imx95_dsi_select_input(struct imx95_dsi *dsi)
 		/* ldb channel1 */
 		port = IMX95_DSI_ENDPOINT_PL1 + PIXEL_LINK_STREAMS;
 		remote_ldb_ch1 = of_graph_get_remote_node(remote1, port, 1);
-		if (!remote_pi1 || remote_ldb_ch1) {
+		if (remote_ldb_ch1) {
+			remote_ldb_ch1_remote =
+				of_graph_get_remote_node(remote_ldb_ch1, 1, 0);
+			if (!remote_ldb_ch1_remote)
+				goto out1;
+
+			remote_ldb_ch1_remote_port =
+				of_graph_get_port_by_id(remote_ldb_ch1_remote, 1);
+			if (!remote_ldb_ch1_remote_port) {
+				of_node_put(remote_ldb_ch1_remote);
+				goto out1;
+			}
+
+			if (of_property_present(remote_ldb_ch1_remote_port,
+						"dual-lvds-odd-pixels") ||
+			    of_property_present(remote_ldb_ch1_remote_port,
+						"dual-lvds-even-pixels"))
+				remote_dual_link_ldb = true;
+
+			of_node_put(remote_ldb_ch1_remote_port);
+			of_node_put(remote_ldb_ch1_remote);
+		}
+out1:
+		if (!remote_pi1 || (remote_ldb_ch1 && !remote_dual_link_ldb)) {
 			dev_err(dev, "No valid input endpoint found\n");
 			ret = -EINVAL;
-			goto out;
+			goto out2;
 		}
 
 		dsi->use_pl0 = false;
@@ -398,7 +424,7 @@ static int imx95_dsi_select_input(struct imx95_dsi *dsi)
 
 	return 0;
 
-out:
+out2:
 	of_node_put(remote_ldb_ch1);
 	of_node_put(remote_pi1);
 	of_node_put(remote1);
