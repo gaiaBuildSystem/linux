@@ -152,7 +152,7 @@
 		gpio = <&gpio_expander_43 6 GPIO_ACTIVE_HIGH>;
 		regulator-always-on;
 		regulator-name = "Wi-Fi_PDn";
-		startup-delay-us = <100>;
+		startup-delay-us = <2000>;
 	};
 };
 
