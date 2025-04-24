@@ -76,6 +76,21 @@
 		interrupts = <13 IRQ_TYPE_LEVEL_LOW>;
 		#gpio-cells = <2>;
 		gpio-controller;
+
+		/*
+		 * Switch USB to default position:
+		 *   - SoC USB2 -> Verdin USB_1
+		 *   - SoC USB1 -> Verdin USB_2
+		 * Reset configuration:
+		 *   - SoC USB1 -> Verdin USB_1 (USB recovery)
+		 *   - SoC USB2 not connected
+		 */
+		usb_recov_ctrl: usb-recov-ctrl-hog {
+			gpio-hog;
+			gpios = <10 GPIO_ACTIVE_HIGH>;
+			line-name = "USB_RECOV_CTRL#";
+			output-high;
+		};
 	};
 };
 
