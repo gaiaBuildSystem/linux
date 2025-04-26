@@ -1,0 +1,45 @@
+/* SPDX-License-Identifier: GPL-2.0 */
+/*
+ * berlin meta header
+ *
+ * Copyright (C) 2022 Synaptics, Inc.
+ */
+
+#ifndef _BERLIN_META_H
+#define _BERLIN_META_H
+
+typedef struct berlin_dma_buf_ops {
+	void (*free)(struct dma_buf *);
+	void *(*get_meta)(struct dma_buf *);
+} berlin_dma_buf_ops_t;
+
+struct berlin_pte_node {
+	struct list_head list;
+	struct dma_buf *dmabuf;
+	struct dma_buf *dmabuf_dup;
+	struct delayed_work work_free_pt;
+	unsigned int try_count;
+	phys_addr_t phy_addr_pt;
+	size_t len_pt;
+	u64 mem_id;
+	u32 flags;
+	bool is_pte;
+	unsigned long dmabuf_flags;
+	char task_comm[TASK_COMM_LEN];
+	pid_t pid;
+	char thread_name[TASK_COMM_LEN];
+	pid_t tid;
+};
+
+struct mtr_meta {
+	u32 mtrcfg[7];
+	u32 mtr_flags;
+};
+
+typedef struct berlin_meta {
+	struct berlin_pte_node pte;
+	struct page *pages;
+	struct mtr_meta mtrr;
+} berlin_meta_t;
+
+#endif /* _BERLIN_META_H */
