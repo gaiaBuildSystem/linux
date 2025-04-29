@@ -142,6 +142,12 @@
 	pinctrl-0 = <&pinctrl_flexcan2>;
 };
 
+/* Verdin QSPI_1 */
+&flexspi1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_flexspi1>;
+};
+
 &gpio1 {
 	gpio-line-names =
 		"", /* 0 */
@@ -881,5 +887,17 @@
 
 	pinctrl_wifi_pwr_en: wifipwrengrp {
 		fsl,pins = <IMX95_PAD_SAI1_TXFS__AONMIX_TOP_GPIO1_IO_BIT11	0x51e>; /* PMIC_EN_WIFI */
+	};
+
+	/* Verdin QSPI_1 */
+	pinctrl_flexspi1: flexspi1grp {
+		fsl,pins = <IMX95_PAD_XSPI1_SS0_B__FLEXSPI1_A_SS0_B	0x3fe>, /* SODIMM 54 */
+			   <IMX95_PAD_XSPI1_SS1_B__FLEXSPI1_A_SS1_B	0x3fe>, /* SODIMM 64 */
+			   <IMX95_PAD_XSPI1_SCLK__XSPI_CLK		0x3fe>, /* SODIMM 52 */
+			   <IMX95_PAD_XSPI1_DATA0__XSPI_DATA_BIT0	0x3fe>, /* SODIMM 56 */
+			   <IMX95_PAD_XSPI1_DATA1__XSPI_DATA_BIT1	0x3fe>, /* SODIMM 58 */
+			   <IMX95_PAD_XSPI1_DATA2__XSPI_DATA_BIT2	0x3fe>, /* SODIMM 60 */
+			   <IMX95_PAD_XSPI1_DATA3__XSPI_DATA_BIT3	0x3fe>, /* SODIMM 62 */
+			   <IMX95_PAD_XSPI1_DQS__XSPI_DQS		0x3fe>; /* SODIMM 66 */
 	};
 };
