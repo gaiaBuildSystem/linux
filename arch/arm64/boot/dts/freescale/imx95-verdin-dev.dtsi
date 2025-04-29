@@ -99,6 +99,11 @@
 	pinctrl-0 = <&pinctrl_gpio4>;
 };
 
+/* Verdin I2C_3_HDMI */
+&i3c2 {
+	status = "okay";
+};
+
 /* Verdin I2C_2_DSI */
 &lpi2c3 {
 	status = "okay";

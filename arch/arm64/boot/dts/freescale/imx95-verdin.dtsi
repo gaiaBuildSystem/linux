@@ -19,6 +19,7 @@
 		i2c0 = &lpi2c2;
 		i2c1 = &lpi2c4;
 		i2c2 = &lpi2c3;
+		i2c3 = &i3c2;
 		i2c4 = &lpi2c5;
 		mmc0 = &usdhc1;
 		mmc1 = &usdhc2;
@@ -295,6 +296,13 @@
 		"",
 		"",
 		"";
+};
+
+/* Verdin I2C_3_HDMI */
+&i3c2 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_i3c2>;
+	i2c-scl-hz = <400000>;
 };
 
 /* CTRL_I2C (On-module I2C) */
@@ -664,6 +672,12 @@
 	/* Verdin I2S_2_D_OUT as GPIO (conflict with Verdin I2S_2) */
 	pinctrl_i2s_2_d_out_gpio: i2s2doutgpiogrp {
 		fsl,pins = <IMX95_PAD_XSPI1_DATA4__GPIO5_IO_BIT4 0x51e>; /* SODIMM 46 */
+	};
+
+	/* Verdin I2C_3_HDMI */
+	pinctrl_i3c2: i3c2cgrp {
+		fsl,pins = <IMX95_PAD_ENET1_MDC__I3C2_SCL	0x40001186>, /* SODIMM 59 */
+			   <IMX95_PAD_ENET1_MDIO__I3C2_SDA	0x40001186>; /* SODIMM 57 */
 	};
 
 	pinctrl_io_exp_int: ioexpintgrp {
