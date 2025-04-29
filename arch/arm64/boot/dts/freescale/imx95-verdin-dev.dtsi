@@ -67,6 +67,11 @@
 	status = "okay";
 };
 
+/* Verdin QSPI_1 */
+&flexspi1 {
+	status = "okay";
+};
+
 &gpio1 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_ctrl_sleep_moci>;
