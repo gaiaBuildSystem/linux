@@ -202,6 +202,11 @@
 	status = "okay";
 };
 
+/* Verdin SD_1 */
+&usdhc2 {
+	status = "okay";
+};
+
 /* Verdin CTRL_WAKE1_MICO# */
 &verdin_gpio_keys {
 	status = "okay";
