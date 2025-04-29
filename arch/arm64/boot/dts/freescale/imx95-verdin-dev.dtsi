@@ -8,6 +8,43 @@
  * https://www.toradex.com/products/carrier-board/verdin-development-board-kit
  */
 
+/ {
+	sound {
+		compatible = "simple-audio-card";
+		simple-audio-card,bitclock-master = <&codec_dai>;
+		simple-audio-card,format = "i2s";
+		simple-audio-card,frame-master = <&codec_dai>;
+		simple-audio-card,mclk-fs = <256>;
+		simple-audio-card,name = "verdin-nau8822";
+		simple-audio-card,routing =
+			"Headphones", "LHP",
+			"Headphones", "RHP",
+			"Speaker", "LSPK",
+			"Speaker", "RSPK",
+			"Line Out", "AUXOUT1",
+			"Line Out", "AUXOUT2",
+			"LAUX", "Line In",
+			"RAUX", "Line In",
+			"LMICP", "Mic In",
+			"RMICP", "Mic In";
+		simple-audio-card,widgets =
+			"Headphones", "Headphones",
+			"Line Out", "Line Out",
+			"Speaker", "Speaker",
+			"Microphone", "Mic In",
+			"Line", "Line In";
+
+		codec_dai: simple-audio-card,codec {
+			clocks = <&scmi_clk IMX95_CLK_SAI3>;
+			sound-dai = <&nau8822_1a>;
+		};
+
+		simple-audio-card,cpu {
+			sound-dai = <&sai3>;
+		};
+	};
+};
+
 /* Verdin ETH_1 (On-module PHY) */
 &enetc_port0 {
 	status = "okay";
@@ -65,6 +102,14 @@
 /* Verdin I2C_1 */
 &lpi2c4 {
 	status = "okay";
+
+	nau8822_1a: audio-codec@1a {
+		compatible = "nuvoton,nau8822";
+		reg = <0x1a>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_sai3_mclk>;
+		#sound-dai-cells = <0>;
+	};
 
 	carrier_gpio_expander: gpio@21 {
 		compatible = "nxp,pcal6416";
@@ -130,6 +175,11 @@
 		interrupts = <12 IRQ_TYPE_EDGE_FALLING>;
 		micrel,led-mode = <0>;
 	};
+};
+
+/* Verdin I2S_1 */
+&sai3 {
+	status = "okay";
 };
 
 /* Verdin PWM_1 */
