@@ -14,6 +14,7 @@
 	aliases {
 		can0 = &flexcan1;
 		can1 = &flexcan2;
+		eeprom0 = &som_eeprom;
 		ethernet0 = &enetc_port0;
 		ethernet1 = &enetc_port1;
 		i2c0 = &lpi2c2;
@@ -399,7 +400,7 @@
 		reg = <0x48>;
 	};
 
-	eeprom@50 {
+	som_eeprom: eeprom@50 {
 		compatible = "st,24c02", "atmel,24c02";
 		reg = <0x50>;
 		pagesize = <16>;

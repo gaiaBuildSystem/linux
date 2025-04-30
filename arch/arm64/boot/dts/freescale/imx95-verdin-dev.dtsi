@@ -9,6 +9,10 @@
  */
 
 / {
+	aliases {
+		eeprom1 = &carrier_eeprom;
+	};
+
 	sound {
 		compatible = "simple-audio-card";
 		simple-audio-card,bitclock-master = <&codec_dai>;
