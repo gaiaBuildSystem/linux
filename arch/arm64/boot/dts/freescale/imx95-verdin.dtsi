@@ -30,6 +30,8 @@
 		serial2 = &lpuart1;
 		serial3 = &lpuart2;
 		serial4 = &lpuart6;
+		usb0 = &usb2;
+		usb1 = &usb3;
 	};
 
 	chosen {
@@ -88,6 +90,14 @@
 		gpios = <&som_gpio_expander 7 GPIO_ACTIVE_HIGH>;
 		enable-active-high;
 		regulator-name = "USB_1_EN";
+	};
+
+	reg_usb2_vbus: regulator-usb2-vbus {
+		compatible = "regulator-fixed";
+		/* Verdin USB_2_EN (SODIMM 185) */
+		gpios = <&som_gpio_expander 8 GPIO_ACTIVE_HIGH>;
+		enable-active-high;
+		regulator-name = "USB_2_EN";
 	};
 
 	reg_usdhc2_vmmc: regulator-vmmc-usdhc2 {
@@ -523,6 +533,19 @@
 			remote-endpoint = <&usb_dr_connector>;
 		};
 	};
+};
+
+/* Verdin USB_2 */
+&usb3 {
+	fsl,disable-port-power-control;
+};
+
+&usb3_dwc3 {
+	dr_mode = "host";
+};
+
+&usb3_phy {
+	vbus-supply = <&reg_usb2_vbus>;
 };
 
 /* On-module eMMC */

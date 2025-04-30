@@ -212,6 +212,16 @@
 	status = "okay";
 };
 
+/* Verdin USB_2 */
+&usb3 {
+	fsl,permanently-attached;
+	status = "okay";
+};
+
+&usb3_phy {
+	status = "okay";
+};
+
 /* Verdin SD_1 */
 &usdhc2 {
 	status = "okay";
