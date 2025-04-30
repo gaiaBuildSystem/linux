@@ -67,7 +67,7 @@
 	single-master;
 	status = "okay";
 
-	som_gpio_expander: gpio-expander@20 {
+	som_gpio_expander: gpio@20 {
 		compatible = "nxp,pcal6416";
 		reg = <0x20>;
 		#interrupt-cells = <2>;
