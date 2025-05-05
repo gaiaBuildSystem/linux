@@ -191,6 +191,11 @@
 	};
 };
 
+/* Verdin PCIE_1 */
+&pcie0 {
+	status = "okay";
+};
+
 /* Verdin I2S_1 */
 &sai3 {
 	status = "okay";
