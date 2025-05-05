@@ -8,6 +8,7 @@
  */
 
 #include <dt-bindings/net/ti-dp83867.h>
+#include <dt-bindings/phy/phy-imx8-pcie.h>
 #include "imx95.dtsi"
 
 / {
@@ -497,6 +498,13 @@
 		ti,rx-internal-delay = <DP83867_RGMIIDCTL_2_00_NS>;
 		ti,tx-internal-delay = <DP83867_RGMIIDCTL_2_00_NS>;
 	};
+};
+
+/* Verdin PCIE_1 */
+&pcie0 {
+	/* PCIE_1_RESET# (SODIMM 244) */
+	reset-gpios = <&som_gpio_expander 4 GPIO_ACTIVE_LOW>;
+	fsl,refclk-pad-mode = <IMX8_PCIE_REFCLK_PAD_OUTPUT>;
 };
 
 /* Verdin I2S_1 */
