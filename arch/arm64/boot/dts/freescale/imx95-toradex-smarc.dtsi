@@ -678,12 +678,6 @@
 		trips {
 			trip0 {
 				hysteresis = <2000>;
-				temperature = <140000>;
-				type = "passive";
-			};
-
-			trip1 {
-				hysteresis = <2000>;
 				temperature = <155000>;
 				type = "critical";
 			};
@@ -698,12 +692,6 @@
 		trips {
 			trip0 {
 				hysteresis = <2000>;
-				temperature = <140000>;
-				type = "passive";
-			};
-
-			trip1 {
-				hysteresis = <2000>;
 				temperature = <155000>;
 				type = "critical";
 			};
@@ -717,12 +705,6 @@
 
 		trips {
 			trip0 {
-				hysteresis = <2000>;
-				temperature = <140000>;
-				type = "passive";
-			};
-
-			trip1 {
 				hysteresis = <2000>;
 				temperature = <155000>;
 				type = "critical";
