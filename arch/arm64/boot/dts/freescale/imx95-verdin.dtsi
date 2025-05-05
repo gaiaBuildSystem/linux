@@ -505,6 +505,10 @@
 			  <NXP_NETC_RGMII>;
 };
 
+&netc_timer {
+	status = "okay";
+};
+
 /* Verdin PCIE_1 */
 &pcie0 {
 	/* PCIE_1_RESET# (SODIMM 244) */
