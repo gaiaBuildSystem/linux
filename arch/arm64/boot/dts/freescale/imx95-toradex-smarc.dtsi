@@ -670,7 +670,8 @@
 };
 
 &thermal_zones {
-	pmic-pf09 {
+	/* PF09 Main PMIC */
+	pf09-thermal {
 		polling-delay = <2000>;
 		polling-delay-passive = <250>;
 		thermal-sensors = <&scmi_sensor 2>;
@@ -684,7 +685,8 @@
 		};
 	};
 
-	pmic-p53-arm {
+	/* PF53 VDD_ARM PMIC */
+	pf53-arm-thermal {
 		polling-delay = <2000>;
 		polling-delay-passive = <250>;
 		thermal-sensors = <&scmi_sensor 4>;
@@ -698,7 +700,8 @@
 		};
 	};
 
-	pmic-pf53-soc {
+	/* PF53 VDD_SOC PMIC */
+	pf53-soc-thermal {
 		polling-delay = <2000>;
 		polling-delay-passive = <250>;
 		thermal-sensors = <&scmi_sensor 3>;
