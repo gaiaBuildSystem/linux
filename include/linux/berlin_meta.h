@@ -8,16 +8,9 @@
 #ifndef _BERLIN_META_H
 #define _BERLIN_META_H
 
-typedef struct berlin_dma_buf_ops {
-	void (*free)(struct dma_buf *);
-	void *(*get_meta)(struct dma_buf *);
-} berlin_dma_buf_ops_t;
-
 struct berlin_pte_node {
 	struct list_head list;
 	struct dma_buf *dmabuf;
-	struct dma_buf *dmabuf_dup;
-	struct delayed_work work_free_pt;
 	unsigned int try_count;
 	phys_addr_t phy_addr_pt;
 	size_t len_pt;
