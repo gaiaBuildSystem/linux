@@ -855,6 +855,46 @@
 			   <IMX95_PAD_GPIO_IO03__LPSPI6_SCK	0x3fe>; /* SODIMM 196 */
 	};
 
+	/* Verdin QSPI_1_CLK as GPIO (conflict with Verdin QSPI_1 interface) */
+	pinctrl_qspi1_clk_gpio: qspi1clkgpiogrp {
+		fsl,pins = <IMX95_PAD_XSPI1_SCLK__GPIO5_IO_BIT9		0x11e>; /* SODIMM 52 */
+	};
+
+	/* Verdin QSPI_1_CS# as GPIO (conflict with Verdin QSPI_1 interface) */
+	pinctrl_qspi1_cs_gpio: qspi1csgpiogrp {
+		fsl,pins = <IMX95_PAD_XSPI1_SS0_B__GPIO5_IO_BIT10	0x11e>; /* SODIMM 54 */
+	};
+
+	/* Verdin QSPI_1_CS2# as GPIO (conflict with Verdin QSPI_1 interface) */
+	pinctrl_qspi1_cs2_gpio: qspi1cs2gpiogrp {
+		fsl,pins = <IMX95_PAD_XSPI1_SS1_B__GPIO5_IO_BIT11	0x11e>; /* SODIMM 64 */
+	};
+
+	/* Verdin QSPI_1_DQS as GPIO (conflict with Verdin QSPI_1 interface) */
+	pinctrl_qspi1_dqs_gpio: qspi1dqsgpiogrp {
+		fsl,pins = <IMX95_PAD_XSPI1_DQS__GPIO5_IO_BIT8		0x11e>; /* SODIMM 66 */
+	};
+
+	/* Verdin QSPI_1_IO0 as GPIO (conflict with Verdin QSPI_1 interface) */
+	pinctrl_qspi1_io0_gpio: qspi1io0gpiogrp {
+		fsl,pins = <IMX95_PAD_XSPI1_DATA0__GPIO5_IO_BIT0	0x119e>; /* SODIMM 56 */
+	};
+
+	/* Verdin QSPI_1_IO1 as GPIO (conflict with Verdin QSPI_1 interface) */
+	pinctrl_qspi1_io1_gpio: qspi1io1gpiogrp {
+		fsl,pins = <IMX95_PAD_XSPI1_DATA1__GPIO5_IO_BIT1	0x119e>; /* SODIMM 58 */
+	};
+
+	/* Verdin QSPI_1_IO2 as GPIO (conflict with Verdin QSPI_1 interface) */
+	pinctrl_qspi1_io2_gpio: qspi1io2gpiogrp {
+		fsl,pins = <IMX95_PAD_XSPI1_DATA2__GPIO5_IO_BIT2	0x11e>; /* SODIMM 60 */
+	};
+
+	/* Verdin QSPI_1_IO3 as GPIO (conflict with Verdin QSPI_1 interface) */
+	pinctrl_qspi1_io3_gpio: qspi1io3gpiogrp {
+		fsl,pins = <IMX95_PAD_XSPI1_DATA3__GPIO5_IO_BIT3	0x11e>; /* SODIMM 62 */
+	};
+
 	/* Verdin SPI_1_CS */
 	pinctrl_spi1_cs: spi1csgrp {
 		fsl,pins = <IMX95_PAD_CCM_CLKO4__GPIO4_IO_BIT29	0x3fe>; /* SODIMM 202 */
