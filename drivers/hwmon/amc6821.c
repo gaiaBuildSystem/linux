@@ -163,6 +163,8 @@ struct amc6821_data {
 
 	u8 stat1;
 	u8 stat2;
+
+	enum pwm_polarity pwm_polarity;
 };
 
 static struct amc6821_data *amc6821_update_device(struct device *dev)
@@ -818,11 +820,11 @@ static int amc6821_detect(
 	return 0;
 }
 
-static enum pwm_polarity amc6821_pwm_polarity(struct i2c_client *client)
+static enum pwm_polarity amc6821_pwm_polarity(struct i2c_client *client,
+					      struct device_node *fan_np)
 {
 	enum pwm_polarity polarity = PWM_POLARITY_NORMAL;
 	struct of_phandle_args args;
-	struct device_node *fan_np;
 
 	/*
 	 * For backward compatibility, the pwminv module parameter takes
@@ -832,10 +834,6 @@ static enum pwm_polarity amc6821_pwm_polarity(struct i2c_client *client)
 		return PWM_POLARITY_NORMAL;
 	if (pwminv > 0)
 		return PWM_POLARITY_INVERSED;
-
-	fan_np = of_get_child_by_name(client->dev.of_node, "fan");
-	if (!fan_np)
-		return PWM_POLARITY_NORMAL;
 
 	if (of_parse_phandle_with_args(fan_np, "pwms", "#pwm-cells", 0, &args))
 		goto out;
@@ -847,8 +845,14 @@ static enum pwm_polarity amc6821_pwm_polarity(struct i2c_client *client)
 	if (args.args[1] & PWM_POLARITY_INVERTED)
 		polarity = PWM_POLARITY_INVERSED;
 out:
-	of_node_put(fan_np);
 	return polarity;
+}
+
+static void amc6821_of_fan_read_data(struct i2c_client *client,
+				     struct amc6821_data *data,
+				     struct device_node *fan_np)
+{
+	data->pwm_polarity = amc6821_pwm_polarity(client, fan_np);
 }
 
 static int amc6821_init_client(struct i2c_client *client, struct amc6821_data *data)
@@ -922,7 +926,7 @@ static int amc6821_init_client(struct i2c_client *client, struct amc6821_data *d
 		config &= ~AMC6821_CONF1_THERMOVIE;
 		config &= ~AMC6821_CONF1_FANIE;
 		config |= AMC6821_CONF1_START;
-		if (amc6821_pwm_polarity(client) == PWM_POLARITY_INVERSED)
+		if (data->pwm_polarity == PWM_POLARITY_INVERSED)
 			config |= AMC6821_CONF1_PWMINV;
 		else
 			config &= ~AMC6821_CONF1_PWMINV;
@@ -942,6 +946,7 @@ static int amc6821_probe(struct i2c_client *client)
 	struct device *dev = &client->dev;
 	struct amc6821_data *data;
 	struct device *hwmon_dev;
+	struct device_node *fan_np __free(device_node) = NULL;
 	int err;
 
 	data = devm_kzalloc(dev, sizeof(struct amc6821_data), GFP_KERNEL);
@@ -950,6 +955,10 @@ static int amc6821_probe(struct i2c_client *client)
 
 	data->client = client;
 	mutex_init(&data->update_lock);
+
+	fan_np = of_get_child_by_name(dev->of_node, "fan");
+	if (fan_np)
+		amc6821_of_fan_read_data(client, data, fan_np);
 
 	/*
 	 * Initialize the amc6821 chip
