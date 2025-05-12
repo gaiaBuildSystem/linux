@@ -789,6 +789,7 @@
 	pinctrl-0 = <&pinctrl_usdhc3>;
 	pinctrl-1 = <&pinctrl_usdhc3>;
 	pinctrl-2 = <&pinctrl_usdhc3_200mhz>;
+	keep-power-in-suspend;
 	non-removable;
 	vmmc-supply = <&reg_wifi_en>;
 	status = "okay";
