@@ -462,7 +462,6 @@
 		reg = <0x2c>;
 		clocks = <&clk_dsi2dp_bridge>;
 		clock-names = "refclk";
-		enable-gpios = <&som_gpio_expander_1 14 GPIO_ACTIVE_HIGH>;
 		vcc-supply = <&reg_module_dp_1p2v>;
 		vcca-supply = <&reg_module_dp_1p2v>;
 		vccio-supply = <&reg_module_1p8v>;
