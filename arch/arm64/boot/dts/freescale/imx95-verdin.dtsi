@@ -781,12 +781,22 @@
 
 	/* Verdin I2S_2_BCLK as GPIO (conflict with Verdin I2S_2) */
 	pinctrl_i2s_2_bclk_gpio: i2s2bclkgpiogrp {
-		fsl,pins = <IMX95_PAD_XSPI1_DATA6__GPIO5_IO_BIT6 0x51e>; /* SODIMM 42 */
+		fsl,pins = <IMX95_PAD_XSPI1_DATA6__GPIO5_IO_BIT6	0x51e>; /* SODIMM 42 */
+	};
+
+	/* Verdin I2S_2_D_IN as GPIO (conflict with Verdin I2S_2) */
+	pinctrl_i2s_2_d_in_gpio: i2s2dingpiogrp {
+		fsl,pins = <IMX95_PAD_XSPI1_DATA7__GPIO5_IO_BIT7	0x31e>; /* SODIMM 48 */
 	};
 
 	/* Verdin I2S_2_D_OUT as GPIO (conflict with Verdin I2S_2) */
 	pinctrl_i2s_2_d_out_gpio: i2s2doutgpiogrp {
-		fsl,pins = <IMX95_PAD_XSPI1_DATA4__GPIO5_IO_BIT4 0x51e>; /* SODIMM 46 */
+		fsl,pins = <IMX95_PAD_XSPI1_DATA4__GPIO5_IO_BIT4	0x51e>; /* SODIMM 46 */
+	};
+
+	/* Verdin I2S_2_SYNC as GPIO (conflict with Verdin I2S_2) */
+	pinctrl_i2s_2_sync_gpio: i2s2syncgpiogrp {
+		fsl,pins = <IMX95_PAD_XSPI1_DATA5__GPIO5_IO_BIT5	0x51e>; /* SODIMM 44 */
 	};
 
 	/* Verdin I2C_3_HDMI */
