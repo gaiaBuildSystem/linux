@@ -20,6 +20,7 @@
 #include <linux/mutex.h>
 #include <linux/of_platform.h>
 #include <linux/pwm.h>
+#include <linux/thermal.h>
 
 #include <dt-bindings/pwm/pwm.h>
 
@@ -164,6 +165,9 @@ struct amc6821_data {
 	u8 stat1;
 	u8 stat2;
 
+	unsigned long fan_state;
+	unsigned long fan_max_state;
+	unsigned int *fan_cooling_levels;
 	enum pwm_polarity pwm_polarity;
 };
 
@@ -774,6 +778,70 @@ static struct attribute *amc6821_attrs[] = {
 
 ATTRIBUTE_GROUPS(amc6821);
 
+static int amc6821_set_sw_dcy(struct amc6821_data *data, u8 duty_cycle)
+{
+	int ret;
+
+	ret = i2c_smbus_write_byte_data(data->client, AMC6821_REG_DCY, duty_cycle);
+	if (ret < 0)
+		return ret;
+
+	ret = i2c_smbus_read_byte_data(data->client, AMC6821_REG_CONF1);
+	if (ret < 0)
+		return ret;
+
+	ret &= ~(AMC6821_CONF1_FDRC0 | AMC6821_CONF1_FDRC1);
+
+	return i2c_smbus_write_byte_data(data->client, AMC6821_REG_CONF1, ret);
+}
+
+static int amc6821_get_max_state(struct thermal_cooling_device *cdev, unsigned long *state)
+{
+	struct amc6821_data *data = cdev->devdata;
+
+	if (!data)
+		return -EINVAL;
+
+	*state = data->fan_max_state;
+
+	return 0;
+}
+
+static int amc6821_get_cur_state(struct thermal_cooling_device *cdev, unsigned long *state)
+{
+	struct amc6821_data *data = cdev->devdata;
+
+	if (!data)
+		return -EINVAL;
+
+	*state = data->fan_state;
+
+	return 0;
+}
+
+static int amc6821_set_cur_state(struct thermal_cooling_device *cdev, unsigned long state)
+{
+	struct amc6821_data *data = cdev->devdata;
+	int ret;
+
+	if (!data || state > data->fan_max_state)
+		return -EINVAL;
+
+	ret = amc6821_set_sw_dcy(data, data->fan_cooling_levels[state]);
+	if (ret)
+		return ret;
+
+	data->fan_state = state;
+
+	return 0;
+}
+
+static const struct thermal_cooling_device_ops amc6821_cooling_ops = {
+	.get_max_state = amc6821_get_max_state,
+	.get_cur_state = amc6821_get_cur_state,
+	.set_cur_state = amc6821_set_cur_state,
+};
+
 /* Return 0 if detection is successful, -ENODEV otherwise */
 static int amc6821_detect(
 		struct i2c_client *client,
@@ -848,11 +916,29 @@ out:
 	return polarity;
 }
 
-static void amc6821_of_fan_read_data(struct i2c_client *client,
-				     struct amc6821_data *data,
-				     struct device_node *fan_np)
+static int amc6821_of_fan_read_data(struct i2c_client *client,
+				    struct amc6821_data *data,
+				    struct device_node *fan_np)
 {
+	int num;
+
 	data->pwm_polarity = amc6821_pwm_polarity(client, fan_np);
+
+	num = of_property_count_u32_elems(fan_np, "cooling-levels");
+	if (num <= 0)
+		return 0;
+
+	data->fan_max_state = num - 1;
+
+	data->fan_cooling_levels = devm_kcalloc(&client->dev, num,
+						sizeof(u32),
+						GFP_KERNEL);
+
+	if (!data->fan_cooling_levels)
+		return -ENOMEM;
+
+	return of_property_read_u32_array(fan_np, "cooling-levels",
+					  data->fan_cooling_levels, num);
 }
 
 static int amc6821_init_client(struct i2c_client *client, struct amc6821_data *data)
@@ -937,6 +1023,14 @@ static int amc6821_init_client(struct i2c_client *client, struct amc6821_data *d
 			"Configuration register write error, aborting.\n");
 			return err;
 		}
+
+		/* Software DCY-control mode with fan enabled when cooling-levels present */
+		if (data->fan_cooling_levels) {
+			err = amc6821_set_sw_dcy(data,
+						 data->fan_cooling_levels[data->fan_max_state]);
+			if (err)
+				return err;
+		}
 	}
 	return 0;
 }
@@ -957,8 +1051,12 @@ static int amc6821_probe(struct i2c_client *client)
 	mutex_init(&data->update_lock);
 
 	fan_np = of_get_child_by_name(dev->of_node, "fan");
-	if (fan_np)
-		amc6821_of_fan_read_data(client, data, fan_np);
+	if (fan_np) {
+		err = amc6821_of_fan_read_data(client, data, fan_np);
+		if (err)
+			return dev_err_probe(dev, err,
+					     "Failed to read fan device tree data\n");
+	}
 
 	/*
 	 * Initialize the amc6821 chip
@@ -970,7 +1068,18 @@ static int amc6821_probe(struct i2c_client *client)
 	hwmon_dev = devm_hwmon_device_register_with_groups(dev, client->name,
 							   data,
 							   amc6821_groups);
-	return PTR_ERR_OR_ZERO(hwmon_dev);
+	if (IS_ERR(hwmon_dev))
+		return dev_err_probe(dev, PTR_ERR(hwmon_dev),
+				     "Failed to initialize hwmon\n");
+
+	if (IS_ENABLED(CONFIG_THERMAL) && fan_np && data->fan_cooling_levels)
+		return PTR_ERR_OR_ZERO(devm_thermal_of_cooling_device_register(dev,
+									       fan_np,
+									       client->name,
+									       data,
+									       &amc6821_cooling_ops));
+
+	return 0;
 }
 
 static const struct i2c_device_id amc6821_id[] = {
