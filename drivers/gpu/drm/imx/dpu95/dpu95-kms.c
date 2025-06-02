@@ -507,9 +507,14 @@ static int dpu95_kms_init_encoder_per_crtc(struct dpu95_drm_device *dpu_drm,
 	ret = drm_bridge_attach(encoder, bridge, NULL,
 				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
 	if (ret) {
-		drm_err(drm,
-			"failed to attach bridge to encoder for stream%u: %d\n",
-			dpu_crtc->stream_id, ret);
+		if (ret == -EPROBE_DEFER)
+			drm_dbg_kms(drm,
+				    "failed to attach bridge to encoder for stream%u: %d\n",
+				    dpu_crtc->stream_id, ret);
+		else
+			drm_err(drm,
+				"failed to attach bridge to encoder for stream%u: %d\n",
+				dpu_crtc->stream_id, ret);
 		goto out;
 	}
 
