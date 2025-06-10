@@ -367,13 +367,6 @@
 	pinctrl-0 = <&i2c0_pmux>;
 	no-irq-suspend;
 
-	expander_dummy: gpio_dummy {
-		compatible = "fcs,fxl6408";
-		reg = <0x43>;
-		gpio-controller;
-		#gpio-cells = <2>;
-	};
-
 	ina3221@40{
 		compatible = "ti,ina3221";
 		reg = <0x40>;
