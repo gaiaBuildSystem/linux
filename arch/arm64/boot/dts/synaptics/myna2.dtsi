@@ -429,10 +429,6 @@
 			resets = <&chip 0x688 1 1 0>, <&chip 0x688 2 1 0>, <&chip 0x680 4 0 0>;
 			reset-names = "dwc2", "dwc2-ecc", "dwc2-sync";
 			dr_mode = "otg";
-			g-rx-fifo-size = <512>;
-			g-np-tx-fifo-size = <64>;
-			g-tx-fifo-size = <256 256 256 256 256 128  64 64
-			                   64  64  64  64  64  64  64>;
 			status = "disabled";
 		};
 
