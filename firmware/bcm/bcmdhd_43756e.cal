@@ -19,14 +19,14 @@ sromrev=11
 boardrev=0x1200
 boardtype=0x0a40
 boardflags=0x00400201
-boardflags2=0xc0800000
+boardflags2=0x00800000
 boardflags3=0x40002180
 #boardnum=57410
 macaddr=00:90:4c:12:d0:01
 jtag_irw=38
 
 #Regulatory specific
-ccode=0
+ccode=US
 regrev=0
 
 # Board specific
@@ -71,13 +71,35 @@ rxgains5ghtrelnabypa1=0
 
 #RSSI related
 # 2G
-rssicorrnorm_c0=7,7
-rssicorrnorm_c1=7,7
+#rssicorrnorm_c0=7,7
+#rssicorrnorm_c1=7,7
 # 5G
-rssicorrnorm5g_c0=6,6,6,6,5,6,7,5,5,7,5,6
-rssicorrnorm5g_c1=5,4,5,5,4,4,5,4,4,5,4,4
+#rssicorrnorm5g_c0=10,10,10,11,10,11,9,10,9,9,9,8
+#rssicorrnorm5g_c1=10,9,10,12,11,10,10,9,10,9,8,8
+# 6G
+#rssicorrnorm6g_c0=9,8,9,9,8,9,9,8,8,8,6,7,8,8,7,7,5,6
+#rssicorrnorm6g_c1=8,7,8,7,6,7,7,6,6,7,5,6,7,6,6,5,5,6
 
-
+# HWRSSI related
+rssi_cal_rev=1
+rxgaincal_rssical=1
+gain_cal_temp=31
+rssi_cal_freq_grp_2g=0x08,0x01,0x91,0x2a,0x23,0xb3,0xc4
+rssi_delta_2gb0=10,10,10,10,5,5,5,5,8,8,8,8,6,6,6,6
+rssi_delta_2gb1=10,10,10,10,5,5,5,5,8,8,8,8,6,6,6,6
+rssi_delta_2gb2=10,10,10,10,5,5,5,5,8,8,8,8,6,6,6,6
+rssi_delta_2gb3=10,10,10,10,5,5,5,5,8,8,8,8,6,6,6,6
+rssi_delta_2gb4=10,10,10,10,5,5,5,5,8,8,8,8,6,6,6,6
+rssi_delta_5gl=26,26,26,26,24,24,24,24,23,23,28,28,20,20,20,20,20,20,20,20,15,15,23,23
+rssi_delta_5gml=22,22,22,22,18,18,18,18,15,15,20,20,20,20,20,20,18,18,18,18,13,13,18,18
+rssi_delta_5gmu=12,12,12,12,8,8,8,8,9,9,9,9,12,12,12,12,8,8,8,8,9,9,9,9
+rssi_delta_5gh=8,8,8,8,8,8,8,8,9,9,9,9,8,8,8,8,8,8,8,8,9,9,9,9
+rssi_delta_6gb0=22,22,22,22,19,19,22,22,17,17,21,21,20,20,20,20,13,13,16,16,11,11,14,14
+rssi_delta_6gb1=22,22,22,22,18,18,18,18,18,18,18,18,22,22,22,22,18,18,18,18,15,15,18,18
+rssi_delta_6gb2=22,22,22,22,18,18,18,18,18,18,18,18,22,22,22,22,18,18,18,18,15,15,18,18
+rssi_delta_6gb3=18,18,18,18,18,18,18,18,16,16,16,16,18,18,18,18,18,18,18,18,13,13,16,16
+rssi_delta_6gb4=18,18,18,18,14,14,14,14,16,16,16,16,18,18,18,18,14,14,14,14,13,13,16,16
+rssi_delta_6gb5=18,18,18,18,10,10,13,13,13,13,13,13,18,18,18,18,9,9,14,14,9,9,12,12
 #Two range TSSI
 tworangetssi2g=0
 tworangetssi5g=0
@@ -111,13 +133,13 @@ rpcal5gb3=0
 
 
 #FDSS Related
-fdss_level_2g=4,4
+fdss_level_2g=-1,-1
 fdss_interp_en=1
 fdss_level_5g=3,3
-fdss_level_11ax_2g=4,4
-fdss_level_11ax_2g_ch1=4,4
-fdss_level_11ax_2g_ch11=4,4
-fdss_level_11ax_5g=4,4
+fdss_level_11ax_2g=-1,-1
+fdss_level_11ax_2g_ch1=-1,-1
+fdss_level_11ax_2g_ch11=-1,-1
+fdss_level_11ax_5g=5,5
 
 #Tempsense Related
 tempthresh=255
@@ -141,40 +163,37 @@ AvVmid_6g_c1=3,110,3,110,3,110,3,110,3,110,3,110
 #pa2gccka0=-150,7325,-865
 #pa2gccka1=-139,7981,-937
 pa2gccka0=-150,7453,-874
-pa2gccka1=-139,7725,-920
+pa2gccka1=-139,7981,-937
 
 # 2G/5G/6G OFDM PA parameters
 paparambwver=3
-#pa2ga0=-139,7052,-831
-#pa2ga1=-146,6928,-800
-pa2ga0=-139,7436,-857
-pa2ga1=-146,6800,-791
+pa2ga0=-139,7308,-848
+pa2ga1=-146,6928,-800
 
-#pa5ga0=-38,7333,-785,-37,7303,-759,34,8128,-787,111,8512,-790
-#pa5ga1=-139,6738,-780,-147,6606,-765,-133,7174,-817,-119,7725,-872
-pa5ga0=-38,7717,-792,-37,7687,-766,34,8512,-781,111,8896,-769
-pa5ga1=-139,6738,-780,-147,6606,-765,-133,7046,-809,-119,7469,-857
+pa5ga0=-135,6508,-755,-123,6629,-755,-128,6578,-758,-103,6795,-763
+pa5ga1=-135,6508,-755,-123,6629,-755,-162,6335,-755,-151,6894,-814
 
-#pa6ga0=-22,7228,-739,-43,7023,-740,9,7141,-715,39,7415,-708,39,7415,-708,39,7415,-708
-#pa6ga1=-115,7037,-794,-81,7236,-786,-58,7307,-777,-143,6604,-793,-143,6604,-793,-143,6604,-793
-pa6ga0=-22,7356,-740,-43,7151,-743,9,7397,-714,39,7543,-706,39,7415,-708,39,7287,-710
-pa6ga1=-115,7037,-794,-81,7364,-791,-58,7563,-784,-143,6732,-802,-143,6604,-793,-143,6476,-784
+pa6ga0=-158,6225,-750,-151,6158,-742,-129,6386,-750,-126,6173,-735,-108,6340,-750,-58,6677,-751
+pa6ga1=-163,6805,-820,-170,6633,-807,-161,6587,-801,-157,6678,-811,-135,6818,-815,-95,7315,-844
+
+
 
 # 2G/5G/6G power offset
 cckpwroffset0=0
 cckpwroffset1=0
-powoffs2gtna0=0,2,2,1,0,-2,-4,-2,-1,0,0,-1,-2,-3
+powoffs2gtna0=0,2,2,1,0,0,-4,-2,-1,0,0,-1,-2,-3
 powoffs2gtna1=0,0,1,2,1,0,-1,0,0,1,0,0,-2,-5
 subband5gver=0x4
-pdoffset40ma0=0x0000
-pdoffset80ma0=0x0000
-pdoffset40ma1=0x0000
-pdoffset80ma1=0x0000
+pdoffset40ma0=0x2200
+pdoffset80ma0=0x1000
+pdoffset40ma1=0x2341
+pdoffset80ma1=0x1031
 subband6gver=0x1
-pdoffset6g40ma0=0x000000
-pdoffset6g80ma0=0x000000
-pdoffset6g40ma1=0x000000
-pdoffset6g80ma1=0x000000
+pdoffset6g40ma0=0x322220
+pdoffset6g40ma1=0x212222
+pdoffset6g80ma0=0x211010
+pdoffset6g80ma1=0x222200
+
 
 # 2G/5G/6G OLPC
 disable_olpc=0
@@ -182,12 +201,12 @@ olpc_thresh2g=32
 olpc_anchor2g=40
 olpc_thresh5g=42
 olpc_anchor5g=52
-olpc_thresh6g=42
-olpc_anchor6g=52
-hwolpc_offset_c0=2,0,-1,-1,0
-hwolpc_offset_c1=0,-1,-1,0,2
-hwolpc_offset6g_c0=1,2,3,2,2,3
-hwolpc_offset6g_c1=2,1,2,0,2,2
+olpc_thresh6g=32
+olpc_anchor6g=42
+hwolpc_offset_c0=2,-3,-4,-2,-2
+hwolpc_offset_c1=-2,-4,-4,-3,-4
+hwolpc_offset6g_c0=2,3,2,6,3,3
+hwolpc_offset6g_c1=2,4,4,2,2,1
 
 # 5G power offset per channel for band edge channel
 powoffs5g20mtna0=0,0,0,0,0,0,0
@@ -200,8 +219,8 @@ powoffs5g80mtna1=0,0,0,0,0
 # 2G/5G SU Power Per Rate
 maxp2ga0=78
 maxp2ga1=78
-maxp5ga0=76,76,76,76
-maxp5ga1=76,76,76,76
+maxp5ga0=70,70,70,70
+maxp5ga1=70,70,70,70
 cckbw202gpo=0
 cckbw20ul2gpo=0
 mcsbw202gpo=0x44000000
@@ -229,8 +248,8 @@ mcs10poexp=0
 mcs11poexp=0
 
 # 6G SU Power Per Rate
-maxp6ga0=76,76,76,76,76,76
-maxp6ga1=76,76,76,76,76,76
+maxp6ga0=70,70,70,70,70,70
+maxp6ga1=70,70,70,70,70,70
 mcsbw206gb1po=0xCA660000
 mcsbw406gb1po=0xCA660000
 mcsbw806gb1po=0xCA660000
@@ -263,7 +282,9 @@ ltecxfnsel=0x44
 ltecxgcigpio=0x04
 #OOB params
 #device_wake_opt=1
-host_wake_opt=0
+host_wake_opt=1
+wowl_gpio=0
+wowl_gpiopol=1
 
 # SWCTRL Related
 
@@ -273,6 +294,8 @@ swctrlmap_5g=0x80408040,0x21240120,0x01208040,0x000000,0x3FF
 swctrlmapext_5g=0x00000000,0x00000000,0x00000000,0x000000,0x000
 swctrlmap_6g=0x80408040,0x21240120,0x01208040,0x000000,0x3FF
 swctrlmapext_6g=0x00000000,0x00000000,0x00000000,0x000000,0x000
+fem_table_init_val=0x04011010,0x01208040
+fem_table_init_val_ext=0x00000000,0x00000000
 
 clb2gslice0core0=0x01b
 clb2gslice1core0=0x000
@@ -285,7 +308,7 @@ clb5gslice1core1=0x000
 btc_prisel_ant_mask=0x2
 clb_swctrl_smask_ant0=0x27f
 clb_swctrl_smask_ant1=0x2f7
-muxenab=0x10
+muxenab=3
 
 #BT Coex 1:TDM
 btc_mode=1
@@ -295,22 +318,23 @@ txwbpapden=0 # 0:NBPAPD 1:WBPAPD
 # NB PAPD Cal params
 nb_eps_offset=470,470
 nb_bbmult=66,66
-nb_papdcalidx_c0=30,12,16,10,22,33,33,33,33,33,33
-nb_papdcalidx_c1=30,12,16,10,22,33,33,33,33,33,33
+nb_papdcalidx_c0=33,12,16,10,22,33,33,33,33,33,33
+nb_papdcalidx_c1=34,12,16,10,22,33,33,33,33,33,33
 nb_txattn=2,2
 nb_rxattn=1,1
 nb_eps_stopidx=63
-epsilonoff_5g20_c0=-1,-1,0,-1
-epsilonoff_5g40_c0=0,-1,0,0
-epsilonoff_5g80_c0=1,1,0,0
-epsilonoff_5g20_c1=-1,-1,0,-1
-epsilonoff_5g40_c1=0,-1,0,0
-epsilonoff_5g80_c1=0,1,0,-1
-epsilonoff_6g20_c0=0,0,0,0,0,0
-epsilonoff_6g40_c0=0,0,0,0,0,0
-epsilonoff_6g80_c0=0,0,0,0,0,0
-epsilonoff_6g20_c1=0,0,0,0,0,0
-epsilonoff_6g40_c1=0,0,0,0,0,0
+epsilonoff_5g20_c0=2,0,2,1
+epsilonoff_5g40_c0=2,1,2,1
+epsilonoff_5g80_c0=2,2,2,2
+epsilonoff_5g20_c1=1,1,0,1
+epsilonoff_5g40_c1=2,1,1,0
+epsilonoff_5g80_c1=2,2,2,2
+epsilonoff_6g20_c0=-1,-1,-2,-1,-2,-2
+epsilonoff_6g40_c0=-1,-1,-1,-1,-1,-1
+epsilonoff_6g80_c0=0,-1,0,0,0,0
+#epsilonoff_6g80_c0=0,-1,-1,-1,-1,-1
+epsilonoff_6g20_c1=-1,-1,-2,-2,-2,-2
+epsilonoff_6g40_c1=-1,-1,-1,-2,-2,-1
 epsilonoff_6g80_c1=0,0,0,0,0,0
 epsilonoff_2g20_c0=0
 epsilonoff_2g20_c1=0
@@ -319,7 +343,7 @@ epsilonoff_2g40_c1=0
 
 # energy detect threshold
 ed_thresh2g=-67
-ed_thresh5g=-67
+ed_thresh5g=-70
 # energy detect threshold for EU
 eu_edthresh2g=-67
 eu_edthresh5g=-67
@@ -352,7 +376,7 @@ paprrmcsgain5g80=0,0,0,0,0,0,0,0,0,0,0,0
 
 # Enable papd for cck when target pwr ge 16dBm
 cckpapd_pwrthresh=64
-
+#papd_skip=1
 ## ULOFDMA Board limit PPRs for 2G20 ##
 ruppr2g20bpska0=0x0
 ruppr2g20bpska1=0x0
@@ -465,28 +489,55 @@ nr_sub6_dynsar_5g_cap=0xa8a8
 
 
 ## ULOFDMA Board limit PPRs for 6G20 ##
-#ruppr6g20bpska0=0x0
-#ruppr6g20qpska0=0x0
-#ruppr6g20qam16a0=0x21084
-#ruppr6g20qam64a0=0x5294A
-#ruppr6g20qam256a0=0x6318C
-#ruppr6g20qam1024a0=0x94A52
+ruppr6g20bpska0=0x0
+ruppr6g20qpska0=0x0
+ruppr6g20qam16a0=0x21084
+ruppr6g20qam64a0=0x5294A
+ruppr6g20qam256a0=0x6318C
+ruppr6g20qam1024a0=0x94A52
 ## ULOFDMA Board limit PPRs for 6G40 ##
-#ruppr6g40bpska0=0x0
-#ruppr6g40qpska0=0x0
-#ruppr6g40qam16a0=0x421084
-#ruppr6g40qam64a0=0xA5294A
-#ruppr6g40qam256a0=0xC6318C
-#ruppr6g40qam1024a0=0x1294A52
+ruppr6g40bpska0=0x0
+ruppr6g40qpska0=0x0
+ruppr6g40qam16a0=0x421084
+ruppr6g40qam64a0=0xA5294A
+ruppr6g40qam256a0=0xC6318C
+ruppr6g40qam1024a0=0x1294A52
 ## ULOFDMA Board limit PPRs for 6G80 ##
-#ruppr6g80bpska0=0x0
-#ruppr6g80qpska0=0x0
-#ruppr6g80qam16a0=0x10421084
-#ruppr6g80qam64a0=0x28A5294A
-#ruppr6g80qam256a0=0x30C6318C
-#ruppr6g80qam1024a0=0x49294A52
+ruppr6g80bpska0=0x0
+ruppr6g80qpska0=0x0
+ruppr6g80qam16a0=0x10421084
+ruppr6g80qam64a0=0x28A5294A
+ruppr6g80qam256a0=0x30C6318C
+ruppr6g80qam1024a0=0x49294A52
 
 ## 6G energy detect threshold ##
 #ed_thresh6g=-67
 #eu_edthresh6g=-67
+
+# Base K Values (For the VHT case 5G 80/40/20/2G20)
+proxd_basekival=35373,34722,36113,37535
+proxd_basektval=35367,34708,36113,35119
+# Offsets across channels (Upper nibble for target, lower nibble for initiator - saved in hex)
+proxd_80mkval=0x1515,0,0,0,0,0x0000
+proxd_40mkval=0x3333,0x1d1d,0,0,0,0,0,0,0,0,0x0000,0x2929
+proxd_20mkval=0x4646,0x4646,0x0404,0x0000,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0x4848,0x8e8e,0x6c6c,0x5959,0x5f5f
+proxd_2gkval=0x0000,0x49c49c,0x4ce4ce,0x4cd4cd,0x4cd4cd,0x4b84b8,0x485485,0x487487,0x490490,0x493493,0x4c84c8,0x4ce4ce,0x4d54d5,0
+# Offsets across frame formats @ Initiator
+# Only for non-VHT frame (Leg6, Leg non-6, mcs0, non-mcs0)
+# Delta between the base values are adjusted here
+proxdi_rate80m=2704,7954,0,0
+proxdi_rate40m=2049,8348,21,21
+proxdi_rate20m=2325,7741,76,73
+proxdi_rate2g=70238,70238,0,0
+proxdi_ack=0,0,0,0
+# Offsets across frame formats @ Responder
+proxdt_rate80m=2704,7954,0,0
+proxdt_rate40m=2049,8348,21,21
+proxdt_rate20m=2325,7741,76,73
+proxdt_rate2g=70238,70238,0,0
+proxdt_ack=0,0,0,0
+# Offsets for sub-bands (VHT, Leg6, Leg non-6, mcs0, non-mcs0)
+proxd_sub80m20m=1814,144,1507,0,0
+proxd_sub80m40m=1100,44,834,0,0
+proxd_sub40m20m=758,-209,-133,753,728
 
