@@ -225,6 +225,7 @@ dsi0: &rp1_dsi0 { };
 dsi1: &rp1_dsi1 { };
 dpi: &rp1_dpi { };
 vec: &rp1_vec { };
+spi0: &rp1_spi0 { };
 dpi_gpio0:              &rp1_dpi_24bit_gpio0        { };
 dpi_gpio1:              &rp1_dpi_24bit_gpio2        { };
 dpi_18bit_cpadhi_gpio0: &rp1_dpi_18bit_cpadhi_gpio0 { };
@@ -457,7 +458,6 @@ spi10_cs_pins: &spi10_cs_gpio1 {};
 	pinctrl-names = "default";
 	cs-gpios = <&gio 1 1>;
 	pinctrl-0 = <&spi10_pins &spi10_cs_pins>;
-	status = "okay";
 
 	spidev10: spidev@0 {
 		compatible = "spidev";
@@ -465,8 +465,12 @@ spi10_cs_pins: &spi10_cs_gpio1 {};
 		#address-cells = <1>;
 		#size-cells = <0>;
 		spi-max-frequency = <20000000>;
-		status = "disabled";
+		status = "okay";
 	};
+};
+
+&spi0 {
+	status = "okay";
 
 	slb9670: slb9670@0 {
 		compatible = "infineon,slb9670";
