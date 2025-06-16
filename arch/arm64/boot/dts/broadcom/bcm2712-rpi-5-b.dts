@@ -472,6 +472,12 @@ spi10_cs_pins: &spi10_cs_gpio1 {};
 &spi0 {
 	status = "okay";
 
+	// YEAH, THIS DOES NOT MAKE ANY SENSE
+	// BUT THE FUCKING RPI FIRMWARE INJECT THIS SHIT
+	spidev@1 {
+		status = "disabled";
+	};
+
 	slb9670: slb9670@0 {
 		compatible = "infineon,slb9670";
 		reg = <1>;	/* CE1 */
