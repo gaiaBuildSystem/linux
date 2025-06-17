@@ -470,6 +470,8 @@ spi10_cs_pins: &spi10_cs_gpio1 {};
 };
 
 &spi0 {
+	#address-cells = <1>;
+	#size-cells = <0>;
 	status = "okay";
 
 	// YEAH, THIS DOES NOT MAKE ANY SENSE
