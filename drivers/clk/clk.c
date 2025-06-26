@@ -3912,7 +3912,6 @@ static int __clk_core_init(struct clk_core *core)
 		goto out;
 	}
 
-#if 0
 	if (core->ops->set_parent && !core->ops->get_parent) {
 		pr_err("%s: %s must implement .get_parent & .set_parent\n",
 		       __func__, core->name);
@@ -3926,7 +3925,7 @@ static int __clk_core_init(struct clk_core *core)
 		ret = -EINVAL;
 		goto out;
 	}
-#endif
+
 	if (core->num_parents > 1 && !core->ops->get_parent) {
 		pr_err("%s: %s must implement .get_parent as it has multi parents\n",
 		       __func__, core->name);
