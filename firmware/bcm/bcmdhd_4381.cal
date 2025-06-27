@@ -28,7 +28,7 @@ NVRAMRev=$Rev: 884954 $
 # lines of an svn keyword line will cause patching errors in precommit.
 #
 sromrev=11
-boardrev=0x1301
+boardrev=0x1302
 boardtype=0x0a33
 boardflags=0x00400001
 boardflags2=0x00800000
@@ -410,4 +410,5 @@ proxd_sub40m20m=186,-315,149,174,174
 wlbga_mil_war=1
 wrssi_offset_ovr=3,3
 tia_cmfb_zero_comp=7
+
 lpo_select=4
