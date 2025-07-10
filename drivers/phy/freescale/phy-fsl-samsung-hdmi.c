@@ -14,6 +14,7 @@
 #include <linux/platform_device.h>
 #include <linux/phy/phy.h>
 #include <linux/pm.h>
+#include <linux/pm_runtime.h>
 #include <linux/reset.h>
 
 #define PHY_REGS_84 0x84
@@ -1076,6 +1077,10 @@ static int samsung_hdmi_phy_probe(struct platform_device *pdev)
 		return ret;
 	}
 
+	pm_runtime_get_noresume(samsung->dev);
+	pm_runtime_set_active(samsung->dev);
+	pm_runtime_enable(samsung->dev);
+
 	samsung->phy = devm_phy_create(samsung->dev, NULL, &samsung_hdmi_phy_ops);
 	if (IS_ERR(samsung->phy)) {
 		ret =  PTR_ERR(samsung->phy);
@@ -1099,6 +1104,8 @@ static int samsung_hdmi_phy_probe(struct platform_device *pdev)
 		dev_err(&pdev->dev, "failed to register PHY provider: %d\n", ret);
 		goto phy_failed;
 	}
+
+	pm_runtime_put(samsung->dev);
 
 	return 0;
 
@@ -1148,10 +1155,9 @@ static int samsung_hdmi_phy_resume(struct device *dev)
 }
 #endif
 
-static const struct dev_pm_ops samsung_hdmi_phy_pm_ops = {
-	SET_SYSTEM_SLEEP_PM_OPS(samsung_hdmi_phy_suspend,
-			   samsung_hdmi_phy_resume)
-};
+static UNIVERSAL_DEV_PM_OPS(samsung_hdmi_phy_pm_ops,
+			    samsung_hdmi_phy_suspend,
+			    samsung_hdmi_phy_resume, NULL);
 
 static const struct of_device_id samsung_hdmi_phy_of_match[] = {
 	{
@@ -1166,7 +1172,7 @@ static struct platform_driver samsung_hdmi_phy_driver = {
 	.driver = {
 		.name = "samsung-hdmi-phy",
 		.of_match_table = samsung_hdmi_phy_of_match,
-		.pm = &samsung_hdmi_phy_pm_ops,
+		.pm = pm_ptr(&samsung_hdmi_phy_pm_ops),
 	},
 };
 module_platform_driver(samsung_hdmi_phy_driver);
