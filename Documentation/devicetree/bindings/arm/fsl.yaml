@@ -1117,6 +1117,12 @@ properties:
           - const: toradex,verdin-imx8mp          # Verdin iMX8M Plus Module
           - const: fsl,imx8mp
 
+      - description: Toradex Boards with Aquila iMX95 Modules
+        items:
+          - const: toradex,aquila-imx95-dev # Aquila iMX95 Module on Aquila Development Board
+          - const: toradex,aquila-imx95     # Aquila iMX95 Module
+          - const: fsl,imx95
+
       - description: Toradex Boards with Verdin iMX95 Modules
         items:
           - enum:
