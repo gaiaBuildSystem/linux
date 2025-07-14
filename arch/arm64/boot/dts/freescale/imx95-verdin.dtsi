@@ -44,7 +44,7 @@
 	connector {
 		compatible = "gpio-usb-b-connector", "usb-b-connector";
 		/* Verdin USB_1_ID (SODIMM 161) */
-		id-gpios = <&som_gpio_expander 5 GPIO_ACTIVE_LOW>;
+		id-gpios = <&som_gpio_expander 5 GPIO_ACTIVE_HIGH>;
 		label = "USB_1";
 		self-powered;
 		vbus-supply = <&reg_usb1_vbus>;
