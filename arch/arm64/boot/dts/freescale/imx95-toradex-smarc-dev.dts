@@ -131,6 +131,16 @@
 		    <&pinctrl_gpio9>;
 };
 
+/* SMARC I2C_CAM0 */
+&i2c_cam0 {
+	status = "okay";
+};
+
+/* SMARC I2C_CAM1 */
+&i2c_cam1 {
+	status = "okay";
+};
+
 /* SMARC I2C_GP */
 &lpi2c2 {
 	status = "okay";
@@ -187,11 +197,6 @@
 	};
 };
 
-/* SMARC I2C_CAM0 */
-&lpi2c4 {
-	status = "okay";
-};
-
 /* SMARC I2C_LCD */
 &lpi2c5 {
 	status = "okay";
@@ -217,11 +222,6 @@
 			#size-cells = <0>;
 		};
 	};
-};
-
-/* SMARC I2C_CAM1 */
-&lpi2c7 {
-	status = "okay";
 };
 
 /* SMARC SPI0 */
