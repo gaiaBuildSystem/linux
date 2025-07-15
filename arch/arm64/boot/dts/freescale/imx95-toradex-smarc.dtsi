@@ -229,7 +229,7 @@
 
 &gpio2 {
 	gpio-line-names = "SMARC_SPI0_CS0#", /* 0 */
-			  "SMARC_SPI0_CS1#",
+			  "",
 			  "",
 			  "",
 			  "",
@@ -252,7 +252,7 @@
 			  "",
 			  "SMARC_I2C_LCD_DAT",
 			  "SMARC_I2C_LCD_CK",
-			  "",
+			  "SMARC_SPI0_CS1#",
 			  "",
 			  "",
 			  "",
