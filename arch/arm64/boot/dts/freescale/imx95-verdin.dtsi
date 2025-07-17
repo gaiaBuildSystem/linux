@@ -159,6 +159,7 @@
 /* Verdin ADC_1, ADC_2, ADC_3 and ADC_4 */
 &adc1 {
 	vref-supply = <&reg_vref_1v8>;
+	status = "okay";
 };
 
 /* Verdin ETH_1 (On-module PHY) */
