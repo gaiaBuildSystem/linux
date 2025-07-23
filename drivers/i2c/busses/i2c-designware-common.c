@@ -650,7 +650,10 @@ void __i2c_dw_disable(struct dw_i2c_dev *dev)
 			 * 25us) to ensure the I2C ENABLE bit is already set
 			 * as described in the DesignWare I2C databook.
 			 */
-			fsleep(DIV_ROUND_CLOSEST_ULL(10 * MICRO, t->bus_freq_hz));
+			if (dev->atomic)
+				udelay(DIV_ROUND_CLOSEST_ULL(10 * MICRO, t->bus_freq_hz));
+			else
+				fsleep(DIV_ROUND_CLOSEST_ULL(10 * MICRO, t->bus_freq_hz));
 			/* Set ENABLE bit before setting ABORT */
 			enable |= DW_IC_ENABLE_ENABLE;
 		}
@@ -679,7 +682,10 @@ void __i2c_dw_disable(struct dw_i2c_dev *dev)
 		 * transfer supported by the driver (for 400kHz this is
 		 * 25us) as described in the DesignWare I2C databook.
 		 */
-		usleep_range(25, 250);
+		if (dev->atomic)
+			udelay(25);
+		else
+			usleep_range(25, 250);
 	} while (timeout--);
 
 	dev_warn(dev->dev, "timeout in disabling adapter\n");
@@ -726,7 +732,7 @@ int i2c_dw_acquire_lock(struct dw_i2c_dev *dev)
 {
 	int ret;
 
-	if (!dev->acquire_lock)
+	if (dev->atomic || !dev->acquire_lock)
 		return 0;
 
 	ret = dev->acquire_lock();
@@ -740,7 +746,7 @@ int i2c_dw_acquire_lock(struct dw_i2c_dev *dev)
 
 void i2c_dw_release_lock(struct dw_i2c_dev *dev)
 {
-	if (dev->release_lock)
+	if (!dev->atomic && dev->release_lock)
 		dev->release_lock();
 }
 
@@ -758,6 +764,9 @@ int i2c_dw_wait_bus_not_busy(struct dw_i2c_dev *dev)
 				       20 * DW_IC_BUSY_POLL_TIMEOUT_US);
 	if (ret) {
 		dev_warn(dev->dev, "timeout waiting for bus ready\n");
+
+		if (dev->atomic)
+			return ret;
 
 		i2c_recover_bus(&dev->adapter);
 
@@ -994,7 +1003,8 @@ static int i2c_dw_runtime_suspend(struct device *device)
 		return 0;
 
 	i2c_dw_disable(dev);
-	i2c_dw_prepare_clk(dev, false);
+	clk_disable(dev->clk);
+	clk_disable(dev->pclk);
 
 	return 0;
 }
@@ -1012,8 +1022,10 @@ static int i2c_dw_runtime_resume(struct device *device)
 {
 	struct dw_i2c_dev *dev = dev_get_drvdata(device);
 
-	if (!dev->shared_with_punit)
-		i2c_dw_prepare_clk(dev, true);
+	if (!dev->shared_with_punit) {
+		clk_enable(dev->clk);
+		clk_enable(dev->pclk);
+	}
 
 	i2c_dw_init(dev);
 

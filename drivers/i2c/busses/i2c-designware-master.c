@@ -255,9 +255,14 @@ static bool i2c_dw_is_controller_active(struct dw_i2c_dev *dev)
 	if (!(status & DW_IC_STATUS_MASTER_ACTIVITY))
 		return false;
 
-	return regmap_read_poll_timeout(dev->map, DW_IC_STATUS, status,
-				       !(status & DW_IC_STATUS_MASTER_ACTIVITY),
-				       1100, 20000) != 0;
+	if (dev->atomic)
+		return regmap_read_poll_timeout_atomic(dev->map, DW_IC_STATUS, status,
+						       !(status & DW_IC_STATUS_MASTER_ACTIVITY),
+						       1100, 20000) != 0;
+	else
+		return regmap_read_poll_timeout(dev->map, DW_IC_STATUS, status,
+					       !(status & DW_IC_STATUS_MASTER_ACTIVITY),
+					       1100, 20000) != 0;
 }
 
 static int i2c_dw_check_stopbit(struct dw_i2c_dev *dev)
@@ -586,7 +591,7 @@ static u32 i2c_dw_read_clear_intrbits(struct dw_i2c_dev *dev)
 	 *
 	 * The raw version might be useful for debugging purposes.
 	 */
-	if (!(dev->flags & ACCESS_POLLING)) {
+	if (!(dev->flags & ACCESS_POLLING) && !dev->atomic) {
 		regmap_read(dev->map, DW_IC_INTR_STAT, &stat);
 	} else {
 		regmap_read(dev->map, DW_IC_RAW_INTR_STAT, &stat);
@@ -740,6 +745,27 @@ static int i2c_dw_wait_transfer(struct dw_i2c_dev *dev)
 	return ret ? 0 : -ETIMEDOUT;
 }
 
+static int i2c_dw_wait_transfer_atomic(struct dw_i2c_dev *dev)
+{
+	ktime_t timeout = ktime_add_us(ktime_get(), jiffies_to_usecs(dev->adapter.timeout));
+	unsigned int stat;
+	int ret;
+
+	do {
+		ret = try_wait_for_completion(&dev->cmd_complete);
+		if (ret)
+			break;
+
+		stat = i2c_dw_read_clear_intrbits(dev);
+		if (stat)
+			i2c_dw_process_transfer(dev, stat);
+		else
+			udelay(15);
+	} while (ktime_compare(ktime_get(), timeout) < 0);
+
+	return ret ? 0 : -ETIMEDOUT;
+}
+
 /*
  * Prepare controller for a transaction, start the transfer of the @msgs
  * and wait for completion, either a STOP or a error.
@@ -769,7 +795,10 @@ __i2c_dw_xfer_one_part(struct dw_i2c_dev *dev, struct i2c_msg *msgs, size_t num)
 	i2c_dw_xfer_init(dev);
 
 	/* Wait for tx to complete */
-	ret = i2c_dw_wait_transfer(dev);
+	if (dev->atomic)
+		ret = i2c_dw_wait_transfer_atomic(dev);
+	else
+		ret = i2c_dw_wait_transfer(dev);
 	if (ret) {
 		dev_err(dev->dev, "controller timed out\n");
 		/* i2c_dw_init() implicitly disables the adapter */

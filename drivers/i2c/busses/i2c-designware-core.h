@@ -376,7 +376,7 @@ static inline void __i2c_dw_disable_nowait(struct dw_i2c_dev *dev)
 static inline void __i2c_dw_write_intr_mask(struct dw_i2c_dev *dev,
 					    unsigned int intr_mask)
 {
-	unsigned int val = dev->flags & ACCESS_POLLING ? 0 : intr_mask;
+	unsigned int val = (dev->atomic || dev->flags & ACCESS_POLLING) ? 0 : intr_mask;
 
 	regmap_write(dev->map, DW_IC_INTR_MASK, val);
 	dev->sw_mask = intr_mask;
@@ -385,7 +385,7 @@ static inline void __i2c_dw_write_intr_mask(struct dw_i2c_dev *dev,
 static inline void __i2c_dw_read_intr_mask(struct dw_i2c_dev *dev,
 					   unsigned int *intr_mask)
 {
-	if (!(dev->flags & ACCESS_POLLING))
+	if (!(dev->flags & ACCESS_POLLING) && !dev->atomic)
 		regmap_read(dev->map, DW_IC_INTR_MASK, intr_mask);
 	else
 		*intr_mask = dev->sw_mask;
