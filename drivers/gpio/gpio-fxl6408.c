@@ -43,6 +43,10 @@
 
 #define FXL6408_NGPIO			8
 
+struct fxl6408_chip {
+	struct regmap *regmap;
+};
+
 static const struct regmap_range rd_range[] = {
 	{ FXL6408_REG_DEVICE_ID, FXL6408_REG_DEVICE_ID },
 	{ FXL6408_REG_IO_DIR, FXL6408_REG_OUTPUT },
@@ -103,6 +107,7 @@ static int fxl6408_identify(struct device *dev, struct regmap *regmap)
 
 static int fxl6408_probe(struct i2c_client *client)
 {
+	struct fxl6408_chip *chip;
 	struct device *dev = &client->dev;
 	int ret;
 	struct gpio_regmap_config gpio_config = {
@@ -113,6 +118,10 @@ static int fxl6408_probe(struct i2c_client *client)
 		.reg_dir_out_base = GPIO_REGMAP_ADDR(FXL6408_REG_IO_DIR),
 		.ngpio_per_reg = FXL6408_NGPIO,
 	};
+
+	chip = devm_kzalloc(dev, sizeof(*chip), GFP_KERNEL);
+	if (!chip)
+		return -ENOMEM;
 
 	gpio_config.regmap = devm_regmap_init_i2c(client, &regmap);
 	if (IS_ERR(gpio_config.regmap))
