@@ -52,8 +52,9 @@
 #define GPIO_SWPORT_DDR_STRIDE	0x0c /* register stride 3*32 bits */
 
 #define GPIO_REG_OFFSET_V1	0
-#define GPIO_REG_OFFSET_V2	1
+#define GPIO_REG_OFFSET_V2	BIT(0)
 #define GPIO_REG_OFFSET_MASK	BIT(0)
+#define GPIO_NO_SUSPEND_RESUME	BIT(1)
 
 #define GPIO_INTMASK_V2		0x44
 #define GPIO_INTTYPE_LEVEL_V2	0x34
@@ -761,6 +762,9 @@ static int dwapb_gpio_probe(struct platform_device *pdev)
 		return err;
 
 	gpio->flags = (uintptr_t)device_get_match_data(dev);
+
+	if (device_property_read_bool(dev, "no-suspend-resume"))
+		gpio->flags |= GPIO_NO_SUSPEND_RESUME;
 
 	for (i = 0; i < gpio->nr_ports; i++) {
 		err = dwapb_gpio_add_port(gpio, &pdata->properties[i], i);
