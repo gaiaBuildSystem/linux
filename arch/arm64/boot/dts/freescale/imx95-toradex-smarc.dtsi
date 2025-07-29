@@ -150,6 +150,12 @@
 		#size-cells = <2>;
 		ranges;
 
+		ele_reserved: memory@9c300000 {
+			compatible = "shared-dma-pool";
+			reg = <0 0x9c300000 0 0x100000>;
+			no-map;
+		};
+
 		linux_cma: linux,cma {
 			compatible = "shared-dma-pool";
 			reusable;
@@ -172,6 +178,10 @@
 	assigned-clock-parents = <&scmi_clk IMX95_CLK_VIDEOPLL1>;
 	assigned-clock-rates = <0>, <4008000000>, <445333334>;
 	status = "disabled";
+};
+
+&ele_fw2 {
+	memory-region = <&ele_reserved>;
 };
 
 /* SMARC GBE0 */
