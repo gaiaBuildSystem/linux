@@ -141,6 +141,12 @@
 		#size-cells = <2>;
 		ranges;
 
+		ele_reserved: memory@9c300000 {
+			compatible = "shared-dma-pool";
+			reg = <0 0x9c300000 0 0x100000>;
+			no-map;
+		};
+
 		linux_cma: linux,cma {
 			compatible = "shared-dma-pool";
 			reusable;
@@ -160,6 +166,10 @@
 &adc1 {
 	vref-supply = <&reg_vref_1v8>;
 	status = "okay";
+};
+
+&ele_fw2 {
+	memory-region = <&ele_reserved>;
 };
 
 /* Verdin ETH_1 (On-module PHY) */
