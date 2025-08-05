@@ -76,6 +76,11 @@
 	};
 };
 
+/* Aquila SPI_1 */
+&lpspi6 {
+	status = "okay";
+};
+
 /* Aquila UART_3, used as the Linux Console */
 &lpuart1 {
 	status = "okay";
