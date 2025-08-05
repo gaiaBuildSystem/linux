@@ -15,6 +15,7 @@
 		i2c0 = &lpi2c3;
 		i2c1 = &lpi2c2;
 		mmc0 = &usdhc1;
+		mmc1 = &usdhc2;
 		serial2 = &lpuart1;
 	};
 
@@ -27,6 +28,31 @@
 		#clock-cells = <0>;
 		/* CTRL_ETH_REF_CLK_STBY# */
 		enable-gpios = <&som_gpio_expander_0 6 GPIO_ACTIVE_HIGH>;
+	};
+
+	reg_usdhc2_vmmc: regulator-usdhc2-vmmc {
+		compatible = "regulator-fixed";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_sd1_pwr_en>;
+		/* SD_1_PWR_EN */
+		gpios = <&gpio3 7 GPIO_ACTIVE_HIGH>;
+		enable-active-high;
+		off-on-delay-us = <100000>;
+		regulator-max-microvolt = <3300000>;
+		regulator-min-microvolt = <3300000>;
+		regulator-name = "SD_1_PWR_EN";
+		startup-delay-us = <20000>;
+	};
+
+	reg_usdhc2_vqmmc: regulator-usdhc2-vqmmc {
+		compatible = "regulator-gpio";
+		/* PMIC_SD_1_VSEL */
+		gpios = <&som_gpio_expander_1 9 GPIO_ACTIVE_HIGH>;
+		regulator-max-microvolt = <3300000>;
+		regulator-min-microvolt = <1800000>;
+		regulator-name = "PMIC_SD_1_VSEL";
+		states = <1800000 0x1>,
+			 <3300000 0x0>;
 	};
 
 	reg_usb1_vbus: regulator-usb1-vbus {
@@ -213,6 +239,18 @@
 	status = "okay";
 };
 
+/* Aquila SD_1 */
+&usdhc2 {
+	pinctrl-names = "default", "state_100mhz", "state_200mhz", "sleep";
+	pinctrl-0 = <&pinctrl_usdhc2>, <&pinctrl_sd1_cd_gpio>;
+	pinctrl-1 = <&pinctrl_usdhc2>, <&pinctrl_sd1_cd_gpio>;
+	pinctrl-2 = <&pinctrl_usdhc2_200mhz>,<&pinctrl_sd1_cd_gpio>;
+	pinctrl-3 = <&pinctrl_usdhc2_sleep>, <&pinctrl_sd1_cd_gpio>;
+	cd-gpios = <&gpio3 0 GPIO_ACTIVE_LOW>;
+	vmmc-supply = <&reg_usdhc2_vmmc>;
+	vqmmc-supply = <&reg_usdhc2_vqmmc>;
+};
+
 &scmi_iomuxc {
 	/* Aquila ETH_2_XGMII_MDIO */
 	pinctrl_emdio: emdiogrp {
@@ -264,6 +302,16 @@
 			   <IMX95_PAD_GPIO_IO29__GPIO2_IO_BIT29	0x40001b9e>; /* I2C_SOM_SCL */
 	};
 
+	/* Aquila SD_1_CD# as GPIO */
+	pinctrl_sd1_cd_gpio: sd1cdgpiogrp {
+		fsl,pins = <IMX95_PAD_SD2_CD_B__GPIO3_IO_BIT0	0x1100>; /* SD_1_CD# */
+	};
+
+	/* Aquila SD_1_PWR_EN */
+	pinctrl_sd1_pwr_en: sd1pwrengpiogrp {
+		fsl,pins = <IMX95_PAD_SD2_RESET_B__GPIO3_IO_BIT7	0x11e>; /* SD_1_PWR_EN */
+	};
+
 	/* Aquila UART_3 */
 	pinctrl_uart1: uart1grp {
 		fsl,pins = <IMX95_PAD_UART1_TXD__AONMIX_TOP_LPUART1_TX	0x31e>, /* UART_3_TXD */
@@ -297,5 +345,33 @@
 			   <IMX95_PAD_SD1_DATA6__USDHC1_DATA6	0x13fe>, /* eMMC_DATA6  */
 			   <IMX95_PAD_SD1_DATA7__USDHC1_DATA7	0x13fe>, /* eMMC_DATA7  */
 			   <IMX95_PAD_SD1_STROBE__USDHC1_STROBE	0x15fe>; /* eMMC_STROBE */
+	};
+
+	/* Aquila SD_1 */
+	pinctrl_usdhc2: usdhc2grp {
+		fsl,pins = <IMX95_PAD_SD2_CLK__USDHC2_CLK	0x158e>, /* SD_1_CLK */
+			   <IMX95_PAD_SD2_CMD__USDHC2_CMD	0x138e>, /* SD_1_CMD */
+			   <IMX95_PAD_SD2_DATA0__USDHC2_DATA0	0x138e>, /* SD_1_D0  */
+			   <IMX95_PAD_SD2_DATA1__USDHC2_DATA1	0x138e>, /* SD_1_D1  */
+			   <IMX95_PAD_SD2_DATA2__USDHC2_DATA2	0x138e>, /* SD_1_D2  */
+			   <IMX95_PAD_SD2_DATA3__USDHC2_DATA3	0x138e>; /* SD_1_D3  */
+	};
+
+	pinctrl_usdhc2_200mhz: usdhc2-200mhzgrp {
+		fsl,pins = <IMX95_PAD_SD2_CLK__USDHC2_CLK	0x15fe>, /* SD_1_CLK */
+			   <IMX95_PAD_SD2_CMD__USDHC2_CMD	0x13fe>, /* SD_1_CMD */
+			   <IMX95_PAD_SD2_DATA0__USDHC2_DATA0	0x13fe>, /* SD_1_D0  */
+			   <IMX95_PAD_SD2_DATA1__USDHC2_DATA1	0x13fe>, /* SD_1_D1  */
+			   <IMX95_PAD_SD2_DATA2__USDHC2_DATA2	0x13fe>, /* SD_1_D2  */
+			   <IMX95_PAD_SD2_DATA3__USDHC2_DATA3	0x13fe>; /* SD_1_D3  */
+	};
+
+	pinctrl_usdhc2_sleep: usdhc2-sleepgrp {
+		fsl,pins = <IMX95_PAD_SD2_CLK__USDHC2_CLK	0x400>, /* SD_1_CLK */
+			   <IMX95_PAD_SD2_CMD__USDHC2_CMD	0x400>, /* SD_1_CMD */
+			   <IMX95_PAD_SD2_DATA0__USDHC2_DATA0	0x400>, /* SD_1_D0  */
+			   <IMX95_PAD_SD2_DATA1__USDHC2_DATA1	0x400>, /* SD_1_D1  */
+			   <IMX95_PAD_SD2_DATA2__USDHC2_DATA2	0x400>, /* SD_1_D2  */
+			   <IMX95_PAD_SD2_DATA3__USDHC2_DATA3	0x400>; /* SD_1_D3  */
 	};
 };
