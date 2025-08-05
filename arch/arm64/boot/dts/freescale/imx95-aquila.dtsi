@@ -173,6 +173,31 @@
 	};
 };
 
+/* Aquila SPI_2 */
+&lpspi4 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_lpspi4>;
+	cs-gpios = <&gpio2 18 GPIO_ACTIVE_LOW>,
+		   <&som_gpio_expander_1 12 GPIO_ACTIVE_LOW>;
+	status = "okay";
+
+	som_tpm: tpm@1 {
+		compatible = "infineon,slb9670", "tcg,tpm_tis-spi";
+		reg = <0x1>;
+		interrupt-parent = <&som_gpio_expander_1>;
+		interrupts = <11 IRQ_TYPE_EDGE_FALLING>;
+		spi-max-frequency = <18500000>;
+	};
+};
+
+/* Aquila SPI_1 */
+&lpspi6 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_lpspi6>;
+	cs-gpios = <&gpio2 0 GPIO_ACTIVE_LOW>;
+	status = "disabled";
+};
+
 /* Aquila UART_3, used as the Linux Console */
 &lpuart1 {
 	pinctrl-names = "default";
@@ -300,6 +325,22 @@
 	pinctrl_lpi2c3_gpio: lpi2c3gpiogrp {
 		fsl,pins = <IMX95_PAD_GPIO_IO28__GPIO2_IO_BIT28	0x40001b9e>, /* I2C_SOM_SDA */
 			   <IMX95_PAD_GPIO_IO29__GPIO2_IO_BIT29	0x40001b9e>; /* I2C_SOM_SCL */
+	};
+
+	/* Aquila SPI_2 */
+	pinctrl_lpspi4: lpspi4grp {
+		fsl,pins = <IMX95_PAD_GPIO_IO18__GPIO2_IO_BIT18	0x3fe>, /* SPI_2_CS   */
+			   <IMX95_PAD_GPIO_IO19__LPSPI4_SIN	0x3fe>, /* SPI_2_MISO */
+			   <IMX95_PAD_GPIO_IO20__LPSPI4_SOUT	0x3fe>, /* SPI_2_MOSI */
+			   <IMX95_PAD_GPIO_IO21__LPSPI4_SCK	0x3fe>; /* SPI_2_CLK  */
+	};
+
+	/* Aquila SPI_1 */
+	pinctrl_lpspi6: lpspi6grp {
+		fsl,pins = <IMX95_PAD_GPIO_IO00__GPIO2_IO_BIT0	0x3fe>, /* SPI_1_CS   */
+			   <IMX95_PAD_GPIO_IO01__LPSPI6_SIN	0x3fe>, /* SPI_1_MISO */
+			   <IMX95_PAD_GPIO_IO02__LPSPI6_SOUT	0x3fe>, /* SPI_1_MOSI */
+			   <IMX95_PAD_GPIO_IO03__LPSPI6_SCK	0x3fe>; /* SPI_1_CLK  */
 	};
 
 	/* Aquila SD_1_CD# as GPIO */
