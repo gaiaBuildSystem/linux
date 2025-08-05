@@ -4168,6 +4168,11 @@ static struct iommu_device *arm_smmu_probe_device(struct device *dev)
 
 	master->dev = dev;
 	master->smmu = smmu;
+	if (dev->of_node && of_property_read_bool(dev->of_node, "iommu-passthrough")) {
+		dev_info(smmu->dev, " forcing iommu passthrough for device:%p \n", dev);
+		master->force_passthrough = true;
+	}
+
 	dev_iommu_priv_set(dev, master);
 
 	ret = arm_smmu_insert_master(smmu, master);
@@ -4293,11 +4298,17 @@ static void arm_smmu_get_resv_regions(struct device *dev,
 
 static int arm_smmu_def_domain_type(struct device *dev)
 {
+	struct arm_smmu_master *master = dev_iommu_priv_get(dev);
 	if (dev_is_pci(dev)) {
 		struct pci_dev *pdev = to_pci_dev(dev);
 
 		if (IS_HISI_PTT_DEVICE(pdev))
 			return IOMMU_DOMAIN_IDENTITY;
+	}
+
+	if (master && master->force_passthrough) {
+		dev_info(dev, "forcing identity mode..for device:%p\n", dev);
+		return IOMMU_DOMAIN_IDENTITY;
 	}
 
 	return 0;
