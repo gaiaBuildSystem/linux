@@ -122,3 +122,8 @@
 		};
 	};
 };
+
+/* Aquila SD_1 */
+&usdhc2 {
+	status = "okay";
+};
