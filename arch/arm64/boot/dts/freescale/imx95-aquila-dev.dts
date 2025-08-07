@@ -8,6 +8,7 @@
 
 /dts-v1/;
 
+#include <dt-bindings/pwm/pwm.h>
 #include <dt-bindings/usb/pd.h>
 #include "imx95-aquila.dtsi"
 
@@ -16,6 +17,17 @@
 	compatible = "toradex,aquila-imx95-dev",
 		     "toradex,aquila-imx95",
 		     "fsl,imx95";
+
+	aliases {
+		eeprom1 = &carrier_eeprom;
+	};
+
+	reg_carrier_1p8v: regulator-carrier-1p8v {
+		compatible = "regulator-fixed";
+		regulator-max-microvolt = <1800000>;
+		regulator-min-microvolt = <1800000>;
+		regulator-name = "Carrier_1.8V";
+	};
 };
 
 /* Aquila ETH_1 */
@@ -33,6 +45,39 @@
 /* Aquila I2C_1 */
 &lpi2c2 {
 	status = "okay";
+
+	fan_controller: fan@18 {
+		compatible = "ti,amc6821";
+		reg = <0x18>;
+		#pwm-cells = <2>;
+
+		fan {
+			cooling-levels = <255>;
+			pwms = <&fan_controller 40000 PWM_POLARITY_INVERTED>;
+		};
+	};
+
+	wm8904_1a: audio-codec@1a {
+		compatible = "wlf,wm8904";
+		reg = <0x1a>;
+		AVDD-supply = <&reg_carrier_1p8v>;
+		CPVDD-supply = <&reg_carrier_1p8v>;
+		DBVDD-supply = <&reg_carrier_1p8v>;
+		DCVDD-supply = <&reg_carrier_1p8v>;
+		MICVDD-supply = <&reg_carrier_1p8v>;
+	};
+
+	/* Current measurement into module VCC */
+	hwmon@41 {
+		compatible = "ti,ina226";
+		reg = <0x41>;
+		shunt-resistor = <5000>;
+	};
+
+	temperature-sensor@4f {
+		compatible = "ti,tmp1075";
+		reg = <0x4f>;
+	};
 
 	/* USB-C OTG (TCPC USB PD PHY) */
 	tcpc@52 {
@@ -73,6 +118,12 @@
 				};
 			};
 		};
+	};
+
+	carrier_eeprom: eeprom@57 {
+		compatible = "st,24c02", "atmel,24c02";
+		reg = <0x57>;
+		pagesize = <16>;
 	};
 };
 
