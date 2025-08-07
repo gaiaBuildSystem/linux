@@ -15,6 +15,10 @@
 		ethernet1 = &enetc_port2;
 		i2c0 = &lpi2c3;
 		i2c1 = &lpi2c2;
+		i2c2 = &i3c2;
+		i2c3 = &lpi2c8;
+		i2c4 = &lpi2c4;
+		i2c6 = &lpi2c5;
 		mmc0 = &usdhc1;
 		mmc1 = &usdhc2;
 		rtc0 = &rtc_i2c;
@@ -119,6 +123,13 @@
 	status = "okay";
 };
 
+/* Aquila I2C_2 */
+&i3c2 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_i3c2>;
+	i2c-scl-hz = <100000>;
+};
+
 /* Aquila I2C_1 */
 &lpi2c2 {
 	pinctrl-names = "default", "gpio";
@@ -202,6 +213,42 @@
 		reg = <0x50>;
 		pagesize = <16>;
 	};
+};
+
+/* Aquila I2C_4_CSI1 */
+&lpi2c4 {
+	pinctrl-names = "default", "gpio";
+	pinctrl-0 = <&pinctrl_lpi2c4>;
+	pinctrl-1 = <&pinctrl_lpi2c4_gpio>;
+	#address-cells = <1>;
+	#size-cells = <0>;
+	clock-frequency = <100000>;
+	scl-gpios = <&gpio2 31 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+	sda-gpios = <&gpio2 30 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+};
+
+/* Aquila I2C_6 */
+&lpi2c5 {
+	pinctrl-names = "default", "gpio";
+	pinctrl-0 = <&pinctrl_lpi2c5>;
+	pinctrl-1 = <&pinctrl_lpi2c5_gpio>;
+	#address-cells = <1>;
+	#size-cells = <0>;
+	clock-frequency = <100000>;
+	scl-gpios = <&gpio2 23 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+	sda-gpios = <&gpio2 22 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+};
+
+/* Aquila I2C_3_DSI1/I2C_5_CSI2 */
+&lpi2c8 {
+	pinctrl-names = "default", "gpio";
+	pinctrl-0 = <&pinctrl_lpi2c8>;
+	pinctrl-1 = <&pinctrl_lpi2c8_gpio>;
+	#address-cells = <1>;
+	#size-cells = <0>;
+	clock-frequency = <100000>;
+	scl-gpios = <&gpio2 13 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+	sda-gpios = <&gpio2 12 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
 };
 
 /* Aquila SPI_2 */
@@ -334,6 +381,12 @@
 		fsl,pins = <IMX95_PAD_SAI1_TXD0__AONMIX_TOP_GPIO1_IO_BIT13	0x31e>; /* CTRL_GPIO_EXP_INT# */
 	};
 
+	/* Aquila I2C_2 */
+	pinctrl_i3c2: i3c2cgrp {
+		fsl,pins = <IMX95_PAD_ENET1_MDC__I3C2_SCL	0x40001186>, /* I2C_2_SCL */
+			   <IMX95_PAD_ENET1_MDIO__I3C2_SDA	0x40001186>; /* I2C_2_SDL */
+	};
+
 	/* Aquila I2C_1 */
 	pinctrl_lpi2c2: lpi2c2grp {
 		fsl,pins = <IMX95_PAD_I2C2_SCL__AONMIX_TOP_LPI2C2_SCL	0x40001b9e>, /* I2C_1_SCL */
@@ -356,6 +409,42 @@
 	pinctrl_lpi2c3_gpio: lpi2c3gpiogrp {
 		fsl,pins = <IMX95_PAD_GPIO_IO28__GPIO2_IO_BIT28	0x40001b9e>, /* I2C_SOM_SDA */
 			   <IMX95_PAD_GPIO_IO29__GPIO2_IO_BIT29	0x40001b9e>; /* I2C_SOM_SCL */
+	};
+
+	/* Aquila I2C_4_CSI1 */
+	pinctrl_lpi2c4: lpi2c4grp {
+		fsl,pins = <IMX95_PAD_GPIO_IO30__LPI2C4_SDA	0x40001b9e>, /* I2C_4_CSI1_SDA */
+			   <IMX95_PAD_GPIO_IO31__LPI2C4_SCL	0x40001b9e>; /* I2C_4_CSI1_SCL */
+	};
+
+	/* Aquila I2C_4_CSI1 as GPIO */
+	pinctrl_lpi2c4_gpio: lpi2c4gpiogrp {
+		fsl,pins = <IMX95_PAD_GPIO_IO30__GPIO2_IO_BIT30	0x40001b9e>, /* I2C_4_CSI1_SDA */
+			   <IMX95_PAD_GPIO_IO31__GPIO2_IO_BIT31	0x40001b9e>; /* I2C_4_CSI1_SCL */
+	};
+
+	/* Aquila I2C_6 */
+	pinctrl_lpi2c5: lpi2c5grp {
+		fsl,pins = <IMX95_PAD_GPIO_IO22__LPI2C5_SDA	0x40001b9e>, /* I2C_6_SDA */
+			   <IMX95_PAD_GPIO_IO23__LPI2C5_SCL	0x40001b9e>; /* I2C_6_SCL */
+	};
+
+	/* Aquila I2C_6 as GPIO */
+	pinctrl_lpi2c5_gpio: lpi2c5grp {
+		fsl,pins = <IMX95_PAD_GPIO_IO22__GPIO2_IO_BIT22	0x40001b9e>, /* I2C_6_SDA */
+			   <IMX95_PAD_GPIO_IO23__GPIO2_IO_BIT23	0x40001b9e>; /* I2C_6_SCL */
+	};
+
+	/* Aquila I2C_3_DSI1/I2C_5_CSI2 */
+	pinctrl_lpi2c8: lpi2c8grp {
+		fsl,pins = <IMX95_PAD_GPIO_IO12__LPI2C8_SDA	0x40001b9e>, /* I2C_3_DSI1/I2C_5_CSI2 SDA */
+			   <IMX95_PAD_GPIO_IO13__LPI2C8_SCL	0x40001b9e>; /* I2C_3_DSI1/I2C_5_CSI2 SCL */
+	};
+
+	/* Aquila I2C_3_DSI1/I2C_5_CSI2 as GPIO */
+	pinctrl_lpi2c8_gpio: lpi2c8gpiogrp {
+		fsl,pins = <IMX95_PAD_GPIO_IO12__GPIO2_IO_BIT12	0x40001b9e>, /* I2C_3_DSI1/I2C_5_CSI2 SDA */
+			   <IMX95_PAD_GPIO_IO13__GPIO2_IO_BIT13	0x40001b9e>; /* I2C_3_DSI1/I2C_5_CSI2 SCL */
 	};
 
 	/* Aquila SPI_2 */
