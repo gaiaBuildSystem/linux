@@ -157,6 +157,23 @@
 	status = "okay";
 };
 
+/* Aquila UART_4 */
+&lpuart2 {
+	status = "okay";
+};
+
+/* Aquila UART_1 */
+&lpuart3 {
+	status = "okay";
+};
+
+/* Aquila UART_2 as RS485 */
+&lpuart7 {
+	linux,rs485-enabled-at-boot-time;
+	rs485-rx-during-tx;
+	status = "okay";
+};
+
 /* Aquila ETH_2_XGMII_MDIO, shared between all ethernet ports */
 &netc_emdio {
 	status = "okay";
