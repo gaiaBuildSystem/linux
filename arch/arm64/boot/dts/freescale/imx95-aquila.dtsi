@@ -22,7 +22,10 @@
 		mmc0 = &usdhc1;
 		mmc1 = &usdhc2;
 		rtc0 = &rtc_i2c;
+		serial0 = &lpuart3;
+		serial1 = &lpuart7;
 		serial2 = &lpuart1;
+		serial3 = &lpuart2;
 	};
 
 	chosen {
@@ -282,6 +285,26 @@
 	pinctrl-0 = <&pinctrl_uart1>;
 };
 
+/* Aquila UART_4 */
+&lpuart2 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_uart2>;
+};
+
+/* Aquila UART_1 */
+&lpuart3 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_uart3>;
+	uart-has-rtscts;
+};
+
+/* Aquila UART_2 */
+&lpuart7 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_uart7>;
+	uart-has-rtscts;
+};
+
 /* Aquila ETH_2_XGMII_MDIO, shared between all ethernet ports */
 &netc_emdio {
 	pinctrl-names = "default";
@@ -477,6 +500,28 @@
 	pinctrl_uart1: uart1grp {
 		fsl,pins = <IMX95_PAD_UART1_TXD__AONMIX_TOP_LPUART1_TX	0x31e>, /* UART_3_TXD */
 			   <IMX95_PAD_UART1_RXD__AONMIX_TOP_LPUART1_RX	0x31e>; /* UART_3_RXD */
+	};
+
+	/* Aquila UART_4 */
+	pinctrl_uart2: uart2grp {
+		fsl,pins = <IMX95_PAD_UART2_TXD__AONMIX_TOP_LPUART2_TX	0x31e>, /* UART_4_TXD */
+			   <IMX95_PAD_UART2_RXD__AONMIX_TOP_LPUART2_RX	0x31e>; /* UART_4_RXD */
+	};
+
+	/* Aquila UART_1 */
+	pinctrl_uart3: uart3grp {
+		fsl,pins = <IMX95_PAD_GPIO_IO14__LPUART3_TX	0x31e>, /* UART_1_TXD */
+			   <IMX95_PAD_GPIO_IO15__LPUART3_RX	0x31e>, /* UART_1_RXD */
+			   <IMX95_PAD_GPIO_IO16__LPUART3_CTS_B	0x31e>, /* UART_1_CTS */
+			   <IMX95_PAD_GPIO_IO17__LPUART3_RTS_B	0x31e>; /* UART_1_RTS */
+	};
+
+	/* Aquila UART_2 */
+	pinctrl_uart7: uart7grp {
+		fsl,pins = <IMX95_PAD_GPIO_IO36__LPUART7_TX	0x31e>, /* UART_2_TXD */
+			   <IMX95_PAD_GPIO_IO37__LPUART7_RX	0x31e>, /* UART_2_RXD */
+			   <IMX95_PAD_GPIO_IO10__LPUART7_CTS_B	0x31e>, /* UART_2_CTS */
+			   <IMX95_PAD_GPIO_IO11__LPUART7_RTS_B	0x31e>; /* UART_2_RTS */
 	};
 
 	/* On-module eMMC */
