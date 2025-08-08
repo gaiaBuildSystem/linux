@@ -147,11 +147,100 @@
 			  "",
 			  "",
 			  "",
+			  "GPIO_08", /* 10 */
+			  "",
+			  "GPIO_09_CSI_1",
+			  "CTRL_GPIO_EXP_INT#",
+			  "GPIO_10_CSI_1";
+	status = "okay";
+};
+
+&gpio2 {
+	gpio-line-names = "", /* 0 */
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "GPIO_17_DSI_1",
+			  "",
+			  "GPIO_18_DSI_1";
+};
+
+&gpio3 {
+	gpio-line-names = "", /* 0 */
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
 			  "", /* 10 */
 			  "",
 			  "",
-			  "CTRL_GPIO_EXP_INT#";
-	status = "okay";
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "GPIO_11_CSI_1",
+			  "", /* 20 */
+			  "GPIO_21_DP",
+			  "GPIO_12_CSI_1";
+};
+
+&gpio4 {
+	gpio-line-names = "", /* 0 */
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "", /* 10 */
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "GPIO_06",
+			  "GPIO_05",
+			  "GPIO_04",
+			  "", /* 20 */
+			  "",
+			  "",
+			  "GPIO_07",
+			  "GPIO_01",
+			  "GPIO_02",
+			  "",
+			  "GPIO_03";
+};
+
+&gpio5 {
+	gpio-line-names = "", /* 0 */
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "GPIO_18_DSI_1",
+			  "", /* 10 */
+			  "",
+			  "",
+			  "GPIO_19_DSI_1",
+			  "GPIO_20_DSI_1";
 };
 
 /* Aquila I2C_2 */
@@ -472,6 +561,91 @@
 	pinctrl_flexcan4: flexcan4grp {
 		fsl,pins = <IMX95_PAD_GPIO_IO04__CAN4_TX	0x39e>, /* CAN_4_TX */
 			   <IMX95_PAD_GPIO_IO05__CAN4_RX	0x39e>; /* CAN_4_RX */
+	};
+
+	/* Aquila GPIO_01 */
+	pinctrl_gpio1: gpio1grp {
+		fsl,pins = <IMX95_PAD_ENET2_RD0__GPIO4_IO_BIT24	0x31e>; /* GPIO_01 */
+	};
+
+	/* Aquila GPIO_02 */
+	pinctrl_gpio2: gpio2grp {
+		fsl,pins = <IMX95_PAD_ENET2_RD1__GPIO4_IO_BIT25	0x31e>; /* GPIO_02 */
+	};
+
+	/* Aquila GPIO_03 */
+	pinctrl_gpio3: gpio3grp {
+		fsl,pins = <IMX95_PAD_ENET2_RD3__GPIO4_IO_BIT27	0x31e>; /* GPIO_03 */
+	};
+
+	/* Aquila GPIO_04 */
+	pinctrl_gpio4: gpio4grp {
+		fsl,pins = <IMX95_PAD_ENET2_TD0__GPIO4_IO_BIT19	0x31e>; /* GPIO_04 */
+	};
+
+	/* Aquila GPIO_05 */
+	pinctrl_gpio5: gpio5grp {
+		fsl,pins = <IMX95_PAD_ENET2_TD1__GPIO4_IO_BIT18	0x31e>; /* GPIO_05 */
+	};
+
+	/* Aquila GPIO_06 */
+	pinctrl_gpio6: gpio6grp {
+		fsl,pins = <IMX95_PAD_ENET2_TD2__GPIO4_IO_BIT17	0x31e>; /* GPIO_06 */
+	};
+
+	/* Aquila GPIO_07 */
+	pinctrl_gpio7: gpio7grp {
+		fsl,pins = <IMX95_PAD_ENET2_RXC__GPIO4_IO_BIT23	0x31e>; /* GPIO_07 */
+	};
+
+	/* Aquila GPIO_08 */
+	pinctrl_gpio8: gpio8grp {
+		fsl,pins = <IMX95_PAD_PDM_BIT_STREAM1__AONMIX_TOP_GPIO1_IO_BIT10	0x31e>; /* GPIO_08 */
+	};
+
+	/* Aquila GPIO_09_CSI_1 */
+	pinctrl_gpio9_csi_1: gpio9csi1grp {
+		fsl,pins = <IMX95_PAD_SAI1_TXC__AONMIX_TOP_GPIO1_IO_BIT12	0x31e>; /* GPIO_09_CSI_1 */
+	};
+
+	/* Aquila GPIO_10_CSI_1 */
+	pinctrl_gpio10_csi_1: gpio10csi1grp {
+		fsl,pins = <IMX95_PAD_SAI1_RXD0__AONMIX_TOP_GPIO1_IO_BIT14	0x31e>; /* GPIO_10_CSI_1 */
+	};
+
+	/* Aquila GPIO_11_CSI_1 */
+	pinctrl_gpio11_csi_1: gpio11csi1grp {
+		fsl,pins = <IMX95_PAD_SD2_VSELECT__GPIO3_IO_BIT19	0x31e>; /* GPIO_11_CSI_1 */
+	};
+
+	/* Aquila GPIO_12_CSI_1 */
+	pinctrl_gpio12_csi_1: gpio12csi1grp {
+		fsl,pins = <IMX95_PAD_SD3_DATA0__GPIO3_IO_BIT22	0x31e>; /* GPIO_12_CSI_1 */
+	};
+
+	/* Aquila GPIO_17_DSI_1 */
+	pinctrl_gpio17_dsi_1: gpio17dsi1grp {
+		fsl,pins = <IMX95_PAD_GPIO_IO07__GPIO2_IO_BIT7	0x31e>; /* GPIO_17_DSI_1 */
+	};
+
+	/* Aquila GPIO_18_DSI_1 */
+	pinctrl_gpio18_dsi_1: gpio18dsi1grp {
+		fsl,pins = <IMX95_PAD_GPIO_IO09__GPIO2_IO_BIT9	0x31e>; /* GPIO_18_DSI_1 */
+	};
+
+	/* Aquila GPIO_19_DSI_1 */
+	pinctrl_gpio19_dsi_1: gpio19dsi1grp {
+		fsl,pins = <IMX95_PAD_GPIO_IO33__GPIO5_IO_BIT13	0x31e>; /* GPIO_19_DSI_1 */
+	};
+
+	/* Aquila GPIO_20_DSI_1 */
+	pinctrl_gpio20_dsi_1: gpio20dsi1grp {
+		fsl,pins = <IMX95_PAD_GPIO_IO34__GPIO5_IO_BIT14	0x31e>; /* GPIO_20_DSI_1 */
+	};
+
+	/* Aquila GPIO_21_DP */
+	pinctrl_gpio21_dp: gpio21dpgrp {
+		fsl,pins = <IMX95_PAD_SD3_CMD__GPIO3_IO_BIT21	0x31e>; /* GPIO_21_DP */
 	};
 
 	/* Aquila I2C_2 */

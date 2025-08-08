@@ -62,6 +62,20 @@
 	status = "okay";
 };
 
+&gpio1 {
+	pinctrl-0 = <&pinctrl_gpio8>;
+};
+
+&gpio4 {
+	pinctrl-0 = <&pinctrl_gpio1>,
+		    <&pinctrl_gpio2>,
+		    <&pinctrl_gpio3>,
+		    <&pinctrl_gpio4>,
+		    <&pinctrl_gpio5>,
+		    <&pinctrl_gpio6>,
+		    <&pinctrl_gpio7>;
+};
+
 /* Aquila I2C_1 */
 &lpi2c2 {
 	status = "okay";
