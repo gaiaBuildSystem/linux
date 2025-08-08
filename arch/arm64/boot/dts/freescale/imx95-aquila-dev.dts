@@ -205,6 +205,21 @@
 	};
 };
 
+/* Aquila PWM_1 */
+&tpm3 {
+	status = "okay";
+};
+
+/* Aquila PWM_2 */
+&tpm6 {
+	status = "okay";
+};
+
+/* Aquila PWM_3_DSI and PWM_4_DP */
+&tpm5 {
+	status = "okay";
+};
+
 /* Aquila USB_2, optional Bluetooth USB */
 &usb2 {
 	status = "okay";
