@@ -10,6 +10,10 @@
 
 / {
 	aliases {
+		can0 = &flexcan1;
+		can1 = &flexcan2;
+		can2 = &flexcan3;
+		can3 = &flexcan4;
 		eeprom0 = &som_eeprom;
 		ethernet0 = &enetc_port0;
 		ethernet1 = &enetc_port2;
@@ -106,6 +110,30 @@
 &enetc_port2 {
 	clocks = <&clk_serdes_eth_ref>;
 	clock-names = "enet_ref_clk";
+};
+
+/* Aquila CAN_1 */
+&flexcan1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_flexcan1>;
+};
+
+/* Aquila CAN_2 */
+&flexcan2 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_flexcan2>;
+};
+
+/* Aquila CAN_3 */
+&flexcan3 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_flexcan3>;
+};
+
+/* Aquila CAN_4 */
+&flexcan4 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_flexcan4>;
 };
 
 &gpio1 {
@@ -402,6 +430,30 @@
 
 	pinctrl_ctrl_gpio_exp_int: gpioexpintgrp {
 		fsl,pins = <IMX95_PAD_SAI1_TXD0__AONMIX_TOP_GPIO1_IO_BIT13	0x31e>; /* CTRL_GPIO_EXP_INT# */
+	};
+
+	/* Aquila CAN_1 */
+	pinctrl_flexcan1: flexcan1grp {
+		fsl,pins = <IMX95_PAD_PDM_CLK__AONMIX_TOP_CAN1_TX		0x39e>, /* CAN_1_TX */
+			   <IMX95_PAD_PDM_BIT_STREAM0__AONMIX_TOP_CAN1_RX	0x39e>; /* CAN_2_TX */
+	};
+
+	/* Aquila CAN_2 */
+	pinctrl_flexcan2: flexcan2grp {
+		fsl,pins = <IMX95_PAD_GPIO_IO25__CAN2_TX	0x39e>, /* CAN_2_TX */
+			   <IMX95_PAD_GPIO_IO27__CAN2_RX	0x39e>; /* CAN_2_RX */
+	};
+
+	/* Aquila CAN_3 */
+	pinctrl_flexcan3: flexcan3grp {
+		fsl,pins = <IMX95_PAD_CCM_CLKO3__CAN3_TX	0x39e>, /* CAN_3_TX */
+			   <IMX95_PAD_CCM_CLKO4__CAN3_RX	0x39e>; /* CAN_3_RX */
+	};
+
+	/* Aquila CAN_4 */
+	pinctrl_flexcan4: flexcan4grp {
+		fsl,pins = <IMX95_PAD_GPIO_IO04__CAN4_TX	0x39e>, /* CAN_4_TX */
+			   <IMX95_PAD_GPIO_IO05__CAN4_RX	0x39e>; /* CAN_4_RX */
 	};
 
 	/* Aquila I2C_2 */
