@@ -2024,6 +2024,8 @@ static void arm_smmu_tlb_inv_range_domain(unsigned long iova, size_t size,
 		cmd.tlbi.vmid	= smmu_domain->s2_cfg.vmid;
 	}
 	__arm_smmu_tlb_inv_range(&cmd, iova, size, granule, smmu_domain);
+	if (smmu_domain->smmu->options & ARM_SMMU_OPT_TLBI_TWICE)
+		__arm_smmu_tlb_inv_range(&cmd, iova, size, granule, smmu_domain);
 
 	/*
 	 * Unfortunately, this can't be leaf-only since we may have
@@ -2049,6 +2051,8 @@ void arm_smmu_tlb_inv_range_asid(unsigned long iova, size_t size, int asid,
 	};
 
 	__arm_smmu_tlb_inv_range(&cmd, iova, size, granule, smmu_domain);
+	if (smmu_domain->smmu->options & ARM_SMMU_OPT_TLBI_TWICE)
+		__arm_smmu_tlb_inv_range(&cmd, iova, size, granule, smmu_domain);
 }
 
 static void arm_smmu_tlb_inv_page_nosync(struct iommu_iotlb_gather *gather,
