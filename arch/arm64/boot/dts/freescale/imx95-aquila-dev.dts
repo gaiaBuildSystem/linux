@@ -22,12 +22,59 @@
 		eeprom1 = &carrier_eeprom;
 	};
 
+	dp0-connector {
+		compatible = "dp-connector";
+		dp-pwr-supply = <&reg_dp_3p3v>;
+		label = "Display Port";
+		type = "full-size";
+
+		port {
+			dp0_connector_in: endpoint {
+				remote-endpoint = <&dsi2dp_out>;
+			};
+		};
+	};
+
 	reg_carrier_1p8v: regulator-carrier-1p8v {
 		compatible = "regulator-fixed";
 		regulator-max-microvolt = <1800000>;
 		regulator-min-microvolt = <1800000>;
 		regulator-name = "Carrier_1.8V";
 	};
+
+	reg_dp_3p3v: regulator-dp-3p3v {
+		compatible = "regulator-fixed";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_gpio21_dp>;
+		/* Aquila GPIO_21_DP */
+		gpios = <&gpio3 21 GPIO_ACTIVE_HIGH>;
+		enable-active-high;
+		regulator-max-microvolt = <3300000>;
+		regulator-min-microvolt = <3300000>;
+		regulator-name = "DP_3V3";
+		startup-delay-us = <10000>;
+	};
+};
+
+&display_pixel_link {
+	status = "okay";
+};
+
+&displaymix_irqsteer {
+	status = "okay";
+};
+
+&dpu {
+	assigned-clocks = <&scmi_clk IMX95_CLK_DISP1PIX>,
+			  <&scmi_clk IMX95_CLK_VIDEOPLL1_VCO>,
+			  <&scmi_clk IMX95_CLK_VIDEOPLL1>;
+	assigned-clock-parents = <&scmi_clk IMX95_CLK_VIDEOPLL1>;
+	assigned-clock-rates = <0>, <4008000000>, <445333334>;
+	status = "okay";
+};
+
+&dsi2dp_out {
+	remote-endpoint = <&dp0_connector_in>;
 };
 
 /* Aquila ETH_1 */
@@ -228,6 +275,10 @@
 	status = "okay";
 };
 
+&mipi_dsi {
+	status = "okay";
+};
+
 /* Aquila ETH_2_XGMII_MDIO, shared between all ethernet ports */
 &netc_emdio {
 	status = "okay";
@@ -237,6 +288,21 @@
 		interrupt-parent = <&som_gpio_expander_1>;
 		interrupts = <8 IRQ_TYPE_EDGE_FALLING>;
 	};
+};
+
+&pixel_interleaver {
+	#address-cells = <1>;
+	#size-cells = <0>;
+	status = "okay";
+
+	channel@0 {
+		reg = <0>;
+		status = "okay";
+	};
+};
+
+&som_dsi2dp_bridge {
+	status = "okay";
 };
 
 /* Aquila PWM_1 */

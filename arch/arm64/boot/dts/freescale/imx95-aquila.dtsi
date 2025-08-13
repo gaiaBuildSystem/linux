@@ -36,11 +36,45 @@
 		stdout-path = "serial2:115200n8";
 	};
 
+	clk_dsi2dp_refclk: clock-dsi2dp-refclk {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <27000000>;
+	};
+
+	clk_dsi2dp_refclk_en: clock-dsi2dp-refclk-en {
+		compatible = "gpio-gate-clock";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_ctrl_dp_clk_en>;
+		clocks = <&clk_dsi2dp_refclk>;
+		#clock-cells = <0>;
+		/* CTRL_DP_CLK_EN */
+		enable-gpios = <&gpio1 11 GPIO_ACTIVE_HIGH>;
+	};
+
 	clk_serdes_eth_ref: clock-serdes-eth-ref {
 		compatible = "gpio-gate-clock";
 		#clock-cells = <0>;
 		/* CTRL_ETH_REF_CLK_STBY# */
 		enable-gpios = <&som_gpio_expander_0 6 GPIO_ACTIVE_HIGH>;
+	};
+
+	reg_1p8v: regulator-1p8v {
+		compatible = "regulator-fixed";
+		regulator-max-microvolt = <1800000>;
+		regulator-min-microvolt = <1800000>;
+		regulator-name = "On-module +V1.8";
+	};
+
+	reg_dp_1p2v: regulator-dp-1p2v {
+		compatible = "regulator-fixed";
+		/* CTRL_DP_BRIDGE_EN */
+		gpios = <&som_gpio_expander_0 7 GPIO_ACTIVE_HIGH>;
+		enable-active-high;
+		regulator-max-microvolt = <1200000>;
+		regulator-min-microvolt = <1200000>;
+		regulator-name = "On-module +V1.2_DP";
+		vin-supply = <&reg_1p8v>;
 	};
 
 	reg_vref_1p8v: regulator-vref-1p8v {
@@ -325,6 +359,37 @@
 			"WIFI_WAKEUP_HOST";
 	};
 
+	som_dsi2dp_bridge: bridge@2c {
+		compatible = "ti,sn65dsi86";
+		reg = <0x2c>;
+		clocks = <&clk_dsi2dp_refclk_en>;
+		clock-names = "refclk";
+		vcc-supply = <&reg_dp_1p2v>;
+		vcca-supply = <&reg_dp_1p2v>;
+		vccio-supply = <&reg_1p8v>;
+		vpll-supply = <&reg_1p8v>;
+		status = "disabled";
+
+		ports {
+			#address-cells = <1>;
+			#size-cells = <0>;
+
+			port@0 {
+				reg = <0>;
+				dsi2dp_in: endpoint {
+					remote-endpoint = <&dsi0_out>;
+				};
+			};
+
+			port@1 {
+				reg = <1>;
+				dsi2dp_out: endpoint {
+					data-lanes = <3 2 1 0>;
+				};
+			};
+		};
+	};
+
 	rtc_i2c: rtc@32 {
 		compatible = "epson,rx8130";
 		reg = <0x32>;
@@ -427,6 +492,20 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_uart7>;
 	uart-has-rtscts;
+};
+
+&mipi_dsi {
+	ports {
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		port@1 {
+			reg = <1>;
+			dsi0_out: endpoint {
+				remote-endpoint = <&dsi2dp_in>;
+			};
+		};
+	};
 };
 
 /* Aquila ETH_2_XGMII_MDIO, shared between all ethernet ports */
@@ -540,6 +619,10 @@
 			   <IMX95_PAD_ENET1_RD1__NETCMIX_TOP_ETH0_RGMII_RD1		0x57e>, /* ENET1_RD1    */
 			   <IMX95_PAD_ENET1_RD2__NETCMIX_TOP_ETH0_RGMII_RD2		0x57e>, /* ENET1_RD2    */
 			   <IMX95_PAD_ENET1_RD3__NETCMIX_TOP_ETH0_RGMII_RD3		0x57e>; /* ENET1_RD3    */
+	};
+
+	pinctrl_ctrl_dp_clk_en: dpclkengrp {
+		fsl,pins = <IMX95_PAD_SAI1_TXFS__AONMIX_TOP_GPIO1_IO_BIT11	0x11e>; /* CTRL_DP_CLK_EN */
 	};
 
 	pinctrl_ctrl_gpio_exp_int: gpioexpintgrp {
