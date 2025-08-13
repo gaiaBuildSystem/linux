@@ -54,6 +54,36 @@
 		regulator-name = "DP_3V3";
 		startup-delay-us = <10000>;
 	};
+
+	sound {
+		compatible = "simple-audio-card";
+		simple-audio-card,bitclock-master = <&codec_dai>;
+		simple-audio-card,format = "i2s";
+		simple-audio-card,frame-master = <&codec_dai>;
+		simple-audio-card,mclk-fs = <256>;
+		simple-audio-card,name = "aquila-wm8904";
+		simple-audio-card,routing =
+			"Headphone Jack", "HPOUTL",
+			"Headphone Jack", "HPOUTR",
+			"IN2L", "Line In Jack",
+			"IN2R", "Line In Jack",
+			"Microphone Jack", "MICBIAS",
+			"IN1L", "Microphone Jack",
+			"IN1R", "Digital Mic";
+		simple-audio-card,widgets =
+			"Microphone", "Microphone Jack",
+			"Microphone", "Digital Mic",
+			"Headphone", "Headphone Jack",
+			"Line", "Line In Jack";
+
+		codec_dai: simple-audio-card,codec {
+			sound-dai = <&wm8904_1a>;
+		};
+
+		simple-audio-card,cpu {
+			sound-dai = <&sai2>;
+		};
+	};
 };
 
 &display_pixel_link {
@@ -161,11 +191,30 @@
 	wm8904_1a: audio-codec@1a {
 		compatible = "wlf,wm8904";
 		reg = <0x1a>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_sai2_mclk>;
+		clocks = <&scmi_clk IMX95_CLK_SAI2>;
+		clock-names = "mclk";
+		#sound-dai-cells = <0>;
 		AVDD-supply = <&reg_carrier_1p8v>;
 		CPVDD-supply = <&reg_carrier_1p8v>;
 		DBVDD-supply = <&reg_carrier_1p8v>;
 		DCVDD-supply = <&reg_carrier_1p8v>;
 		MICVDD-supply = <&reg_carrier_1p8v>;
+
+		wlf,drc-cfg-names = "default", "peaklimiter";
+		/*
+		 * Config registers per name, respectively:
+		 * KNEE_IP = 0,   KNEE_OP = 0,     HI_COMP = 1,   LO_COMP = 1
+		 * KNEE_IP = -24, KNEE_OP = -6,    HI_COMP = 1/4, LO_COMP = 1
+		 */
+		wlf,drc-cfg-regs = /bits/ 16 <0x01af 0x3248 0x0000 0x0000>,
+				   /bits/ 16 <0x04af 0x324b 0x0010 0x0408>;
+
+		/* GPIO1 = DMIC_CLK, don't touch others */
+		wlf,gpio-cfg = <0x0018>, <0xffff>, <0xffff>, <0xffff>;
+
+		wlf,in1r-as-dmicdat2;
 	};
 
 	/* Current measurement into module VCC */
@@ -299,6 +348,11 @@
 		reg = <0>;
 		status = "okay";
 	};
+};
+
+/* Aquila I2S_1 */
+&sai2 {
+	status = "okay";
 };
 
 &som_dsi2dp_bridge {

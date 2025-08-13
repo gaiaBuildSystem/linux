@@ -532,6 +532,35 @@
 	status = "okay";
 };
 
+&pixel_interleaver {
+	#address-cells = <1>;
+	#size-cells = <0>;
+	status = "okay";
+
+	channel@0 {
+		reg = <0>;
+		status = "okay";
+	};
+};
+
+/* Aquila I2S_1 */
+&sai2 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_sai2>;
+	assigned-clocks = <&scmi_clk IMX95_CLK_AUDIOPLL1_VCO>,
+			  <&scmi_clk IMX95_CLK_AUDIOPLL2_VCO>,
+			  <&scmi_clk IMX95_CLK_AUDIOPLL1>,
+			  <&scmi_clk IMX95_CLK_AUDIOPLL2>,
+			  <&scmi_clk IMX95_CLK_SAI2>;
+	assigned-clock-parents = <0>, <0>, <0>, <0>,
+				 <&scmi_clk IMX95_CLK_AUDIOPLL1>;
+	assigned-clock-rates = <3932160000>,
+			       <3612672000>, <393216000>,
+			       <361267200>, <12288000>;
+	#sound-dai-cells = <0>;
+	fsl,sai-mclk-direction-output;
+};
+
 /* Aquila PWM_1 */
 &tpm3 {
 	pinctrl-names = "default";
@@ -852,6 +881,18 @@
 	/* Aquila QSPI_1_CS2# as GPIO */
 	pinctrl_qspi_cs2_gpio: qspics2gpiogrp {
 		fsl,pins = <IMX95_PAD_CCM_CLKO2__GPIO3_IO_BIT27	0x3fe>; /* QSPI_1_CS2# */
+	};
+
+	/* Aquila I2S_1 */
+	pinctrl_sai2: sai2grp {
+		fsl,pins = <IMX95_PAD_ENET2_TX_CTL__NETCMIX_TOP_SAI2_TX_SYNC		0x11e>, /* I2S1_SYNC  */
+			   <IMX95_PAD_ENET2_TXC__NETCMIX_TOP_SAI2_TX_BCLK		0x11e>, /* I2S1_BCLK  */
+			   <IMX95_PAD_ENET2_TD3__NETCMIX_TOP_SAI2_RX_DATA_BIT0		0x11e>, /* I2S1_D_IN  */
+			   <IMX95_PAD_ENET2_RX_CTL__NETCMIX_TOP_SAI2_TX_DATA_BIT0	0x11e>; /* I2S2_D_OUT */
+	};
+
+	pinctrl_sai2_mclk: sai2mclkgrp {
+		fsl,pins = <IMX95_PAD_ENET2_RD2__NETCMIX_TOP_SAI2_MCLK	0x31e>; /* I2S_1_MCLK */
 	};
 
 	/* Aquila SD_1_CD# as GPIO */
