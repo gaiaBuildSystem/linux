@@ -6,6 +6,7 @@
  */
 
 #include <dt-bindings/net/ti-dp83867.h>
+#include <dt-bindings/phy/phy-imx8-pcie.h>
 #include "imx95.dtsi"
 
 / {
@@ -537,6 +538,24 @@
 	};
 };
 
+/* Aquila PCIE_1 */
+&pcie0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_pcie0>;
+	host-wake-gpios = <&som_gpio_expander_1 4 GPIO_ACTIVE_LOW>;
+	reset-gpios = <&som_gpio_expander_1 0 GPIO_ACTIVE_LOW>;
+	fsl,refclk-pad-mode = <IMX8_PCIE_REFCLK_PAD_OUTPUT>;
+};
+
+/* On-module Wi-Fi or Aquila PCIE_2 */
+&pcie1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_pcie1>;
+	reset-gpios = <&som_gpio_expander_0 1 GPIO_ACTIVE_LOW>;
+	fsl,refclk-pad-mode = <IMX8_PCIE_REFCLK_PAD_OUTPUT>;
+	status = "okay";
+};
+
 /* Aquila I2S_1 */
 &sai2 {
 	pinctrl-names = "default";
@@ -865,6 +884,16 @@
 			   <IMX95_PAD_GPIO_IO01__LPSPI6_SIN	0x3fe>, /* SPI_1_MISO */
 			   <IMX95_PAD_GPIO_IO02__LPSPI6_SOUT	0x3fe>, /* SPI_1_MOSI */
 			   <IMX95_PAD_GPIO_IO03__LPSPI6_SCK	0x3fe>; /* SPI_1_CLK  */
+	};
+
+	/* Aquila PCIE_1 */
+	pinctrl_pcie0: pcie0grp {
+		fsl,pins = <IMX95_PAD_GPIO_IO32__HSIOMIX_TOP_PCIE1_CLKREQ_B	0x40001b1e>; /* PCIE_1_CLKREQ# */
+	};
+
+	/* Aquila PCIE_2 */
+	pinctrl_pcie1: pcie1grp {
+		fsl,pins = <IMX95_PAD_GPIO_IO35__HSIOMIX_TOP_PCIE2_CLKREQ_B	0x40001b1e>; /* PCIE_2_CLKREQ# */
 	};
 
 	/* Aquila QSPI_1_CS1# */

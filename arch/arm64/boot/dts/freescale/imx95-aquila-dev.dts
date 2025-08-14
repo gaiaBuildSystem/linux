@@ -339,6 +339,11 @@
 	};
 };
 
+/* Aquila PCIE_1 */
+&pcie0 {
+	status = "okay";
+};
+
 &pixel_interleaver {
 	#address-cells = <1>;
 	#size-cells = <0>;
