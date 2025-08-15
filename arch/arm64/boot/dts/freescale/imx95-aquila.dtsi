@@ -27,6 +27,7 @@
 		mmc0 = &usdhc1;
 		mmc1 = &usdhc2;
 		rtc0 = &rtc_i2c;
+		rtc1 = &scmi_bbm;
 		serial0 = &lpuart3;
 		serial1 = &lpuart7;
 		serial2 = &lpuart1;
@@ -35,6 +36,21 @@
 
 	chosen {
 		stdout-path = "serial2:115200n8";
+	};
+
+	aquila_key_wake: gpio-key-wakeup {
+		compatible = "gpio-keys";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_ctrl_wake1_mico>;
+		status = "disabled";
+
+		key-wakeup {
+			/* Aquila CTRL_WAKE1_MICO# */
+			gpios = <&gpio5 11 GPIO_ACTIVE_LOW>;
+			label = "Wake Up";
+			linux,code = <KEY_WAKEUP>;
+			wakeup-source;
+		};
 	};
 
 	clk_dsi2dp_refclk: clock-dsi2dp-refclk {
@@ -640,6 +656,11 @@
 	vqmmc-supply = <&reg_usdhc2_vqmmc>;
 };
 
+&wdog3 {
+	fsl,ext-reset-output;
+	status = "okay";
+};
+
 &scmi_iomuxc {
 	/* Aquila ETH_2_XGMII_MDIO */
 	pinctrl_emdio: emdiogrp {
@@ -669,6 +690,10 @@
 
 	pinctrl_ctrl_gpio_exp_int: gpioexpintgrp {
 		fsl,pins = <IMX95_PAD_SAI1_TXD0__AONMIX_TOP_GPIO1_IO_BIT13	0x31e>; /* CTRL_GPIO_EXP_INT# */
+	};
+
+	pinctrl_ctrl_wake1_mico: ctrlwake1micogrp {
+		fsl,pins = <IMX95_PAD_XSPI1_SS1_B__GPIO5_IO_BIT11	0x31e>; /* CTRL_WAKE1_MICO# */
 	};
 
 	/* Aquila CAN_1 */
