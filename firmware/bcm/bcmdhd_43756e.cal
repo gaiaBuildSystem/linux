@@ -1,6 +1,6 @@
 # syn43756 C0 WLBGA reference board, iPA version.
 # nvram copied and edited from BCM4361_B0 fcbga BU board //
-# syn943756wlpagbi_p200_C0.txt
+# syn943756wlpagbi_p201_C0.txt
 # SSID generated using Alberto's boardssid.py script:
 # ********************SUMMARY********************
 # Board Name: syn943756wlpagbi
@@ -16,10 +16,10 @@
 # <<Broadcom-WL-IPTag/Proprietary:>>
 NVRAMRev=$Rev: 874188 $
 sromrev=11
-boardrev=0x1200
+boardrev=0x1201
 boardtype=0x0a40
 boardflags=0x00400201
-boardflags2=0x00800000
+boardflags2=0xc0800000
 boardflags3=0x40002180
 #boardnum=57410
 macaddr=00:90:4c:12:d0:01
@@ -158,24 +158,17 @@ AvVmid_6g_c0=4,94,4,94,4,94,4,94,4,94,4,94
 AvVmid_6g_c1=3,110,3,110,3,110,3,110,3,110,3,110
 
 # 2G CCK PA parameters
-#pa2gccka0=-150,7196,-856
-#pa2gccka1=-139,7725,-920
-#pa2gccka0=-150,7325,-865
-#pa2gccka1=-139,7981,-937
-pa2gccka0=-150,7453,-874
-pa2gccka1=-139,7981,-937
+pa2gccka0=-165,7298,-862
+pa2gccka1=-190,6727,-812
 
 # 2G/5G/6G OFDM PA parameters
 paparambwver=3
-pa2ga0=-139,7308,-848
-pa2ga1=-146,6928,-800
-
-pa5ga0=-135,6508,-755,-123,6629,-755,-128,6578,-758,-103,6795,-763
-pa5ga1=-135,6508,-755,-123,6629,-755,-162,6335,-755,-151,6894,-814
-
-pa6ga0=-158,6225,-750,-151,6158,-742,-129,6386,-750,-126,6173,-735,-108,6340,-750,-58,6677,-751
-pa6ga1=-163,6805,-820,-170,6633,-807,-161,6587,-801,-157,6678,-811,-135,6818,-815,-95,7315,-844
-
+pa2ga0=-124,7013,-788
+pa2ga1=-96,7448,-805
+pa5ga0=-135,6636,-763,-123,6757,-763,-128,6706,-766,-103,6923,-769
+pa5ga1=-135,6636,-763,-123,6821,-767,-162,6463,-765,-151,7022,-823
+pa6ga0=-158,5969,-730,-151,6094,-737,-129,6386,-750,-126,6173,-735,-108,6468,-757,-58,6741,-752
+pa6ga1=-163,6677,-810,-170,6505,-796,-161,6587,-801,-157,6550,-801,-135,6818,-815,-95,7187,-838
 
 
 # 2G/5G/6G power offset
@@ -184,29 +177,28 @@ cckpwroffset1=0
 powoffs2gtna0=0,2,2,1,0,0,-4,-2,-1,0,0,-1,-2,-3
 powoffs2gtna1=0,0,1,2,1,0,-1,0,0,1,0,0,-2,-5
 subband5gver=0x4
-pdoffset40ma0=0x2200
-pdoffset80ma0=0x1000
-pdoffset40ma1=0x2341
-pdoffset80ma1=0x1031
+pdoffset40ma0=0x2211
+pdoffset80ma0=0x1100
+pdoffset40ma1=0x1111
+pdoffset80ma1=0x1000
 subband6gver=0x1
-pdoffset6g40ma0=0x322220
-pdoffset6g40ma1=0x212222
-pdoffset6g80ma0=0x211010
-pdoffset6g80ma1=0x222200
-
+pdoffset6g40ma0=0x233121
+pdoffset6g40ma1=0x223221
+pdoffset6g80ma0=0x231001
+pdoffset6g80ma1=0x021100
 
 # 2G/5G/6G OLPC
 disable_olpc=0
-olpc_thresh2g=32
-olpc_anchor2g=40
+olpc_thresh2g=40
+olpc_anchor2g=48
 olpc_thresh5g=42
 olpc_anchor5g=52
 olpc_thresh6g=32
 olpc_anchor6g=42
-hwolpc_offset_c0=2,-3,-4,-2,-2
-hwolpc_offset_c1=-2,-4,-4,-3,-4
-hwolpc_offset6g_c0=2,3,2,6,3,3
-hwolpc_offset6g_c1=2,4,4,2,2,1
+hwolpc_offset_c0=1,-3,-2,-2,-2
+hwolpc_offset_c1=-3,-3,-3,-2,-2
+hwolpc_offset6g_c0=4,3,3,3,3,1
+hwolpc_offset6g_c1=4,4,4,3,3,1
 
 # 5G power offset per channel for band edge channel
 powoffs5g20mtna0=0,0,0,0,0,0,0
@@ -242,10 +234,15 @@ mcs1024qam5gmpo=0xFFFFFF
 mcs1024qam5ghpo=0xFFFFFF
 mcs1024qam5gx1po=0xFFFFFF
 mcs1024qam5gx2po=0xFFFFFF
+#2G 5G 6G ppr extentend bit
 mcs8poexp=0
 mcs9poexp=0
 mcs10poexp=0
 mcs11poexp=0
+mcs8poexp_6g=0
+mcs9poexp_6g=0
+mcs10poexp_6g=0
+mcs11poexp_6g=0
 
 # 6G SU Power Per Rate
 maxp6ga0=70,70,70,70,70,70
@@ -318,24 +315,23 @@ txwbpapden=0 # 0:NBPAPD 1:WBPAPD
 # NB PAPD Cal params
 nb_eps_offset=470,470
 nb_bbmult=66,66
-nb_papdcalidx_c0=33,12,16,10,22,33,33,33,33,33,33
-nb_papdcalidx_c1=34,12,16,10,22,33,33,33,33,33,33
+nb_papdcalidx_c0=36,12,16,10,22,33,33,33,33,33,33
+nb_papdcalidx_c1=36,12,16,10,22,33,33,33,33,33,33
 nb_txattn=2,2
 nb_rxattn=1,1
 nb_eps_stopidx=63
-epsilonoff_5g20_c0=2,0,2,1
-epsilonoff_5g40_c0=2,1,2,1
+epsilonoff_5g20_c0=0,0,0,0
+epsilonoff_5g40_c0=0,0,0,0
 epsilonoff_5g80_c0=2,2,2,2
-epsilonoff_5g20_c1=1,1,0,1
-epsilonoff_5g40_c1=2,1,1,0
-epsilonoff_5g80_c1=2,2,2,2
-epsilonoff_6g20_c0=-1,-1,-2,-1,-2,-2
-epsilonoff_6g40_c0=-1,-1,-1,-1,-1,-1
-epsilonoff_6g80_c0=0,-1,0,0,0,0
-#epsilonoff_6g80_c0=0,-1,-1,-1,-1,-1
-epsilonoff_6g20_c1=-1,-1,-2,-2,-2,-2
-epsilonoff_6g40_c1=-1,-1,-1,-2,-2,-1
-epsilonoff_6g80_c1=0,0,0,0,0,0
+epsilonoff_5g20_c1=0,0,-1,0
+epsilonoff_5g40_c1=0,0,0,0
+epsilonoff_5g80_c1=2,2,1,1
+epsilonoff_6g20_c0=1,2,2,0,1,1
+epsilonoff_6g40_c0=2,2,2,1,2,1
+epsilonoff_6g80_c0=1,1,1,1,1,1
+epsilonoff_6g20_c1=0,2,0,1,0,0
+epsilonoff_6g40_c1=0,2,1,0,0,0
+epsilonoff_6g80_c1=1,1,1,1,1,0
 epsilonoff_2g20_c0=0
 epsilonoff_2g20_c1=0
 epsilonoff_2g40_c0=0
@@ -515,7 +511,7 @@ ruppr6g80qam1024a0=0x49294A52
 #eu_edthresh6g=-67
 
 # Base K Values (For the VHT case 5G 80/40/20/2G20)
-proxd_basekival=35373,34722,36113,37535
+proxd_basekival=35373,34708,36113,35119
 proxd_basektval=35367,34708,36113,35119
 # Offsets across channels (Upper nibble for target, lower nibble for initiator - saved in hex)
 proxd_80mkval=0x1515,0,0,0,0,0x0000
