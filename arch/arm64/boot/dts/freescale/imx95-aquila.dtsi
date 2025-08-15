@@ -141,12 +141,58 @@
 		enable-active-high;
 		regulator-name = "USB_2_H_EN";
 	};
+
+	reserved-memory {
+		#address-cells = <2>;
+		#size-cells = <2>;
+		ranges;
+
+		ele_reserved: memory@9c300000 {
+			compatible = "shared-dma-pool";
+			reg = <0 0x9c300000 0 0x100000>;
+			no-map;
+		};
+
+		linux_cma: linux,cma {
+			compatible = "shared-dma-pool";
+			reusable;
+			size = <0 0x3c000000>;
+			alloc-ranges = <0 0x80000000 0 0x7F000000>;
+			linux,cma-default;
+		};
+
+		vpu_boot: vpu_boot@a0000000 {
+			reg = <0 0xa0000000 0 0x100000>;
+			no-map;
+		};
+	};
 };
 
 /* Aquila ADC_[1-4] */
 &adc1 {
 	vref-supply = <&reg_vref_1p8v>;
 	status = "okay";
+};
+
+&display_pixel_link {
+	status = "okay";
+};
+
+&displaymix_irqsteer {
+	status = "okay";
+};
+
+&dpu {
+	assigned-clocks = <&scmi_clk IMX95_CLK_DISP1PIX>,
+			  <&scmi_clk IMX95_CLK_VIDEOPLL1_VCO>,
+			  <&scmi_clk IMX95_CLK_VIDEOPLL1>;
+	assigned-clock-parents = <&scmi_clk IMX95_CLK_VIDEOPLL1>;
+	assigned-clock-rates = <0>, <4008000000>, <445333334>;
+	status = "okay";
+};
+
+&ele_if0 {
+	memory-region = <&ele_reserved>;
 };
 
 /* Aquila ETH_1 */
@@ -654,6 +700,11 @@
 	cd-gpios = <&gpio3 0 GPIO_ACTIVE_LOW>;
 	vmmc-supply = <&reg_usdhc2_vmmc>;
 	vqmmc-supply = <&reg_usdhc2_vqmmc>;
+};
+
+&vpuctrl {
+	boot = <&vpu_boot>;
+	sram = <&sram1>;
 };
 
 &wdog3 {
