@@ -590,7 +590,7 @@
 	disp2-type = <3>;
 
 	dsi_panel {
-		status= "okay";
+		status= "disabled";
 
 		NO_OF_RESID =  <1>;
 		DSI_RES =  <102>;
