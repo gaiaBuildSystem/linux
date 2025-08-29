@@ -663,9 +663,8 @@
 	hw_partition = <0>; //0 - Default; 4 - 7 For GP1 to GP4
 
 	dsi_panel {
-		status= "okay";
-		power-supply = <&rpi_panel_regulator>;
-		backlight = <&rpi_panel_regulator>;
+		status= "disabled";
+
 		NO_OF_RESID =  <1>;
 		DSI_RES =  <102>;
 		ACTIVE_WIDTH = <800>;
