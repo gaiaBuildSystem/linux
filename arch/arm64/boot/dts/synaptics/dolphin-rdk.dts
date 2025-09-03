@@ -78,10 +78,10 @@
 		compatible = "syna,berlin-heaps";
 		pool-num = <2>;
 		reg-names = "NonSecure", "Secure";
-		reg = <0 0x78000000 0 0x08000000>,
-		      <0 0x70000000 0 0x08000000>;
-		attributes-num-per-pool = <1>;
-		pool-attributes = <0x00000105 0x00000102>;
+		reg = <0 0x7f000000 0 0x00800000>,
+		      <0 0x7f800000 0 0x00800000>;
+		attributes-num-per-pool = <2>;
+		pool-attributes = <0x00000105 0x00000F3A 0x00000102 0x00000F3D>;
 	};
 
 	regulators {
