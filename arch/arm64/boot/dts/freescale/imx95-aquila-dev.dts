@@ -39,7 +39,7 @@
 		compatible = "regulator-fixed";
 		regulator-max-microvolt = <1800000>;
 		regulator-min-microvolt = <1800000>;
-		regulator-name = "Carrier_1.8V";
+		regulator-name = "On-carrier 1V8";
 	};
 
 	reg_dp_3p3v: regulator-dp-3p3v {

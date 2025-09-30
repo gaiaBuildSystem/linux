@@ -32,6 +32,7 @@
 		serial1 = &lpuart7;
 		serial2 = &lpuart1;
 		serial3 = &lpuart2;
+		usb0 = &usb3;
 	};
 
 	chosen {
@@ -105,7 +106,7 @@
 		compatible = "regulator-fixed";
 		pinctrl-names = "default";
 		pinctrl-0 = <&pinctrl_sd1_pwr_en>;
-		/* SD_1_PWR_EN */
+		/* Aquila SD_1_PWR_EN */
 		gpios = <&gpio3 7 GPIO_ACTIVE_HIGH>;
 		enable-active-high;
 		off-on-delay-us = <100000>;
@@ -528,7 +529,6 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_lpspi6>;
 	cs-gpios = <&gpio2 0 GPIO_ACTIVE_LOW>;
-	status = "disabled";
 };
 
 /* Aquila UART_3, used as the Linux Console */
@@ -803,7 +803,7 @@
 	/* Aquila CAN_1 */
 	pinctrl_flexcan1: flexcan1grp {
 		fsl,pins = <IMX95_PAD_PDM_CLK__AONMIX_TOP_CAN1_TX		0x39e>, /* CAN_1_TX */
-			   <IMX95_PAD_PDM_BIT_STREAM0__AONMIX_TOP_CAN1_RX	0x39e>; /* CAN_2_TX */
+			   <IMX95_PAD_PDM_BIT_STREAM0__AONMIX_TOP_CAN1_RX	0x39e>; /* CAN_1_RX */
 	};
 
 	/* Aquila CAN_2 */
@@ -1058,22 +1058,22 @@
 	};
 
 	/* Aquila PWM_1 */
-	pinctrl_tpm3_ch3: tpm3grpch3 {
+	pinctrl_tpm3_ch3: tpm3ch3grp {
 		fsl,pins = <IMX95_PAD_GPIO_IO24__TPM3_CH3	0x11e>; /* PWM_1 */
 	};
 
 	/* Aquila PWM_2 */
-	pinctrl_tpm6_ch0: tpm6grpch0 {
+	pinctrl_tpm6_ch0: tpm6ch0grp {
 		fsl,pins = <IMX95_PAD_GPIO_IO08__TPM6_CH0	0x11e>; /* PWM_2 */
 	};
 
 	/* Aquila PWM_3_DSI */
-	pinctrl_tpm5_ch0: tpm5grpch0 {
+	pinctrl_tpm5_ch0: tpm5ch0grp {
 		fsl,pins = <IMX95_PAD_GPIO_IO06__TPM5_CH0	0x11e>; /* PWM_3_DSI */
 	};
 
 	/* Aquila PWM_4_DP */
-	pinctrl_tpm5_ch3: tpm5grpch3 {
+	pinctrl_tpm5_ch3: tpm5ch3grp {
 		fsl,pins = <IMX95_PAD_GPIO_IO26__TPM5_CH3	0x11e>; /* PWM_4_DP */
 	};
 
