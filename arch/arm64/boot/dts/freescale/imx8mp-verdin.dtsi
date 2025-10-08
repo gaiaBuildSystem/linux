@@ -476,7 +476,7 @@
 /delete-node/ &gpu_reserved;
 
 /* Verdin HDMI_1 */
-&hdmi_tx {
+&hdmi {
 	ddc-i2c-bus = <&i2c5>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_hdmi>;

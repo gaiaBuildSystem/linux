@@ -112,11 +112,11 @@
 };
 
 /* Verdin HDMI_1 */
-&hdmi_pvi {
+&hdmi_pavi {
 	status = "okay";
 };
 
-&hdmi_tx {
+&hdmi {
 	status = "okay";
 
 	ports {
@@ -128,7 +128,7 @@
 	};
 };
 
-&hdmi_tx_phy {
+&hdmiphy {
 	status = "okay";
 };
 
