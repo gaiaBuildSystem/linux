@@ -762,8 +762,8 @@
 &scmi_iomuxc {
 	/* Aquila ETH_2_XGMII_MDIO */
 	pinctrl_emdio: emdiogrp {
-		fsl,pinx = <IMX95_PAD_ENET2_MDC__NETCMIX_TOP_NETC_MDC	0x57e>,
-			   <IMX95_PAD_ENET2_MDIO__NETCMIX_TOP_NETC_MDIO	0x97e>;
+		fsl,pins = <IMX95_PAD_ENET2_MDC__NETCMIX_TOP_NETC_MDC	0x57e>, /* Aquila B90 */
+			   <IMX95_PAD_ENET2_MDIO__NETCMIX_TOP_NETC_MDIO	0x97e>; /* Aquila B89 */
 	};
 
 	/* Aquila ETH_1 */
@@ -790,159 +790,160 @@
 		fsl,pins = <IMX95_PAD_SAI1_TXD0__AONMIX_TOP_GPIO1_IO_BIT13	0x31e>; /* CTRL_GPIO_EXP_INT# */
 	};
 
+	/* Aquila CTRL_WAKE1_MICO# */
 	pinctrl_ctrl_wake1_mico: ctrlwake1micogrp {
-		fsl,pins = <IMX95_PAD_XSPI1_SS1_B__GPIO5_IO_BIT11	0x31e>; /* CTRL_WAKE1_MICO# */
+		fsl,pins = <IMX95_PAD_XSPI1_SS1_B__GPIO5_IO_BIT11	0x31e>; /* Aquila D6 */
 	};
 
 	/* Aquila CAN_1 */
 	pinctrl_flexcan1: flexcan1grp {
-		fsl,pins = <IMX95_PAD_PDM_CLK__AONMIX_TOP_CAN1_TX		0x39e>, /* CAN_1_TX */
-			   <IMX95_PAD_PDM_BIT_STREAM0__AONMIX_TOP_CAN1_RX	0x39e>; /* CAN_1_RX */
+		fsl,pins = <IMX95_PAD_PDM_CLK__AONMIX_TOP_CAN1_TX		0x39e>, /* Aquila B48 */
+			   <IMX95_PAD_PDM_BIT_STREAM0__AONMIX_TOP_CAN1_RX	0x39e>; /* Aquila B49 */
 	};
 
 	/* Aquila CAN_2 */
 	pinctrl_flexcan2: flexcan2grp {
-		fsl,pins = <IMX95_PAD_GPIO_IO25__CAN2_TX	0x39e>, /* CAN_2_TX */
-			   <IMX95_PAD_GPIO_IO27__CAN2_RX	0x39e>; /* CAN_2_RX */
+		fsl,pins = <IMX95_PAD_GPIO_IO25__CAN2_TX	0x39e>, /* Aquila B50 */
+			   <IMX95_PAD_GPIO_IO27__CAN2_RX	0x39e>; /* Aquila B51 */
 	};
 
 	/* Aquila CAN_3 */
 	pinctrl_flexcan3: flexcan3grp {
-		fsl,pins = <IMX95_PAD_CCM_CLKO3__CAN3_TX	0x39e>, /* CAN_3_TX */
-			   <IMX95_PAD_CCM_CLKO4__CAN3_RX	0x39e>; /* CAN_3_RX */
+		fsl,pins = <IMX95_PAD_CCM_CLKO3__CAN3_TX	0x39e>, /* Aquila B53 */
+			   <IMX95_PAD_CCM_CLKO4__CAN3_RX	0x39e>; /* Aquila B54 */
 	};
 
 	/* Aquila CAN_4 */
 	pinctrl_flexcan4: flexcan4grp {
-		fsl,pins = <IMX95_PAD_GPIO_IO04__CAN4_TX	0x39e>, /* CAN_4_TX */
-			   <IMX95_PAD_GPIO_IO05__CAN4_RX	0x39e>; /* CAN_4_RX */
+		fsl,pins = <IMX95_PAD_GPIO_IO04__CAN4_TX	0x39e>, /* Aquila B55 */
+			   <IMX95_PAD_GPIO_IO05__CAN4_RX	0x39e>; /* Aquila B56 */
 	};
 
 	/* Aquila QSPI_1 (8 bit) */
 	pinctrl_flexspi1_8bit: flexspi18bitgrp {
-		fsl,pins = <IMX95_PAD_XSPI1_SCLK__FLEXSPI1_A_SCLK	0x3fe>, /* QSPI_1_SCK */
-			   <IMX95_PAD_XSPI1_DATA0__FLEXSPI1_A_DATA_BIT0	0x3fe>, /* QSPI_1_IO0 */
-			   <IMX95_PAD_XSPI1_DATA1__FLEXSPI1_A_DATA_BIT1	0x3fe>, /* QSPI_1_IO1 */
-			   <IMX95_PAD_XSPI1_DATA2__FLEXSPI1_A_DATA_BIT2	0x3fe>, /* QSPI_1_IO2 */
-			   <IMX95_PAD_XSPI1_DATA3__FLEXSPI1_A_DATA_BIT3	0x3fe>, /* QSPI_1_IO3 */
-			   <IMX95_PAD_XSPI1_DATA4__FLEXSPI1_A_DATA_BIT4	0x3fe>, /* QSPI_1_IO4 */
-			   <IMX95_PAD_XSPI1_DATA5__FLEXSPI1_A_DATA_BIT5	0x3fe>, /* QSPI_1_IO5 */
-			   <IMX95_PAD_XSPI1_DATA6__FLEXSPI1_A_DATA_BIT6	0x3fe>, /* QSPI_1_IO6 */
-			   <IMX95_PAD_XSPI1_DATA7__FLEXSPI1_A_DATA_BIT7	0x3fe>, /* QSPI_1_IO7 */
-			   <IMX95_PAD_XSPI1_DQS__FLEXSPI1_A_DQS		0x3fe>; /* QSPI_1_DQS */
+		fsl,pins = <IMX95_PAD_XSPI1_SCLK__FLEXSPI1_A_SCLK	0x3fe>, /* Aquila B65 */
+			   <IMX95_PAD_XSPI1_DATA0__FLEXSPI1_A_DATA_BIT0	0x3fe>, /* Aquila B68 */
+			   <IMX95_PAD_XSPI1_DATA1__FLEXSPI1_A_DATA_BIT1	0x3fe>, /* Aquila B67 */
+			   <IMX95_PAD_XSPI1_DATA2__FLEXSPI1_A_DATA_BIT2	0x3fe>, /* Aquila B61 */
+			   <IMX95_PAD_XSPI1_DATA3__FLEXSPI1_A_DATA_BIT3	0x3fe>, /* Aquila B60 */
+			   <IMX95_PAD_XSPI1_DATA4__FLEXSPI1_A_DATA_BIT4	0x3fe>, /* Aquila B70 */
+			   <IMX95_PAD_XSPI1_DATA5__FLEXSPI1_A_DATA_BIT5	0x3fe>, /* Aquila B71 */
+			   <IMX95_PAD_XSPI1_DATA6__FLEXSPI1_A_DATA_BIT6	0x3fe>, /* Aquila B72 */
+			   <IMX95_PAD_XSPI1_DATA7__FLEXSPI1_A_DATA_BIT7	0x3fe>, /* Aquila B73 */
+			   <IMX95_PAD_XSPI1_DQS__FLEXSPI1_A_DQS		0x3fe>; /* Aquila B63 */
 	};
 
 	/* Aquila QSPI_1 (4 bit) */
 	pinctrl_flexspi1_4bit: flexspi18bitgrp {
-		fsl,pins = <IMX95_PAD_XSPI1_SCLK__FLEXSPI1_A_SCLK	0x3fe>, /* QSPI_1_SCK */
-			   <IMX95_PAD_XSPI1_DATA0__FLEXSPI1_A_DATA_BIT0	0x3fe>, /* QSPI_1_IO0 */
-			   <IMX95_PAD_XSPI1_DATA1__FLEXSPI1_A_DATA_BIT1	0x3fe>, /* QSPI_1_IO1 */
-			   <IMX95_PAD_XSPI1_DATA2__FLEXSPI1_A_DATA_BIT2	0x3fe>, /* QSPI_1_IO2 */
-			   <IMX95_PAD_XSPI1_DATA3__FLEXSPI1_A_DATA_BIT3	0x3fe>, /* QSPI_1_IO3 */
-			   <IMX95_PAD_XSPI1_DQS__FLEXSPI1_A_DQS		0x3fe>; /* QSPI_1_DQS */
+		fsl,pins = <IMX95_PAD_XSPI1_SCLK__FLEXSPI1_A_SCLK	0x3fe>, /* Aquila B65 */
+			   <IMX95_PAD_XSPI1_DATA0__FLEXSPI1_A_DATA_BIT0	0x3fe>, /* Aquila B68 */
+			   <IMX95_PAD_XSPI1_DATA1__FLEXSPI1_A_DATA_BIT1	0x3fe>, /* Aquila B67 */
+			   <IMX95_PAD_XSPI1_DATA2__FLEXSPI1_A_DATA_BIT2	0x3fe>, /* Aquila B61 */
+			   <IMX95_PAD_XSPI1_DATA3__FLEXSPI1_A_DATA_BIT3	0x3fe>, /* Aquila B60 */
+			   <IMX95_PAD_XSPI1_DQS__FLEXSPI1_A_DQS		0x3fe>; /* Aquila B63 */
 	};
 
 	/* Aquila GPIO_01 */
 	pinctrl_gpio1: gpio1grp {
-		fsl,pins = <IMX95_PAD_ENET2_RD0__GPIO4_IO_BIT24	0x31e>; /* GPIO_01 */
+		fsl,pins = <IMX95_PAD_ENET2_RD0__GPIO4_IO_BIT24	0x31e>; /* Aquila D23 */
 	};
 
 	/* Aquila GPIO_02 */
 	pinctrl_gpio2: gpio2grp {
-		fsl,pins = <IMX95_PAD_ENET2_RD1__GPIO4_IO_BIT25	0x31e>; /* GPIO_02 */
+		fsl,pins = <IMX95_PAD_ENET2_RD1__GPIO4_IO_BIT25	0x31e>; /* Aquila D24 */
 	};
 
 	/* Aquila GPIO_03 */
 	pinctrl_gpio3: gpio3grp {
-		fsl,pins = <IMX95_PAD_ENET2_RD3__GPIO4_IO_BIT27	0x31e>; /* GPIO_03 */
+		fsl,pins = <IMX95_PAD_ENET2_RD3__GPIO4_IO_BIT27	0x31e>; /* Aquila D25 */
 	};
 
 	/* Aquila GPIO_04 */
 	pinctrl_gpio4: gpio4grp {
-		fsl,pins = <IMX95_PAD_ENET2_TD0__GPIO4_IO_BIT19	0x31e>; /* GPIO_04 */
+		fsl,pins = <IMX95_PAD_ENET2_TD0__GPIO4_IO_BIT19	0x31e>; /* Aquila C20 */
 	};
 
 	/* Aquila GPIO_05 */
 	pinctrl_gpio5: gpio5grp {
-		fsl,pins = <IMX95_PAD_ENET2_TD1__GPIO4_IO_BIT18	0x31e>; /* GPIO_05 */
+		fsl,pins = <IMX95_PAD_ENET2_TD1__GPIO4_IO_BIT18	0x31e>; /* Aquila C21 */
 	};
 
 	/* Aquila GPIO_06 */
 	pinctrl_gpio6: gpio6grp {
-		fsl,pins = <IMX95_PAD_ENET2_TD2__GPIO4_IO_BIT17	0x31e>; /* GPIO_06 */
+		fsl,pins = <IMX95_PAD_ENET2_TD2__GPIO4_IO_BIT17	0x31e>; /* Aquila C22 */
 	};
 
 	/* Aquila GPIO_07 */
 	pinctrl_gpio7: gpio7grp {
-		fsl,pins = <IMX95_PAD_ENET2_RXC__GPIO4_IO_BIT23	0x31e>; /* GPIO_07 */
+		fsl,pins = <IMX95_PAD_ENET2_RXC__GPIO4_IO_BIT23	0x31e>; /* Aquila C23 */
 	};
 
 	/* Aquila GPIO_08 */
 	pinctrl_gpio8: gpio8grp {
-		fsl,pins = <IMX95_PAD_PDM_BIT_STREAM1__AONMIX_TOP_GPIO1_IO_BIT10	0x31e>; /* GPIO_08 */
+		fsl,pins = <IMX95_PAD_PDM_BIT_STREAM1__AONMIX_TOP_GPIO1_IO_BIT10	0x31e>; /* Aquila C24 */
 	};
 
 	/* Aquila GPIO_09_CSI_1 */
 	pinctrl_gpio9_csi_1: gpio9csi1grp {
-		fsl,pins = <IMX95_PAD_SAI1_TXC__AONMIX_TOP_GPIO1_IO_BIT12	0x31e>; /* GPIO_09_CSI_1 */
+		fsl,pins = <IMX95_PAD_SAI1_TXC__AONMIX_TOP_GPIO1_IO_BIT12	0x31e>; /* Aquila B17 */
 	};
 
 	/* Aquila GPIO_10_CSI_1 */
 	pinctrl_gpio10_csi_1: gpio10csi1grp {
-		fsl,pins = <IMX95_PAD_SAI1_RXD0__AONMIX_TOP_GPIO1_IO_BIT14	0x31e>; /* GPIO_10_CSI_1 */
+		fsl,pins = <IMX95_PAD_SAI1_RXD0__AONMIX_TOP_GPIO1_IO_BIT14	0x31e>; /* Aquila B18 */
 	};
 
 	/* Aquila GPIO_11_CSI_1 */
 	pinctrl_gpio11_csi_1: gpio11csi1grp {
-		fsl,pins = <IMX95_PAD_SD2_VSELECT__GPIO3_IO_BIT19	0x31e>; /* GPIO_11_CSI_1 */
+		fsl,pins = <IMX95_PAD_SD2_VSELECT__GPIO3_IO_BIT19	0x31e>; /* Aquila A11*/
 	};
 
 	/* Aquila GPIO_12_CSI_1 */
 	pinctrl_gpio12_csi_1: gpio12csi1grp {
-		fsl,pins = <IMX95_PAD_SD3_DATA0__GPIO3_IO_BIT22	0x31e>; /* GPIO_12_CSI_1 */
+		fsl,pins = <IMX95_PAD_SD3_DATA0__GPIO3_IO_BIT22	0x31e>; /* Aquila B19 */
 	};
 
 	/* Aquila GPIO_17_DSI_1 */
 	pinctrl_gpio17_dsi_1: gpio17dsi1grp {
-		fsl,pins = <IMX95_PAD_GPIO_IO07__GPIO2_IO_BIT7	0x31e>; /* GPIO_17_DSI_1 */
+		fsl,pins = <IMX95_PAD_GPIO_IO07__GPIO2_IO_BIT7	0x31e>; /* Aquila B42 */
 	};
 
 	/* Aquila GPIO_18_DSI_1 */
 	pinctrl_gpio18_dsi_1: gpio18dsi1grp {
-		fsl,pins = <IMX95_PAD_GPIO_IO09__GPIO2_IO_BIT9	0x31e>; /* GPIO_18_DSI_1 */
+		fsl,pins = <IMX95_PAD_GPIO_IO09__GPIO2_IO_BIT9	0x31e>; /* Aquila B43 */
 	};
 
 	/* Aquila GPIO_19_DSI_1 */
 	pinctrl_gpio19_dsi_1: gpio19dsi1grp {
-		fsl,pins = <IMX95_PAD_GPIO_IO33__GPIO5_IO_BIT13	0x31e>; /* GPIO_19_DSI_1 */
+		fsl,pins = <IMX95_PAD_GPIO_IO33__GPIO5_IO_BIT13	0x31e>; /* Aquila B44 */
 	};
 
 	/* Aquila GPIO_20_DSI_1 */
 	pinctrl_gpio20_dsi_1: gpio20dsi1grp {
-		fsl,pins = <IMX95_PAD_GPIO_IO34__GPIO5_IO_BIT14	0x31e>; /* GPIO_20_DSI_1 */
+		fsl,pins = <IMX95_PAD_GPIO_IO34__GPIO5_IO_BIT14	0x31e>; /* Aquila B45 */
 	};
 
 	/* Aquila GPIO_21_DP */
 	pinctrl_gpio21_dp: gpio21dpgrp {
-		fsl,pins = <IMX95_PAD_SD3_CMD__GPIO3_IO_BIT21	0x31e>; /* GPIO_21_DP */
+		fsl,pins = <IMX95_PAD_SD3_CMD__GPIO3_IO_BIT21	0x31e>; /* Aquila B57 */
 	};
 
 	/* Aquila I2C_2 */
 	pinctrl_i3c2: i3c2cgrp {
-		fsl,pins = <IMX95_PAD_ENET1_MDC__I3C2_SCL	0x40001186>, /* I2C_2_SCL */
-			   <IMX95_PAD_ENET1_MDIO__I3C2_SDA	0x40001186>; /* I2C_2_SDL */
+		fsl,pins = <IMX95_PAD_ENET1_MDC__I3C2_SCL	0x40001186>, /* Aquila C17 */
+			   <IMX95_PAD_ENET1_MDIO__I3C2_SDA	0x40001186>; /* Aquila C16 */
 	};
 
 	/* Aquila I2C_1 */
 	pinctrl_lpi2c2: lpi2c2grp {
-		fsl,pins = <IMX95_PAD_I2C2_SCL__AONMIX_TOP_LPI2C2_SCL	0x40001b9e>, /* I2C_1_SCL */
-			   <IMX95_PAD_I2C2_SDA__AONMIX_TOP_LPI2C2_SDA	0x40001b9e>; /* I2C_1_SDA */
+		fsl,pins = <IMX95_PAD_I2C2_SCL__AONMIX_TOP_LPI2C2_SCL	0x40001b9e>, /* Aquila D8 */
+			   <IMX95_PAD_I2C2_SDA__AONMIX_TOP_LPI2C2_SDA	0x40001b9e>; /* Aquila D7 */
 	};
 
 	/* Aquila I2C_1 as GPIOs */
 	pinctrl_lpi2c2_gpio: lpi2c2gpiogrp {
-		fsl,pins = <IMX95_PAD_I2C2_SCL__AONMIX_TOP_GPIO1_IO_BIT2	0x40001b9e>, /* I2C_1_SCL */
-			   <IMX95_PAD_I2C2_SDA__AONMIX_TOP_GPIO1_IO_BIT3	0x40001b9e>; /* I2C_1_SDA */
+		fsl,pins = <IMX95_PAD_I2C2_SCL__AONMIX_TOP_GPIO1_IO_BIT2	0x40001b9e>, /* Aquila D8 */
+			   <IMX95_PAD_I2C2_SDA__AONMIX_TOP_GPIO1_IO_BIT3	0x40001b9e>; /* Aquila D7 */
 	};
 
 	/* On-module I2C */
@@ -959,144 +960,144 @@
 
 	/* Aquila I2C_4_CSI1 */
 	pinctrl_lpi2c4: lpi2c4grp {
-		fsl,pins = <IMX95_PAD_GPIO_IO30__LPI2C4_SDA	0x40001b9e>, /* I2C_4_CSI1_SDA */
-			   <IMX95_PAD_GPIO_IO31__LPI2C4_SCL	0x40001b9e>; /* I2C_4_CSI1_SCL */
+		fsl,pins = <IMX95_PAD_GPIO_IO30__LPI2C4_SDA	0x40001b9e>, /* Aquila A12 */
+			   <IMX95_PAD_GPIO_IO31__LPI2C4_SCL	0x40001b9e>; /* Aquila A13 */
 	};
 
 	/* Aquila I2C_4_CSI1 as GPIO */
 	pinctrl_lpi2c4_gpio: lpi2c4gpiogrp {
-		fsl,pins = <IMX95_PAD_GPIO_IO30__GPIO2_IO_BIT30	0x40001b9e>, /* I2C_4_CSI1_SDA */
-			   <IMX95_PAD_GPIO_IO31__GPIO2_IO_BIT31	0x40001b9e>; /* I2C_4_CSI1_SCL */
+		fsl,pins = <IMX95_PAD_GPIO_IO30__GPIO2_IO_BIT30	0x40001b9e>, /* Aquila A12 */
+			   <IMX95_PAD_GPIO_IO31__GPIO2_IO_BIT31	0x40001b9e>; /* Aquila A13 */
 	};
 
 	/* Aquila I2C_6 */
 	pinctrl_lpi2c5: lpi2c5grp {
-		fsl,pins = <IMX95_PAD_GPIO_IO22__LPI2C5_SDA	0x40001b9e>, /* I2C_6_SDA */
-			   <IMX95_PAD_GPIO_IO23__LPI2C5_SCL	0x40001b9e>; /* I2C_6_SCL */
+		fsl,pins = <IMX95_PAD_GPIO_IO22__LPI2C5_SDA	0x40001b9e>, /* Aquila C18 */
+			   <IMX95_PAD_GPIO_IO23__LPI2C5_SCL	0x40001b9e>; /* Aquila C19 */
 	};
 
 	/* Aquila I2C_6 as GPIO */
 	pinctrl_lpi2c5_gpio: lpi2c5grp {
-		fsl,pins = <IMX95_PAD_GPIO_IO22__GPIO2_IO_BIT22	0x40001b9e>, /* I2C_6_SDA */
-			   <IMX95_PAD_GPIO_IO23__GPIO2_IO_BIT23	0x40001b9e>; /* I2C_6_SCL */
+		fsl,pins = <IMX95_PAD_GPIO_IO22__GPIO2_IO_BIT22	0x40001b9e>, /* Aquila C18 */
+			   <IMX95_PAD_GPIO_IO23__GPIO2_IO_BIT23	0x40001b9e>; /* Aquila C19 */
 	};
 
 	/* Aquila I2C_3_DSI1/I2C_5_CSI2 */
 	pinctrl_lpi2c8: lpi2c8grp {
-		fsl,pins = <IMX95_PAD_GPIO_IO12__LPI2C8_SDA	0x40001b9e>, /* I2C_3_DSI1/I2C_5_CSI2 SDA */
-			   <IMX95_PAD_GPIO_IO13__LPI2C8_SCL	0x40001b9e>; /* I2C_3_DSI1/I2C_5_CSI2 SCL */
+		fsl,pins = <IMX95_PAD_GPIO_IO12__LPI2C8_SDA	0x40001b9e>, /* Aquila C5/B40 */
+			   <IMX95_PAD_GPIO_IO13__LPI2C8_SCL	0x40001b9e>; /* Aquila C6/C41 */
 	};
 
 	/* Aquila I2C_3_DSI1/I2C_5_CSI2 as GPIO */
 	pinctrl_lpi2c8_gpio: lpi2c8gpiogrp {
-		fsl,pins = <IMX95_PAD_GPIO_IO12__GPIO2_IO_BIT12	0x40001b9e>, /* I2C_3_DSI1/I2C_5_CSI2 SDA */
-			   <IMX95_PAD_GPIO_IO13__GPIO2_IO_BIT13	0x40001b9e>; /* I2C_3_DSI1/I2C_5_CSI2 SCL */
+		fsl,pins = <IMX95_PAD_GPIO_IO12__GPIO2_IO_BIT12	0x40001b9e>, /* Aquila C5/B40 */
+			   <IMX95_PAD_GPIO_IO13__GPIO2_IO_BIT13	0x40001b9e>; /* Aquila C6/B41 */
 	};
 
 	/* Aquila SPI_2 */
 	pinctrl_lpspi4: lpspi4grp {
-		fsl,pins = <IMX95_PAD_GPIO_IO18__GPIO2_IO_BIT18	0x3fe>, /* SPI_2_CS   */
-			   <IMX95_PAD_GPIO_IO19__LPSPI4_SIN	0x3fe>, /* SPI_2_MISO */
-			   <IMX95_PAD_GPIO_IO20__LPSPI4_SOUT	0x3fe>, /* SPI_2_MOSI */
-			   <IMX95_PAD_GPIO_IO21__LPSPI4_SCK	0x3fe>; /* SPI_2_CLK  */
+		fsl,pins = <IMX95_PAD_GPIO_IO18__GPIO2_IO_BIT18	0x3fe>, /* Aquila D16 */
+			   <IMX95_PAD_GPIO_IO19__LPSPI4_SIN	0x3fe>, /* Aquila D15 */
+			   <IMX95_PAD_GPIO_IO20__LPSPI4_SOUT	0x3fe>, /* Aquila D17 */
+			   <IMX95_PAD_GPIO_IO21__LPSPI4_SCK	0x3fe>; /* Aquila D14 */
 	};
 
 	/* Aquila SPI_1 */
 	pinctrl_lpspi6: lpspi6grp {
-		fsl,pins = <IMX95_PAD_GPIO_IO00__GPIO2_IO_BIT0	0x3fe>, /* SPI_1_CS   */
-			   <IMX95_PAD_GPIO_IO01__LPSPI6_SIN	0x3fe>, /* SPI_1_MISO */
-			   <IMX95_PAD_GPIO_IO02__LPSPI6_SOUT	0x3fe>, /* SPI_1_MOSI */
-			   <IMX95_PAD_GPIO_IO03__LPSPI6_SCK	0x3fe>; /* SPI_1_CLK  */
+		fsl,pins = <IMX95_PAD_GPIO_IO00__GPIO2_IO_BIT0	0x3fe>, /* Aquila D9 */
+			   <IMX95_PAD_GPIO_IO01__LPSPI6_SIN	0x3fe>, /* Aquila D10 */
+			   <IMX95_PAD_GPIO_IO02__LPSPI6_SOUT	0x3fe>, /* Aquila D11 */
+			   <IMX95_PAD_GPIO_IO03__LPSPI6_SCK	0x3fe>; /* Aquila D12 */
 	};
 
 	/* Aquila PCIE_1 */
 	pinctrl_pcie0: pcie0grp {
-		fsl,pins = <IMX95_PAD_GPIO_IO32__HSIOMIX_TOP_PCIE1_CLKREQ_B	0x40001b1e>; /* PCIE_1_CLKREQ# */
+		fsl,pins = <IMX95_PAD_GPIO_IO32__HSIOMIX_TOP_PCIE1_CLKREQ_B	0x40001b1e>; /* Aquila C37 */
 	};
 
 	/* Aquila PCIE_2 */
 	pinctrl_pcie1: pcie1grp {
-		fsl,pins = <IMX95_PAD_GPIO_IO35__HSIOMIX_TOP_PCIE2_CLKREQ_B	0x40001b1e>; /* PCIE_2_CLKREQ# */
+		fsl,pins = <IMX95_PAD_GPIO_IO35__HSIOMIX_TOP_PCIE2_CLKREQ_B	0x40001b1e>; /* Aquila C34 */
 	};
 
 	/* Aquila QSPI_1_CS1# */
 	pinctrl_qspi_cs1: qspics1grp {
-		fsl,pins = <IMX95_PAD_XSPI1_SS0_B__FLEXSPI1_A_SS0_B	0x3fe>; /* QSPI_1_CS1# */
+		fsl,pins = <IMX95_PAD_XSPI1_SS0_B__FLEXSPI1_A_SS0_B	0x3fe>; /* Aquila B66 */
 	};
 
 	/* Aquila QSPI_1_CS2# as GPIO */
 	pinctrl_qspi_cs2_gpio: qspics2gpiogrp {
-		fsl,pins = <IMX95_PAD_CCM_CLKO2__GPIO3_IO_BIT27	0x3fe>; /* QSPI_1_CS2# */
+		fsl,pins = <IMX95_PAD_CCM_CLKO2__GPIO3_IO_BIT27	0x3fe>; /* Aquila B62 */
 	};
 
 	/* Aquila I2S_1 */
 	pinctrl_sai2: sai2grp {
-		fsl,pins = <IMX95_PAD_ENET2_TX_CTL__NETCMIX_TOP_SAI2_TX_SYNC		0x11e>, /* I2S1_SYNC  */
-			   <IMX95_PAD_ENET2_TXC__NETCMIX_TOP_SAI2_TX_BCLK		0x11e>, /* I2S1_BCLK  */
-			   <IMX95_PAD_ENET2_TD3__NETCMIX_TOP_SAI2_RX_DATA_BIT0		0x11e>, /* I2S1_D_IN  */
-			   <IMX95_PAD_ENET2_RX_CTL__NETCMIX_TOP_SAI2_TX_DATA_BIT0	0x11e>; /* I2S2_D_OUT */
+		fsl,pins = <IMX95_PAD_ENET2_TX_CTL__NETCMIX_TOP_SAI2_TX_SYNC		0x11e>, /* Aquila B21 */
+			   <IMX95_PAD_ENET2_TXC__NETCMIX_TOP_SAI2_TX_BCLK		0x11e>, /* Aquila B20 */
+			   <IMX95_PAD_ENET2_TD3__NETCMIX_TOP_SAI2_RX_DATA_BIT0		0x11e>, /* Aquila B23 */
+			   <IMX95_PAD_ENET2_RX_CTL__NETCMIX_TOP_SAI2_TX_DATA_BIT0	0x11e>; /* Aquila B22 */
 	};
 
 	pinctrl_sai2_mclk: sai2mclkgrp {
-		fsl,pins = <IMX95_PAD_ENET2_RD2__NETCMIX_TOP_SAI2_MCLK	0x31e>; /* I2S_1_MCLK */
+		fsl,pins = <IMX95_PAD_ENET2_RD2__NETCMIX_TOP_SAI2_MCLK	0x31e>; /* Aquila B24 */
 	};
 
 	/* Aquila SD_1_CD# as GPIO */
 	pinctrl_sd1_cd_gpio: sd1cdgpiogrp {
-		fsl,pins = <IMX95_PAD_SD2_CD_B__GPIO3_IO_BIT0	0x1100>; /* SD_1_CD# */
+		fsl,pins = <IMX95_PAD_SD2_CD_B__GPIO3_IO_BIT0	0x1100>; /* Aquila A1 */
 	};
 
 	/* Aquila SD_1_PWR_EN */
 	pinctrl_sd1_pwr_en: sd1pwrengpiogrp {
-		fsl,pins = <IMX95_PAD_SD2_RESET_B__GPIO3_IO_BIT7	0x11e>; /* SD_1_PWR_EN */
+		fsl,pins = <IMX95_PAD_SD2_RESET_B__GPIO3_IO_BIT7	0x11e>; /* Aquila A6 */
 	};
 
 	/* Aquila PWM_1 */
 	pinctrl_tpm3_ch3: tpm3ch3grp {
-		fsl,pins = <IMX95_PAD_GPIO_IO24__TPM3_CH3	0x11e>; /* PWM_1 */
+		fsl,pins = <IMX95_PAD_GPIO_IO24__TPM3_CH3	0x11e>; /* Aquila C25 */
 	};
 
 	/* Aquila PWM_2 */
 	pinctrl_tpm6_ch0: tpm6ch0grp {
-		fsl,pins = <IMX95_PAD_GPIO_IO08__TPM6_CH0	0x11e>; /* PWM_2 */
+		fsl,pins = <IMX95_PAD_GPIO_IO08__TPM6_CH0	0x11e>; /* Aquila C26 */
 	};
 
 	/* Aquila PWM_3_DSI */
 	pinctrl_tpm5_ch0: tpm5ch0grp {
-		fsl,pins = <IMX95_PAD_GPIO_IO06__TPM5_CH0	0x11e>; /* PWM_3_DSI */
+		fsl,pins = <IMX95_PAD_GPIO_IO06__TPM5_CH0	0x11e>; /* Aquila B46 */
 	};
 
 	/* Aquila PWM_4_DP */
 	pinctrl_tpm5_ch3: tpm5ch3grp {
-		fsl,pins = <IMX95_PAD_GPIO_IO26__TPM5_CH3	0x11e>; /* PWM_4_DP */
+		fsl,pins = <IMX95_PAD_GPIO_IO26__TPM5_CH3	0x11e>; /* Aquila B58 */
 	};
 
 	/* Aquila UART_3 */
 	pinctrl_uart1: uart1grp {
-		fsl,pins = <IMX95_PAD_UART1_TXD__AONMIX_TOP_LPUART1_TX	0x31e>, /* UART_3_TXD */
-			   <IMX95_PAD_UART1_RXD__AONMIX_TOP_LPUART1_RX	0x31e>; /* UART_3_RXD */
+		fsl,pins = <IMX95_PAD_UART1_TXD__AONMIX_TOP_LPUART1_TX	0x31e>, /* Aquila D20 */
+			   <IMX95_PAD_UART1_RXD__AONMIX_TOP_LPUART1_RX	0x31e>; /* Aquila D19 */
 	};
 
 	/* Aquila UART_4 */
 	pinctrl_uart2: uart2grp {
-		fsl,pins = <IMX95_PAD_UART2_TXD__AONMIX_TOP_LPUART2_TX	0x31e>, /* UART_4_TXD */
-			   <IMX95_PAD_UART2_RXD__AONMIX_TOP_LPUART2_RX	0x31e>; /* UART_4_RXD */
+		fsl,pins = <IMX95_PAD_UART2_TXD__AONMIX_TOP_LPUART2_TX	0x31e>, /* Aquila D22 */
+			   <IMX95_PAD_UART2_RXD__AONMIX_TOP_LPUART2_RX	0x31e>; /* Aquila D21 */
 	};
 
 	/* Aquila UART_1 */
 	pinctrl_uart3: uart3grp {
-		fsl,pins = <IMX95_PAD_GPIO_IO14__LPUART3_TX	0x31e>, /* UART_1_TXD */
-			   <IMX95_PAD_GPIO_IO15__LPUART3_RX	0x31e>, /* UART_1_RXD */
-			   <IMX95_PAD_GPIO_IO16__LPUART3_CTS_B	0x31e>, /* UART_1_CTS */
-			   <IMX95_PAD_GPIO_IO17__LPUART3_RTS_B	0x31e>; /* UART_1_RTS */
+		fsl,pins = <IMX95_PAD_GPIO_IO14__LPUART3_TX	0x31e>, /* Aquila B37 */
+			   <IMX95_PAD_GPIO_IO15__LPUART3_RX	0x31e>, /* Aquila B35 */
+			   <IMX95_PAD_GPIO_IO16__LPUART3_CTS_B	0x31e>, /* Aquila B36 */
+			   <IMX95_PAD_GPIO_IO17__LPUART3_RTS_B	0x31e>; /* Aquila B38 */
 	};
 
 	/* Aquila UART_2 */
 	pinctrl_uart7: uart7grp {
-		fsl,pins = <IMX95_PAD_GPIO_IO36__LPUART7_TX	0x31e>, /* UART_2_TXD */
-			   <IMX95_PAD_GPIO_IO37__LPUART7_RX	0x31e>, /* UART_2_RXD */
-			   <IMX95_PAD_GPIO_IO10__LPUART7_CTS_B	0x31e>, /* UART_2_CTS */
-			   <IMX95_PAD_GPIO_IO11__LPUART7_RTS_B	0x31e>; /* UART_2_RTS */
+		fsl,pins = <IMX95_PAD_GPIO_IO36__LPUART7_TX	0x31e>, /* Aquila B33 */
+			   <IMX95_PAD_GPIO_IO37__LPUART7_RX	0x31e>, /* Aquila B31 */
+			   <IMX95_PAD_GPIO_IO10__LPUART7_CTS_B	0x31e>, /* Aquila B32 */
+			   <IMX95_PAD_GPIO_IO11__LPUART7_RTS_B	0x31e>; /* Aquila B34 */
 	};
 
 	/* On-module eMMC */
@@ -1130,29 +1131,29 @@
 
 	/* Aquila SD_1 */
 	pinctrl_usdhc2: usdhc2grp {
-		fsl,pins = <IMX95_PAD_SD2_CLK__USDHC2_CLK	0x158e>, /* SD_1_CLK */
-			   <IMX95_PAD_SD2_CMD__USDHC2_CMD	0x138e>, /* SD_1_CMD */
-			   <IMX95_PAD_SD2_DATA0__USDHC2_DATA0	0x138e>, /* SD_1_D0  */
-			   <IMX95_PAD_SD2_DATA1__USDHC2_DATA1	0x138e>, /* SD_1_D1  */
-			   <IMX95_PAD_SD2_DATA2__USDHC2_DATA2	0x138e>, /* SD_1_D2  */
-			   <IMX95_PAD_SD2_DATA3__USDHC2_DATA3	0x138e>; /* SD_1_D3  */
+		fsl,pins = <IMX95_PAD_SD2_CLK__USDHC2_CLK	0x158e>, /* Aquila A5  */
+			   <IMX95_PAD_SD2_CMD__USDHC2_CMD	0x138e>, /* Aquila A7  */
+			   <IMX95_PAD_SD2_DATA0__USDHC2_DATA0	0x138e>, /* Aquila A3  */
+			   <IMX95_PAD_SD2_DATA1__USDHC2_DATA1	0x138e>, /* Aquila A2  */
+			   <IMX95_PAD_SD2_DATA2__USDHC2_DATA2	0x138e>, /* Aquila A10 */
+			   <IMX95_PAD_SD2_DATA3__USDHC2_DATA3	0x138e>; /* Aquila A8  */
 	};
 
 	pinctrl_usdhc2_200mhz: usdhc2-200mhzgrp {
-		fsl,pins = <IMX95_PAD_SD2_CLK__USDHC2_CLK	0x15fe>, /* SD_1_CLK */
-			   <IMX95_PAD_SD2_CMD__USDHC2_CMD	0x13fe>, /* SD_1_CMD */
-			   <IMX95_PAD_SD2_DATA0__USDHC2_DATA0	0x13fe>, /* SD_1_D0  */
-			   <IMX95_PAD_SD2_DATA1__USDHC2_DATA1	0x13fe>, /* SD_1_D1  */
-			   <IMX95_PAD_SD2_DATA2__USDHC2_DATA2	0x13fe>, /* SD_1_D2  */
-			   <IMX95_PAD_SD2_DATA3__USDHC2_DATA3	0x13fe>; /* SD_1_D3  */
+		fsl,pins = <IMX95_PAD_SD2_CLK__USDHC2_CLK	0x15fe>, /* Aquila A5  */
+			   <IMX95_PAD_SD2_CMD__USDHC2_CMD	0x13fe>, /* Aquila A7  */
+			   <IMX95_PAD_SD2_DATA0__USDHC2_DATA0	0x13fe>, /* Aquila A3  */
+			   <IMX95_PAD_SD2_DATA1__USDHC2_DATA1	0x13fe>, /* Aquila A2  */
+			   <IMX95_PAD_SD2_DATA2__USDHC2_DATA2	0x13fe>, /* Aquila A10 */
+			   <IMX95_PAD_SD2_DATA3__USDHC2_DATA3	0x13fe>; /* Aquila A8  */
 	};
 
 	pinctrl_usdhc2_sleep: usdhc2-sleepgrp {
-		fsl,pins = <IMX95_PAD_SD2_CLK__USDHC2_CLK	0x400>, /* SD_1_CLK */
-			   <IMX95_PAD_SD2_CMD__USDHC2_CMD	0x400>, /* SD_1_CMD */
-			   <IMX95_PAD_SD2_DATA0__USDHC2_DATA0	0x400>, /* SD_1_D0  */
-			   <IMX95_PAD_SD2_DATA1__USDHC2_DATA1	0x400>, /* SD_1_D1  */
-			   <IMX95_PAD_SD2_DATA2__USDHC2_DATA2	0x400>, /* SD_1_D2  */
-			   <IMX95_PAD_SD2_DATA3__USDHC2_DATA3	0x400>; /* SD_1_D3  */
+		fsl,pins = <IMX95_PAD_SD2_CLK__USDHC2_CLK	0x400>, /* Aquila A5  */
+			   <IMX95_PAD_SD2_CMD__USDHC2_CMD	0x400>, /* Aquila A7  */
+			   <IMX95_PAD_SD2_DATA0__USDHC2_DATA0	0x400>, /* Aquila A3  */
+			   <IMX95_PAD_SD2_DATA1__USDHC2_DATA1	0x400>, /* Aquila A2  */
+			   <IMX95_PAD_SD2_DATA2__USDHC2_DATA2	0x400>, /* Aquila A10 */
+			   <IMX95_PAD_SD2_DATA3__USDHC2_DATA3	0x400>; /* Aquila A8  */
 	};
 };
