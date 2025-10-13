@@ -175,23 +175,6 @@
 	status = "okay";
 };
 
-&display_pixel_link {
-	status = "okay";
-};
-
-&displaymix_irqsteer {
-	status = "okay";
-};
-
-&dpu {
-	assigned-clocks = <&scmi_clk IMX95_CLK_DISP1PIX>,
-			  <&scmi_clk IMX95_CLK_VIDEOPLL1_VCO>,
-			  <&scmi_clk IMX95_CLK_VIDEOPLL1>;
-	assigned-clock-parents = <&scmi_clk IMX95_CLK_VIDEOPLL1>;
-	assigned-clock-rates = <0>, <4008000000>, <445333334>;
-	status = "okay";
-};
-
 &ele_fw2 {
 	memory-region = <&ele_reserved>;
 };
@@ -593,17 +576,6 @@
 
 &netc_timer {
 	status = "okay";
-};
-
-&pixel_interleaver {
-	#address-cells = <1>;
-	#size-cells = <0>;
-	status = "okay";
-
-	channel@0 {
-		reg = <0>;
-		status = "okay";
-	};
 };
 
 /* Aquila PCIE_1 */
