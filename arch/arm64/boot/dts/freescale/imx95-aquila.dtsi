@@ -664,19 +664,19 @@
 /* Aquila PWM_1 */
 &tpm3 {
 	pinctrl-names = "default";
-	pinctrl-0 = <&pinctrl_tpm3_ch3>;
+	pinctrl-0 = <&pinctrl_pwm1>;
 };
 
 /* Aquila PWM_2 */
 &tpm6 {
 	pinctrl-names = "default";
-	pinctrl-0 = <&pinctrl_tpm6_ch0>;
+	pinctrl-0 = <&pinctrl_pwm2>;
 };
 
 /* Aquila PWM_3_DSI and PWM_4_DP */
 &tpm5 {
 	pinctrl-names = "default";
-	pinctrl-0 = <&pinctrl_pwm3_dsi>, <&pinctrl_tpm5_ch3>;
+	pinctrl-0 = <&pinctrl_pwm3_dsi>, <&pinctrl_pwm4_dp>;
 };
 
 /* Aquila USB_2, optional Bluetooth USB */
@@ -1031,13 +1031,8 @@
 	};
 
 	/* Aquila PWM_1 */
-	pinctrl_tpm3_ch3: tpm3ch3grp {
+	pinctrl_pwm1: tpm3ch3grp {
 		fsl,pins = <IMX95_PAD_GPIO_IO24__TPM3_CH3	0x11e>; /* Aquila C25 */
-	};
-
-	/* Aquila PWM_2 */
-	pinctrl_tpm6_ch0: tpm6ch0grp {
-		fsl,pins = <IMX95_PAD_GPIO_IO08__TPM6_CH0	0x11e>; /* Aquila C26 */
 	};
 
 	/* Aquila PWM_3_DSI */
@@ -1051,8 +1046,13 @@
 	};
 
 	/* Aquila PWM_4_DP */
-	pinctrl_tpm5_ch3: tpm5ch3grp {
+	pinctrl_pwm4_dp: tpm5ch3grp {
 		fsl,pins = <IMX95_PAD_GPIO_IO26__TPM5_CH3	0x11e>; /* Aquila B58 */
+	};
+
+	/* Aquila PWM_2 */
+	pinctrl_pwm2: tpm6ch0grp {
+		fsl,pins = <IMX95_PAD_GPIO_IO08__TPM6_CH0	0x11e>; /* Aquila C26 */
 	};
 
 	/* Aquila UART_3 */
