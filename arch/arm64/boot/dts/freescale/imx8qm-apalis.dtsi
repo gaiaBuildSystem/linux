@@ -22,11 +22,14 @@
 	phy-mode = "rgmii-rxid";
 };
 
+/* Apalis HDMI1 */
+&hdmi {
+	ddc-i2c-bus = <&i2c0>;
+};
+
 &hsio_refa_clk {
 	enable-gpios = <&lsio_gpio4 27 GPIO_ACTIVE_HIGH>;
 };
-
-/* TODO: Apalis HDMI1 */
 
 /* Apalis I2C2 (DDC) */
 &i2c0 {

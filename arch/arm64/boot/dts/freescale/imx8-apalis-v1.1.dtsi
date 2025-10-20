@@ -31,7 +31,11 @@
 				      3000 1>;
 	};
 
-	/* TODO: LVDS Panel */
+	panel_lvds: panel-lvds {
+		compatible = "panel-lvds";
+		backlight = <&backlight>;
+		status = "disabled";
+	};
 
 	/*
 	 * Power management bus used to control LDO1OUT of the
@@ -217,7 +221,13 @@
 		};
 	};
 
-	/* TODO: HDMI Audio */
+	sound_hdmi: sound-hdmi {
+		compatible = "fsl,imx-audio-hdmi";
+		audio-cpu = <&sai5>;
+		hdmi-out;
+		model = "imx-audio-hdmi-tx";
+		status = "disabled";
+	};
 
 	/* Apalis SPDIF1 */
 	sound-spdif {
@@ -341,6 +351,15 @@
 	pinctrl-0 = <&pinctrl_flexcan3>;
 };
 
+/* Apalis HDMI1 */
+&hdmi {
+	compatible = "cdn,imx8qm-hdmi";
+	firmware-name = "hdmitxfw.bin";
+	/* 0: no HDCP, bitset: bit0: HDCP 1.4, bit1: HDCP 2.2 */
+	hdcp-config = <0x0>;
+	lane-mapping = <0x93>;
+};
+
 &hsio_phy {
 	fsl,hsio-cfg = "pciea-pcieb-sata";
 	fsl,refclk-pad-mode = "input";
@@ -359,8 +378,6 @@
 	clocks = <&hsio_refa_clk>;
 	enable-gpios = <&lsio_gpio2 11 GPIO_ACTIVE_HIGH>;
 };
-
-/* TODO: Apalis HDMI1 */
 
 &gpu_alert0 {
 	temperature = <95000>;
@@ -466,8 +483,6 @@
 &jpegenc {
 	status = "okay";
 };
-
-/* TODO: Apalis LVDS1 */
 
 /* Apalis SPI1 */
 &lpspi0 {
