@@ -315,6 +315,14 @@
 	};
 };
 
+&gpu_3d0{
+	status = "okay";
+};
+
+&gpu_3d1{
+	status = "okay";
+};
+
 /* Apalis CAN1 */
 &flexcan1 {
 	pinctrl-names = "default";
@@ -445,6 +453,10 @@
 	#address-cells = <1>;
 	#size-cells = <0>;
 	clock-frequency = <100000>;
+};
+
+&imx8_gpu_ss {
+	status = "okay";
 };
 
 &jpegdec {
