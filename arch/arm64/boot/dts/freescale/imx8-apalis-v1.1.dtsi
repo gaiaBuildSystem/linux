@@ -784,11 +784,11 @@
 
 /* Messaging Units */
 &mu_m0 {
-	status = "okay";
+	interrupts = <GIC_SPI 472 IRQ_TYPE_LEVEL_HIGH>;
 };
 
 &mu1_m0 {
-	status = "okay";
+	interrupts = <GIC_SPI 473 IRQ_TYPE_LEVEL_HIGH>;
 };
 
 &mu2_m0 {
