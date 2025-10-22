@@ -556,6 +556,10 @@
 	fsl,sai-mclk-direction-output;
 };
 
+&scmi_bbm {
+	linux,code = <KEY_POWER>;
+};
+
 &thermal_zones {
 	/* PF09 Main PMIC */
 	pf09-thermal {
