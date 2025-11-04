@@ -118,6 +118,7 @@
 &adma_pwm {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_pwm_a>;
+	#pwm-cells = <3>;
 };
 
 &cpu_alert0 {
