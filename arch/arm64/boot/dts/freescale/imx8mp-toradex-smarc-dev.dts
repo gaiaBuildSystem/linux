@@ -12,19 +12,6 @@
 	compatible = "toradex,smarc-imx8mp-dev",
 		     "toradex,smarc-imx8mp",
 		     "fsl,imx8mp";
-
-	hdmi-connector {
-		compatible = "hdmi-connector";
-		label = "J64";
-		type = "a";
-
-		port {
-			native_hdmi_connector_in: endpoint {
-				remote-endpoint = <&hdmi_tx_out>;
-			};
-		};
-	};
-
 	reg_carrier_1p8v: regulator-carrier-1p8v {
 		compatible = "regulator-fixed";
 		regulator-max-microvolt = <1800000>;
@@ -114,14 +101,6 @@
 /* SMARC HDMI */
 &hdmi {
 	status = "okay";
-
-	ports {
-		port@1 {
-			hdmi_tx_out: endpoint {
-				remote-endpoint = <&native_hdmi_connector_in>;
-			};
-		};
-	};
 };
 
 &hdmiphy {
