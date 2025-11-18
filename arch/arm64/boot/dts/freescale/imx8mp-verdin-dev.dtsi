@@ -4,18 +4,6 @@
  */
 
 / {
-	native-hdmi-connector {
-		compatible = "hdmi-connector";
-		label = "X37";
-		type = "a";
-
-		port {
-			native_hdmi_connector_in: endpoint {
-				remote-endpoint = <&hdmi_tx_out>;
-			};
-		};
-	};
-
 	reg_eth2phy: regulator-eth2phy {
 		compatible = "regulator-fixed";
 		enable-active-high;
@@ -127,14 +115,6 @@
 
 &hdmi {
 	status = "okay";
-
-	ports {
-		port@1 {
-			hdmi_tx_out: endpoint {
-				remote-endpoint = <&native_hdmi_connector_in>;
-			};
-		};
-	};
 };
 
 &hdmiphy {

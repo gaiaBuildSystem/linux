@@ -11,18 +11,6 @@
 #include <dt-bindings/leds/common.h>
 
 / {
-	native-hdmi-connector {
-		compatible = "hdmi-connector";
-		label = "X14";
-		type = "a";
-
-		port {
-			native_hdmi_connector_in: endpoint {
-				remote-endpoint = <&hdmi_tx_out>;
-			};
-		};
-	};
-
 	leds {
 		compatible = "gpio-leds";
 		pinctrl-names = "default";
@@ -115,14 +103,6 @@
 
 &hdmi {
 	status = "okay";
-
-	ports {
-		port@1 {
-			hdmi_tx_out: endpoint {
-				remote-endpoint = <&native_hdmi_connector_in>;
-			};
-		};
-	};
 };
 
 &hdmiphy {
