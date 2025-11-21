@@ -1272,6 +1272,14 @@ properties:
               - fsl,imx93-11x11-evk       # i.MX93 11x11 EVK Board
           - const: fsl,imx93
 
+      - description: i.MX93 Boards with Toradex Lino Modules and Verdin Adapter
+        items:
+          - enum:
+              - toradex,lino-imx93-verdin-dev # Lino iMX93 Module on Verdin Dev Board
+          - const: toradex,lino-imx93-verdin  # Lino iMX93 Module on Verdin Adapter
+          - const: toradex,lino-imx93
+          - const: fsl,imx93
+
       - description: i.MX91 Quick Start Boards
         items:
           - enum:
