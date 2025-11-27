@@ -235,11 +235,11 @@
 			  "",
 			  "",
 			  "",
-			  "GPIO_08", /* 10 */
+			  "AQUILA_C24", /* 10 */
 			  "",
-			  "GPIO_09_CSI_1",
+			  "AQUILA_B17",
 			  "CTRL_GPIO_EXP_INT#",
-			  "GPIO_10_CSI_1";
+			  "AQUILA_B18";
 	status = "okay";
 };
 
@@ -251,9 +251,9 @@
 			  "",
 			  "",
 			  "",
-			  "GPIO_17_DSI_1",
+			  "AQUILA_B42",
 			  "",
-			  "GPIO_18_DSI_1";
+			  "AQUILA_B43";
 };
 
 &gpio3 {
@@ -276,10 +276,10 @@
 			  "",
 			  "",
 			  "",
-			  "GPIO_11_CSI_1",
+			  "AQUILA_A11",
 			  "", /* 20 */
-			  "GPIO_21_DP",
-			  "GPIO_12_CSI_1";
+			  "AQUILA_B57",
+			  "AQUILA_B19";
 };
 
 &gpio4 {
@@ -300,17 +300,17 @@
 			  "",
 			  "",
 			  "",
-			  "GPIO_06",
-			  "GPIO_05",
-			  "GPIO_04",
+			  "AQUILA_C22",
+			  "AQUILA_C21",
+			  "AQUILA_C20",
 			  "", /* 20 */
 			  "",
 			  "",
-			  "GPIO_07",
-			  "GPIO_01",
-			  "GPIO_02",
+			  "AQUILA_C23",
+			  "AQUILA_D23",
+			  "AQUILA_D24",
 			  "",
-			  "GPIO_03";
+			  "AQUILA_D25";
 };
 
 &gpio5 {
@@ -323,12 +323,12 @@
 			  "",
 			  "",
 			  "",
-			  "GPIO_18_DSI_1",
+			  "",
 			  "", /* 10 */
 			  "",
 			  "",
-			  "GPIO_19_DSI_1",
-			  "GPIO_20_DSI_1";
+			  "AQUILA_B44",
+			  "AQUILA_B45";
 };
 
 /* Aquila I2C_2 */
@@ -368,9 +368,9 @@
 		#gpio-cells = <2>;
 		gpio-controller;
 		gpio-line-names =
-			"PCIE_1_RESET#", /* 0 */
+			"AQUILA_C38", /* 0 */
 			"PCIE_2_RESET#",
-			"USB_1_EN",
+			"AQUILA_B77",
 			"USB_2_H_EN",
 			"BT_DISABLE#",
 			"WIFI_DISABLE#",
@@ -388,15 +388,15 @@
 		#gpio-cells = <2>;
 		gpio-controller;
 		gpio-line-names =
-			"GPIO_13_CSI_2", /* 0 */
-			"GPIO_14_CSI_2",
-			"GPIO_15_CSI_2",
-			"GPIO_16_CSI_2",
-			"PCIE_WAKE#",
-			"USB_1_INT#",
-			"USB_1_OC#",
+			"AQUILA_C1", /* 0 */
+			"AQUILA_C2",
+			"AQUILA_C3",
+			"AQUILA_C4",
+			"AQUILA_C36",
+			"AQUILA_B74",
+			"AQUILA_B75",
 			"USB_2_H_OC#",
-			"ETH_2_XGMII_INT#",
+			"AQUILA_B81",
 			"PMIC_SD_1_VSEL",
 			"ETH_1_INT#", /* 10 */
 			"CTRL_TPM_INT#",
