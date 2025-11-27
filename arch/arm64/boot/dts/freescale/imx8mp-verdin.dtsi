@@ -473,6 +473,14 @@
 			  "SODIMM_44";
 };
 
+&gpu_2d {
+	status = "okay";
+};
+
+&gpu_3d {
+	status = "okay";
+};
+
 /delete-node/ &gpu_reserved;
 
 /* Verdin HDMI_1 */
@@ -810,7 +818,12 @@
 &mix_gpu_ml {
 	/* Do not use gpu_reserved memory area and rely on contiguous_mem */
 	/delete-property/ memory-region;
+	status = "okay";
 
+};
+
+&ml_vipsi {
+	status = "okay";
 };
 
 /* Verdin PCIE_1 */
