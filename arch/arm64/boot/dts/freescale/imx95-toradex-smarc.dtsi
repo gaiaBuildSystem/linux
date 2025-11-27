@@ -188,8 +188,6 @@
 &enetc_port0 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_enetc0>, <&pinctrl_enetc0_1588_tmr>;
-	interrupt-parent = <&som_gpio_expander_1>;
-	interrupts = <6 IRQ_TYPE_LEVEL_LOW>;
 	phy-handle = <&ethphy1>;
 	phy-mode = "rgmii-id";
 };
@@ -648,6 +646,8 @@
 
 	ethphy1: ethernet-phy@1 {
 		reg = <1>;
+		interrupt-parent = <&som_gpio_expander_1>;
+		interrupts = <6 IRQ_TYPE_EDGE_FALLING>;
 		ti,rx-internal-delay = <DP83867_RGMIIDCTL_2_00_NS>;
 		ti,tx-internal-delay = <DP83867_RGMIIDCTL_2_00_NS>;
 	};
