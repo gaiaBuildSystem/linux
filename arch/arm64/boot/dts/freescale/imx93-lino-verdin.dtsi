@@ -66,9 +66,9 @@
 				#gpio-cells = <2>;
 				gpio-controller;
 				gpio-line-names =
-					"SODIMM_244", /* Verdin PCIE_1_RESET# */
-					"SODIMM_161", /* Verdin USB_1_ID      */
-					"SODIMM_255", /* CTRL_WAKE1_MICO#     */
+					"SODIMM_244", /* Verdin PCIE_1_RESET#    */
+					"SODIMM_161", /* Verdin USB_1_ID         */
+					"SODIMM_255", /* Verdin CTRL_WAKE1_MICO# */
 					"ETH_1_INT#",
 					"CTRL_EN_WIFI",
 					"",
