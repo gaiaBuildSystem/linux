@@ -22,14 +22,14 @@
 		eeprom1 = &carrier_eeprom;
 	};
 
-	dp0-connector {
+	dp_1_connector: dp0-connector {
 		compatible = "dp-connector";
 		dp-pwr-supply = <&reg_dp_3p3v>;
 		label = "Display Port";
 		type = "full-size";
 
 		port {
-			dp0_connector_in: endpoint {
+			dp_1_connector_in: endpoint {
 				remote-endpoint = <&dsi2dp_out>;
 			};
 		};
@@ -109,7 +109,7 @@
 };
 
 &dsi2dp_out {
-	remote-endpoint = <&dp0_connector_in>;
+	remote-endpoint = <&dp_1_connector_in>;
 };
 
 /* Aquila ETH_1 */
