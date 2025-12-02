@@ -503,7 +503,11 @@
 		reg = <0x1>;
 		interrupt-parent = <&som_gpio_expander_1>;
 		interrupts = <11 IRQ_TYPE_EDGE_FALLING>;
-		spi-max-frequency = <18500000>;
+		/*
+		 * Maximum TPM-supported speed is 18.5 MHz, limited to 12 MHz
+		 * here as lpspi4's per-clock (2x the max speed) is 24 MHz.
+		 */
+		spi-max-frequency = <12000000>;
 	};
 };
 
