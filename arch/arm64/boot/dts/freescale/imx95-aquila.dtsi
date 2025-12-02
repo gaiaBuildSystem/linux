@@ -584,6 +584,7 @@
 	pinctrl-0 = <&pinctrl_pcie0>;
 	host-wake-gpios = <&som_gpio_expander_1 4 GPIO_ACTIVE_LOW>;
 	reset-gpios = <&som_gpio_expander_0 0 GPIO_ACTIVE_LOW>;
+	supports-clkreq;
 	fsl,refclk-pad-mode = <IMX8_PCIE_REFCLK_PAD_OUTPUT>;
 };
 
@@ -592,6 +593,7 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_pcie1>;
 	reset-gpios = <&som_gpio_expander_0 1 GPIO_ACTIVE_LOW>;
+	supports-clkreq;
 	fsl,refclk-pad-mode = <IMX8_PCIE_REFCLK_PAD_OUTPUT>;
 	status = "okay";
 };
