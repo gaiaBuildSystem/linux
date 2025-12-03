@@ -12,7 +12,8 @@
 
 #include "imx93.dtsi"
 #include "imx93-lino.dtsi"
-#include "imx93-lino-verdin.dtsi"
+#include "imx93-imx91-lino-verdin-common.dtsi"
+#include "imx93-imx91-lino-verdin-dev-common.dtsi"
 
 / {
 	model = "Toradex Lino iMX93 on Verdin Adapter plus Development Board";
@@ -20,19 +21,4 @@
 		     "toradex,lino-imx93-verdin",
 		     "toradex,lino-imx93",
 		     "fsl,imx93";
-};
-
-/* Lino ETH_1 */
-&eqos {
-	status = "okay";
-};
-
-/* Lino UART_3, used as the Linux Console */
-&lpuart1 {
-	status = "okay";
-};
-
-/* Lino USB_1 */
-&usbotg1 {
-	status = "okay";
 };
