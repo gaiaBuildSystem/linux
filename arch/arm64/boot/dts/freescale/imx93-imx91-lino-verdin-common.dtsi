@@ -2,10 +2,11 @@
 /*
  * Copyright (C) 2025 Toradex
  *
- * Lino iMX93 SoM on Lino-Verdin Adapter
+ * Lino iMX93/iMX91 SoM on Lino-Verdin Adapter
  *
  * https://www.toradex.com/computer-on-modules/verdin-arm-family
  * https://www.toradex.com/computer-on-modules/lino-arm-family/nxp-imx93
+ * https://www.toradex.com/computer-on-modules/lino-arm-family/nxp-imx91
  */
 
 #include <dt-bindings/interrupt-controller/irq.h>
