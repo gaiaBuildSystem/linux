@@ -965,7 +965,7 @@
 	};
 
 	/* Aquila I2C_6 as GPIO */
-	pinctrl_lpi2c5_gpio: lpi2c5grp {
+	pinctrl_lpi2c5_gpio: lpi2c5gpiogrp {
 		fsl,pins = <IMX95_PAD_GPIO_IO22__GPIO2_IO_BIT22	0x40001b9e>, /* Aquila C18 */
 			   <IMX95_PAD_GPIO_IO23__GPIO2_IO_BIT23	0x40001b9e>; /* Aquila C19 */
 	};
