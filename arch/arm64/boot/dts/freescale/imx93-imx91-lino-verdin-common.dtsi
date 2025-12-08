@@ -26,6 +26,32 @@
 			};
 		};
 	};
+
+	verdin_i2s1_mclk: clock-245760000 {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <24576000>;
+	};
+
+	verdin_csi1_mclk: clock-250000000 {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <25000000>;
+	};
+
+	verdin_gpio_keys: gpio-keys {
+		compatible = "gpio-keys";
+		status = "disabled";
+
+		key-wakeup {
+			debounce-interval = <10>;
+			/* Verdin CTRL_WAKE1_MICO# (SODIMM 252) */
+			gpios = <&adapter_gpio_expander 2 GPIO_ACTIVE_LOW>;
+			label = "Wake-Up";
+			wakeup-source;
+			linux,code = <KEY_WAKEUP>;
+		};
+	};
 };
 
 /* Lino ETH_1 */
@@ -48,6 +74,7 @@
 			reg = <0>;
 			#address-cells = <1>;
 			#size-cells = <0>;
+			status = "disabled";
 		};
 
 		adapter_i2c: i2c@1 {
@@ -59,7 +86,7 @@
 				compatible = "nxp,pcal6416";
 				reg = <0x21>;
 				pinctrl-names = "default";
-				pinctrl-0 = <&pinctrl_eth1_int>;
+				pinctrl-0 = <&pinctrl_gpio_11>;
 				#interrupt-cells = <2>;
 				interrupt-controller;
 				interrupt-parent = <&gpio1>;
@@ -83,8 +110,34 @@
 					"SODIMM_66", /* Verdin QSPI_1_DQS  */
 					"SODIMM_60", /* Verdin QSPI_1_IO2  */
 					"SODIMM_62"; /* Verdin QSPI_1_IO3  */
+
+				verdin_pcie_1_reset_hog: pcie-1-reset-hog {
+					gpio-hog;
+					/* Verdin PCIE_1_RESET# (SODIMM 244) */
+					gpios = <0 GPIO_ACTIVE_LOW>;
+					line-name = "PCIE_1_RESET#";
+					output-low;
+					status = "disabled";
+				};
+			};
+
+			/* Current measurement into module VCC */
+			hwmon@40 {
+				compatible = "ti,ina219";
+				reg = <0x40>;
+				shunt-resistor = <10000>;
 			};
 		};
+	};
+};
+
+/* Lino UART_1 */
+&lpuart6 {
+	status = "okay";
+
+	bluetooth {
+		compatible = "nxp,88w8987-bt";
+		fw-init-baudrate = <3000000>;
 	};
 };
 
@@ -108,4 +161,11 @@
 			remote-endpoint = <&usb_1_connector>;
 		};
 	};
+};
+
+/* Lino SD_2 */
+&usdhc3 {
+	keep-power-in-suspend;
+	non-removable;
+	status = "okay";
 };
