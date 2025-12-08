@@ -1275,6 +1275,7 @@ properties:
       - description: i.MX93 Boards with Toradex Lino Modules and Verdin Adapter
         items:
           - enum:
+              - toradex,lino-imx93-verdin-dahlia # Lino iMX93 Module on Verdin Dahlia Board
               - toradex,lino-imx93-verdin-dev # Lino iMX93 Module on Verdin Dev Board
           - const: toradex,lino-imx93-verdin  # Lino iMX93 Module on Verdin Adapter
           - const: toradex,lino-imx93
