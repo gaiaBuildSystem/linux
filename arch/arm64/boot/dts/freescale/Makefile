@@ -486,6 +486,7 @@ dtb-$(CONFIG_ARCH_MXC) += imx91-9x9-qsb-ld.dtb
 dtb-$(CONFIG_ARCH_MXC) += imx91-9x9-qsb-i2c-spi-slave.dtb
 dtb-$(CONFIG_ARCH_MXC) += imx91-9x9-qsb-i3c.dtb
 
+dtb-$(CONFIG_ARCH_MXC) += imx93-lino-verdin-dahlia.dtb
 dtb-$(CONFIG_ARCH_MXC) += imx93-lino-verdin-dev.dtb
 
 dtb-$(CONFIG_ARCH_MXC) += imx93-toradex-osm-dev.dtb
