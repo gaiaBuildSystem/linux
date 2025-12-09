@@ -95,13 +95,6 @@
 		vin-supply = <&reg_1p8v>;
 	};
 
-	reg_vref_1p8v: regulator-vref-1p8v {
-		compatible = "regulator-fixed";
-		regulator-max-microvolt = <1800000>;
-		regulator-min-microvolt = <1800000>;
-		regulator-name = "VREF_V1.8";
-	};
-
 	reg_usdhc2_vmmc: regulator-usdhc2-vmmc {
 		compatible = "regulator-fixed";
 		pinctrl-names = "default";
@@ -171,7 +164,7 @@
 
 /* Aquila ADC_[1-4] */
 &adc1 {
-	vref-supply = <&reg_vref_1p8v>;
+	vref-supply = <&reg_1p8v>;
 	status = "okay";
 };
 
