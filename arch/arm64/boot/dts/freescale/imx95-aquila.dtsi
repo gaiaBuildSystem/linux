@@ -89,6 +89,7 @@
 		/* CTRL_DP_BRIDGE_EN */
 		gpios = <&som_gpio_expander_0 7 GPIO_ACTIVE_HIGH>;
 		enable-active-high;
+		regulator-always-on;
 		regulator-max-microvolt = <1200000>;
 		regulator-min-microvolt = <1200000>;
 		regulator-name = "On-module +V1.2_DP";
