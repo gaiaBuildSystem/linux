@@ -70,6 +70,11 @@
 	};
 };
 
+/* Verdin ADC_1, ADC_2, ADC_3 and ADC_4 */
+&adc1 {
+	status = "okay";
+};
+
 /* Verdin ETH_1 (On-module PHY) */
 &enetc_port0 {
 	status = "okay";
