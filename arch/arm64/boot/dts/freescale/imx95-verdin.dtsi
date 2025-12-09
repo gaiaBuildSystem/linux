@@ -71,6 +71,13 @@
 		};
 	};
 
+	reg_1p8v: regulator-1p8v {
+		compatible = "regulator-fixed";
+		regulator-max-microvolt = <1800000>;
+		regulator-min-microvolt = <1800000>;
+		regulator-name = "On-module +V1.8";
+	};
+
 	/*
 	 * By default we enable CTRL_SLEEP_MOCI#, this is required to have
 	 * peripherals on the carrier board powered.
@@ -129,13 +136,6 @@
 		regulator-name = "PMIC_SD2_VSEL";
 	};
 
-	reg_vref_1v8: regulator-vref-1v8 {
-		compatible = "regulator-fixed";
-		regulator-max-microvolt = <1800000>;
-		regulator-min-microvolt = <1800000>;
-		regulator-name = "VREF_1V8";
-	};
-
 	reserved-memory {
 		#address-cells = <2>;
 		#size-cells = <2>;
@@ -164,7 +164,7 @@
 
 /* Verdin ADC_1, ADC_2, ADC_3 and ADC_4 */
 &adc1 {
-	vref-supply = <&reg_vref_1v8>;
+	vref-supply = <&reg_1p8v>;
 };
 
 &ele_fw2 {
