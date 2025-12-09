@@ -86,6 +86,11 @@
 	};
 };
 
+/* Aquila ADC_[1-4] */
+&adc1 {
+	status = "okay";
+};
+
 /* Aquila CTRL_WAKE1_MICO# */
 &aquila_key_wake {
 	status = "okay";
