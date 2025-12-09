@@ -165,7 +165,6 @@
 /* Aquila ADC_[1-4] */
 &adc1 {
 	vref-supply = <&reg_1p8v>;
-	status = "okay";
 };
 
 &ele_fw2 {
