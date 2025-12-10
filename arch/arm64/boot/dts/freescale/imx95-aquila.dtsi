@@ -73,8 +73,8 @@
 	clk_serdes_eth_ref: clock-serdes-eth-ref {
 		compatible = "gpio-gate-clock";
 		#clock-cells = <0>;
-		/* CTRL_ETH_REF_CLK_STBY# */
-		enable-gpios = <&som_gpio_expander_0 6 GPIO_ACTIVE_HIGH>;
+		/* CTRL_ETH_REF_CLK_STBY */
+		enable-gpios = <&som_gpio_expander_0 6 GPIO_ACTIVE_LOW>;
 	};
 
 	reg_1p8v: regulator-1p8v {
