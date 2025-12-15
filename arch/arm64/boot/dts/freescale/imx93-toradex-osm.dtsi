@@ -73,7 +73,7 @@
 	};
 
 	/* OSM UART_CON */
-	pinctrl_uart_con: uart1grp {
+	pinctrl_uart_con: lpuart1grp {
 		fsl,pins = <MX93_PAD_UART1_RXD__LPUART1_RX	0x39e>, /* OSM D22 */
 			   <MX93_PAD_UART1_TXD__LPUART1_TX	0x39e>; /* OSM D23 */
 	};
