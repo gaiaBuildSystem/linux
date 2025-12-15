@@ -48,18 +48,6 @@
 		fsl,pins = <MX93_PAD_ENET2_MDIO__GPIO4_IO15	0x139e>; /* OSM L17 */
 	};
 
-	/* OSM I2C_A */
-	pinctrl_i2c_a: lpi2c3grp {
-		fsl,pins = <MX93_PAD_GPIO_IO28__LPI2C3_SDA	0x40000b9e>, /* OSM AA16 */
-			   <MX93_PAD_GPIO_IO29__LPI2C3_SCL	0x40000b9e>; /* OSM AA15 */
-	};
-
-	/* OSM I2C_A as GPIO */
-	pinctrl_i2c_a_gpio: lpi2c1gpiogrp {
-		fsl,pins = <MX93_PAD_GPIO_IO28__GPIO2_IO28	0x40000b9e>,  /* OSM AA16 */
-			   <MX93_PAD_GPIO_IO28__GPIO2_IO28	0x40000b9e>;  /* OSM AA15 */
-	};
-
 	/* On-module PMIC I2C */
 	pinctrl_pmic_i2c: lpi2c2grp {
 		fsl,pins = <MX93_PAD_I2C2_SCL__LPI2C2_SCL	0x40000b9e>, /* PMIC_I2C_SCL */
@@ -70,6 +58,18 @@
 	pinctrl_pmic_i2c_gpio: lpi2c2gpiogrp {
 		fsl,pins = <MX93_PAD_I2C2_SCL__GPIO1_IO02	0x40000b9e>, /* PMIC_I2C_SCL */
 			   <MX93_PAD_I2C2_SDA__GPIO1_IO03	0x40000b9e>; /* PMIC_I2C_SDA */
+	};
+
+	/* OSM I2C_A */
+	pinctrl_i2c_a: lpi2c3grp {
+		fsl,pins = <MX93_PAD_GPIO_IO28__LPI2C3_SDA	0x40000b9e>, /* OSM AA16 */
+			   <MX93_PAD_GPIO_IO29__LPI2C3_SCL	0x40000b9e>; /* OSM AA15 */
+	};
+
+	/* OSM I2C_A as GPIO */
+	pinctrl_i2c_a_gpio: lpi2c3gpiogrp {
+		fsl,pins = <MX93_PAD_GPIO_IO28__GPIO2_IO28	0x40000b9e>, /* OSM AA16 */
+			   <MX93_PAD_GPIO_IO29__GPIO2_IO29	0x40000b9e>; /* OSM AA15 */
 	};
 
 	/* OSM UART_CON */
