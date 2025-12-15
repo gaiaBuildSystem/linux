@@ -68,6 +68,34 @@
 	single-master;
 	status = "okay";
 
+	som_gpio_expander: gpio@22 {
+		compatible = "nxp,pcal6416";
+		reg = <0x22>;
+		#interrupt-cells = <2>;
+		interrupt-controller;
+		interrupt-parent = <&gpio3>;
+		interrupts = <27 IRQ_TYPE_LEVEL_LOW>;
+		#gpio-cells = <2>;
+		gpio-controller;
+		gpio-line-names =
+			"OSM_D19", /* OSM GPIO_B_0 */
+			"OSM_E19", /* OSM GPIO_B_1 */
+			"OSM_F19", /* OSM GPIO_B_2 */
+			"OSM_G19", /* OSM GPIO_B_3 */
+			"OSM_H19", /* OSM GPIO_B_4 */
+			"OSM_J19", /* OSM GPIO_B_5 */
+			"OSM_K19", /* OSM GPIO_B_6 */
+			"OSM_L19", /* OSM GPIO_B_7 */
+			"OSM_D3",  /* OSM GPIO_C_0 */
+			"OSM_D4",  /* OSM GPIO_C_1 */
+			"OSM_E3",  /* OSM GPIO_C_2/CAM_B_PWR   */
+			"OSM_E4",  /* OSM GPIO_C_3/CAM_B_RST#  */
+			"OSM_F3",  /* OSM GPIO_C_4/DISP_VDD_EN */
+			"OSM_F4",  /* OSM GPIO_C_5/DISP_BL_EN  */
+			"OSM_G3",  /* OSM GPIO_C_6/CAM_A_PWR   */
+			"OSM_G4";  /* OSM GPIO_C_7/CAM_A_RST#  */
+	};
+
 	pmic@32 {
 		compatible = "nxp,pf9453";
 		reg = <0x32>;
@@ -134,33 +162,6 @@
 		};
 	};
 
-	som_gpio_expander: gpio@22 {
-		compatible = "nxp,pcal6416";
-		reg = <0x22>;
-		#interrupt-cells = <2>;
-		interrupt-controller;
-		interrupt-parent = <&gpio3>;
-		interrupts = <27 IRQ_TYPE_LEVEL_LOW>;
-		#gpio-cells = <2>;
-		gpio-controller;
-		gpio-line-names =
-			"OSM_D19", /* OSM GPIO_B_0 */
-			"OSM_E19", /* OSM GPIO_B_1 */
-			"OSM_F19", /* OSM GPIO_B_2 */
-			"OSM_G19", /* OSM GPIO_B_3 */
-			"OSM_H19", /* OSM GPIO_B_4 */
-			"OSM_J19", /* OSM GPIO_B_5 */
-			"OSM_K19", /* OSM GPIO_B_6 */
-			"OSM_L19", /* OSM GPIO_B_7 */
-			"OSM_D3",  /* OSM GPIO_C_0 */
-			"OSM_D4",  /* OSM GPIO_C_1 */
-			"OSM_E3",  /* OSM GPIO_C_2/CAM_B_PWR   */
-			"OSM_E4",  /* OSM GPIO_C_3/CAM_B_RST#  */
-			"OSM_F3",  /* OSM GPIO_C_4/DISP_VDD_EN */
-			"OSM_F4",  /* OSM GPIO_C_5/DISP_BL_EN  */
-			"OSM_G3",  /* OSM GPIO_C_6/CAM_A_PWR   */
-			"OSM_G4";  /* OSM GPIO_C_7/CAM_A_RST#  */
-	};
 };
 
 /* OSM I2C_A */
