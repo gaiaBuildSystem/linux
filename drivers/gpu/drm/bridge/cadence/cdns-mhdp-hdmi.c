@@ -55,8 +55,8 @@ void cdns_mhdp_infoframe_remove(struct cdns_mhdp_device *mhdp,
 	/* invalidate entry */
 	val = F_ACTIVE_IDLE_TYPE(1) | F_PKT_ALLOC_ADDRESS(entry_id) |
 	      F_PACKET_TYPE(packet_type);
-	writel(val, mhdp->regs_base + SOURCE_PIF_PKT_ALLOC_REG);
-	writel(F_PKT_ALLOC_WR_EN(1), mhdp->regs_base + SOURCE_PIF_PKT_ALLOC_WR_EN);
+	cdns_mhdp_bus_write(val, mhdp, SOURCE_PIF_PKT_ALLOC_REG);
+	cdns_mhdp_bus_write(F_PKT_ALLOC_WR_EN(1), mhdp, SOURCE_PIF_PKT_ALLOC_WR_EN);
 }
 
 int cdns_hdmi_get_edid_block(void *data, u8 *edid,
