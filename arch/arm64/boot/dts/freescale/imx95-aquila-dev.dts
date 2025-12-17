@@ -45,7 +45,7 @@
 	reg_dp_3p3v: regulator-dp-3p3v {
 		compatible = "regulator-fixed";
 		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_gpio21_dp>;
+		pinctrl-0 = <&pinctrl_gpio_21_dp>;
 		/* Aquila GPIO_21_DP */
 		gpios = <&gpio3 21 GPIO_ACTIVE_HIGH>;
 		enable-active-high;
@@ -170,17 +170,17 @@
 };
 
 &gpio1 {
-	pinctrl-0 = <&pinctrl_gpio8>;
+	pinctrl-0 = <&pinctrl_gpio_8>;
 };
 
 &gpio4 {
-	pinctrl-0 = <&pinctrl_gpio1>,
-		    <&pinctrl_gpio2>,
-		    <&pinctrl_gpio3>,
-		    <&pinctrl_gpio4>,
-		    <&pinctrl_gpio5>,
-		    <&pinctrl_gpio6>,
-		    <&pinctrl_gpio7>;
+	pinctrl-0 = <&pinctrl_gpio_1>,
+		    <&pinctrl_gpio_2>,
+		    <&pinctrl_gpio_3>,
+		    <&pinctrl_gpio_4>,
+		    <&pinctrl_gpio_5>,
+		    <&pinctrl_gpio_6>,
+		    <&pinctrl_gpio_7>;
 };
 
 /* Aquila I2C_1 */
