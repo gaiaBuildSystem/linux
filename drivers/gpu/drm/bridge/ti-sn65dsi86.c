@@ -1895,6 +1895,14 @@ static void ti_sn65dsi86_runtime_disable(void *data)
 	pm_runtime_disable(data);
 }
 
+static void ti_sn65dsi86_refclk_disable(void *data)
+{
+	struct clk *clk = data;
+
+	if (clk)
+		clk_disable_unprepare(clk);
+}
+
 static int ti_sn65dsi86_parse_regulators(struct ti_sn65dsi86 *pdata)
 {
 	unsigned int i;
@@ -1935,7 +1943,7 @@ static int ti_sn65dsi86_probe(struct i2c_client *client)
 				     "regmap i2c init failed\n");
 
 	pdata->enable_gpio = devm_gpiod_get_optional(dev, "enable",
-						     GPIOD_OUT_LOW);
+							 GPIOD_ASIS);
 	if (IS_ERR(pdata->enable_gpio))
 		return dev_err_probe(dev, PTR_ERR(pdata->enable_gpio),
 				     "failed to get enable gpio from DT\n");
@@ -1948,6 +1956,20 @@ static int ti_sn65dsi86_probe(struct i2c_client *client)
 	if (IS_ERR(pdata->refclk))
 		return dev_err_probe(dev, PTR_ERR(pdata->refclk),
 				     "failed to get reference clock\n");
+
+	/* If a reference clock is provided, enable it early so it survives
+	 * the U-Boot -> kernel handover and keeps the bridge's PLL stable.
+	 */
+	if (pdata->refclk) {
+		ret = clk_prepare_enable(pdata->refclk);
+		if (ret)
+			return dev_err_probe(dev, ret, "failed to enable refclk\n");
+
+		ret = devm_add_action_or_reset(dev, ti_sn65dsi86_refclk_disable,
+									   pdata->refclk);
+		if (ret)
+			return ret;
+	}
 
 	pm_runtime_enable(dev);
 	pm_runtime_set_autosuspend_delay(pdata->dev, 500);
