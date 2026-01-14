@@ -122,6 +122,11 @@
 		fsl,pins = <MX93_PAD_GPIO_IO22__GPIO2_IO22	0x139e>; /* Lino P36 */
 	};
 
+	/* Lino PWM_3 as GPIO */
+	pinctrl_pwm3_gpio: gpio2io23grp {
+		fsl,pins = <MX93_PAD_GPIO_IO23__GPIO2_IO23	0x139e>; /* Lino P5 */
+	};
+
 	/* Lino GPIO_5 */
 	pinctrl_gpio5: gpio2io24grp {
 		fsl,pins = <MX93_PAD_GPIO_IO24__GPIO2_IO24	0x139e>; /* Lino P38 */
