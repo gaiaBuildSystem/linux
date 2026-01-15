@@ -351,6 +351,7 @@
 /* Aquila UART_2 as RS485 */
 &lpuart7 {
 	linux,rs485-enabled-at-boot-time;
+	rs485-rts-active-low;
 	rs485-rx-during-tx;
 	status = "okay";
 };
