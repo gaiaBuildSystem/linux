@@ -765,33 +765,26 @@ static void ath12k_pci_msi_disable(struct ath12k_pci *ab_pci)
 static int ath12k_pci_msi_alloc(struct ath12k_pci *ab_pci)
 {
 	struct ath12k_base *ab = ab_pci->ab;
-	const struct ath12k_msi_config *msi_config = ab_pci->msi_config;
 	struct msi_desc *msi_desc;
 	int num_vectors;
 	int ret;
 
+	/*
+	 * Force using only one MSI vector on this downstream NXP kernel as
+	 * the driver is otherwise not able to bring up the ath12k device.
+	 */
 	num_vectors = pci_alloc_irq_vectors(ab_pci->pdev,
-					    msi_config->total_vectors,
-					    msi_config->total_vectors,
+					    1,
+					    1,
 					    PCI_IRQ_MSI);
-
-	if (num_vectors == msi_config->total_vectors) {
-		set_bit(ATH12K_PCI_FLAG_MULTI_MSI_VECTORS, &ab_pci->flags);
-		ab_pci->irq_flags = IRQF_SHARED;
-	} else {
-		num_vectors = pci_alloc_irq_vectors(ab_pci->pdev,
-						    1,
-						    1,
-						    PCI_IRQ_MSI);
-		if (num_vectors < 0) {
-			ret = -EINVAL;
-			goto reset_msi_config;
-		}
-		clear_bit(ATH12K_PCI_FLAG_MULTI_MSI_VECTORS, &ab_pci->flags);
-		ab_pci->msi_config = &msi_config_one_msi;
-		ab_pci->irq_flags = IRQF_SHARED | IRQF_NOBALANCING;
-		ath12k_dbg(ab, ATH12K_DBG_PCI, "request MSI one vector\n");
+	if (num_vectors < 0) {
+		ret = -EINVAL;
+		goto reset_msi_config;
 	}
+	clear_bit(ATH12K_PCI_FLAG_MULTI_MSI_VECTORS, &ab_pci->flags);
+	ab_pci->msi_config = &msi_config_one_msi;
+	ab_pci->irq_flags = IRQF_SHARED | IRQF_NOBALANCING;
+	ath12k_dbg(ab, ATH12K_DBG_PCI, "request MSI one vector\n");
 
 	ath12k_info(ab, "MSI vectors: %d\n", num_vectors);
 
