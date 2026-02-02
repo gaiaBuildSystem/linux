@@ -110,6 +110,7 @@
 			  <&scmi_clk IMX95_CLK_VIDEOPLL1>;
 	assigned-clock-parents = <&scmi_clk IMX95_CLK_VIDEOPLL1>;
 	assigned-clock-rates = <0>, <4008000000>, <445333334>;
+
 	status = "okay";
 };
 
@@ -126,6 +127,7 @@
 &enetc_port2 {
 	phy-handle = <&ethphy2>;
 	phy-mode = "sgmii";
+
 	status = "okay";
 };
 
@@ -153,6 +155,7 @@
 &flexspi1 {
 	pinctrl-0 = <&pinctrl_flexspi1_4bit>,
 		    <&pinctrl_qspi_cs1>;
+
 	status = "okay";
 
 	flash@0 {
@@ -353,6 +356,7 @@
 	linux,rs485-enabled-at-boot-time;
 	rs485-rts-active-low;
 	rs485-rx-during-tx;
+
 	status = "okay";
 };
 
@@ -377,10 +381,12 @@
 &pixel_interleaver {
 	#address-cells = <1>;
 	#size-cells = <0>;
+
 	status = "okay";
 
 	channel@0 {
 		reg = <0>;
+
 		status = "okay";
 	};
 };
@@ -431,6 +437,7 @@
 
 &usb3_phy {
 	orientation-switch;
+
 	status = "okay";
 
 	port {
