@@ -1312,8 +1312,6 @@ static struct phy_driver aqr_driver[] = {
 	.get_strings	= aqr107_get_strings,
 	.get_stats	= aqr107_get_stats,
 	.link_change_notify = aqr107_link_change_notify,
-	.get_wol	= &aqr113c_get_wol,
-	.set_wol	= &aqr113c_set_wol,
 },
 {
 	PHY_ID_MATCH_MODEL(PHY_ID_AQR405),
@@ -1377,6 +1375,8 @@ static struct phy_driver aqr_driver[] = {
 	.get_strings    = aqr107_get_strings,
 	.get_stats      = aqr107_get_stats,
 	.link_change_notify = aqr107_link_change_notify,
+	.get_wol	= &aqr113c_get_wol,
+	.set_wol	= &aqr113c_set_wol,
 },
 };
 
