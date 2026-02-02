@@ -43,6 +43,7 @@
 		compatible = "gpio-keys";
 		pinctrl-names = "default";
 		pinctrl-0 = <&pinctrl_ctrl_wake1_mico>;
+
 		status = "disabled";
 
 		key-wakeup {
@@ -233,6 +234,7 @@
 			  "AQUILA_B17",
 			  "CTRL_GPIO_EXP_INT#",
 			  "AQUILA_B18";
+
 	status = "okay";
 };
 
@@ -353,6 +355,7 @@
 	clock-frequency = <400000>;
 	scl-gpios = <&gpio2 29 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
 	sda-gpios = <&gpio2 28 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+
 	status = "okay";
 
 	som_gpio_expander_0: gpio@20 {
@@ -408,6 +411,7 @@
 		vcca-supply = <&reg_dp_1p2v>;
 		vccio-supply = <&reg_1p8v>;
 		vpll-supply = <&reg_1p8v>;
+
 		status = "disabled";
 
 		ports {
@@ -489,6 +493,7 @@
 	pinctrl-0 = <&pinctrl_lpspi4>;
 	cs-gpios = <&gpio2 18 GPIO_ACTIVE_LOW>,
 		   <&som_gpio_expander_1 12 GPIO_ACTIVE_LOW>;
+
 	status = "okay";
 
 	som_tpm: tpm@1 {
@@ -594,6 +599,7 @@
 	reset-gpios = <&som_gpio_expander_0 1 GPIO_ACTIVE_LOW>;
 	supports-clkreq;
 	fsl,refclk-pad-mode = <IMX8_PCIE_REFCLK_PAD_OUTPUT>;
+
 	status = "okay";
 };
 
@@ -717,6 +723,7 @@
 	non-removable;
 	no-sdio;
 	no-sd;
+
 	status = "okay";
 };
 
@@ -739,6 +746,7 @@
 
 &wdog3 {
 	fsl,ext-reset-output;
+
 	status = "okay";
 };
 
