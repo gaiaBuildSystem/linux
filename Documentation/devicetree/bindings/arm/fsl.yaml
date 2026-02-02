@@ -1170,7 +1170,9 @@ properties:
 
       - description: Toradex Boards with Aquila iMX95 Modules
         items:
-          - const: toradex,aquila-imx95-dev # Aquila iMX95 Module on Aquila Development Board
+          - enum:
+              - toradex,aquila-imx95-clover # Aquila iMX95 Module on Clover Board
+              - toradex,aquila-imx95-dev    # Aquila iMX95 Module on Aquila Development Board
           - const: toradex,aquila-imx95     # Aquila iMX95 Module
           - const: fsl,imx95
 
