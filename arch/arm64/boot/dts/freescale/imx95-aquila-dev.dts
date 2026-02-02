@@ -362,8 +362,6 @@
 
 /* Aquila ETH_2_XGMII_MDIO, shared between all ethernet ports */
 &netc_emdio {
-	status = "okay";
-
 	ethphy2: ethernet-phy@4 {
 		reg = <4>;
 		interrupt-parent = <&som_gpio_expander_1>;
