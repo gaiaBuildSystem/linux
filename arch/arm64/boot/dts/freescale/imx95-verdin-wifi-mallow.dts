@@ -18,4 +18,153 @@
 		     "toradex,verdin-imx95-wifi",
 		     "toradex,verdin-imx95",
 		     "fsl,imx95";
+
+	backlight_verdin_dsi: backlight-verdin-dsi {
+		compatible = "pwm-backlight";
+		brightness-levels = <0 45 63 88 119 158 203 255>;
+		default-brightness-level = <4>;
+		/* Verdin PWM_3_DSI (SODIMM 19) */
+		pwms = <&tpm6 2 6666667 0>;
+	};
+
+	panel_rvt101hvdwc00b: panel-rvt101hvdwc00b {
+		compatible = "panel-lvds";
+		data-mapping = "vesa-24";
+		height-mm = <136>;
+		width-mm = <217>;
+		status = "okay";
+
+		/*
+		 * These timings are hand-optimized and more stable then theoretical
+		 * In particular HBP+HS should be 88 (display datasheet)
+		 * Likely an higher value is needed due to dsi to lvds pipeline.
+		 */
+		panel-timing {
+			clock-frequency = <66300000 71100000 78900000>;
+			de-active = <1>;
+			hactive = <1280 1280 1280>;
+			hback-porch = <64 64 64>;
+			hfront-porch = <36 36 36>;
+			hsync-active = <0>;
+			hsync-len = <24 24 24>;
+			pixelclk-active = <1>;
+			vactive = <800 800 800>;
+			vback-porch = <24 24 24>;
+			vfront-porch = <8 8 8>;
+			vsync-active = <0>;
+			vsync-len = <8 8 8>;
+		};
+	};
+};
+
+&display_pixel_link {
+	status = "okay";
+};
+
+&displaymix_irqsteer {
+	status = "okay";
+};
+
+&dpu {
+	assigned-clocks = <&scmi_clk IMX95_CLK_DISP1PIX>,
+			  <&scmi_clk IMX95_CLK_VIDEOPLL1_VCO>,
+			  <&scmi_clk IMX95_CLK_VIDEOPLL1>;
+	assigned-clock-parents = <&scmi_clk IMX95_CLK_VIDEOPLL1>;
+	assigned-clock-rates = <0>, <3360000000>, <420000000>;
+	status = "okay";
+};
+
+/* Verdin I2C_2_DSI */
+&lpi2c3 {
+	#address-cells = <1>;
+	#size-cells = <0>;
+	status = "okay";
+
+	bridge@2c {
+		compatible = "ti,sn65dsi83";
+		reg = <0x2c>;
+		/* Verdin GPIO_10_DSI (DSI_1_BKL_EN, SODIMM 21) */
+		enable-gpios = <&som_gpio_expander 3 GPIO_ACTIVE_HIGH>;
+
+		ports {
+			#address-cells = <1>;
+			#size-cells = <0>;
+
+			port@0 {
+				reg = <0>;
+
+				dsi_lvds_bridge_in: endpoint {
+					data-lanes = <1 2 3 4>;
+					remote-endpoint = <&dsi0_out>;
+				};
+			};
+
+			port@2 {
+				reg = <2>;
+
+				dsi_lvds_bridge_out: endpoint {
+					remote-endpoint = <&panel_rvt101hvdwc00b_in>;
+				};
+			};
+		};
+	};
+
+	touch@41 {
+		compatible = "ilitek,ili2132";
+		reg = <0x41>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_i2s_2_bclk_gpio>;
+		/* Verdin GPIO_9_DSI (DSI_1_INT#, SODIMM 17) */
+		interrupt-parent = <&som_gpio_expander>;
+		interrupts = <2 IRQ_TYPE_EDGE_FALLING>;
+		/* Verdin I2S_2_BCLK (SODIMM 42) */
+		reset-gpios = <&gpio5 6 GPIO_ACTIVE_LOW>;
+	};
+};
+
+&mipi_dsi {
+	status = "okay";
+
+	ports {
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		port@1 {
+			reg = <1>;
+
+			dsi0_out: endpoint {
+				remote-endpoint = <&dsi_lvds_bridge_in>;
+			};
+		};
+	};
+};
+
+&panel_rvt101hvdwc00b {
+	backlight = <&backlight_verdin_dsi>;
+
+	panel-timing {
+		clock-frequency = <70000000>;
+	};
+
+	port {
+		panel_rvt101hvdwc00b_in: endpoint {
+			remote-endpoint = <&dsi_lvds_bridge_out>;
+		};
+	};
+};
+
+&pixel_interleaver {
+	#address-cells = <1>;
+	#size-cells = <0>;
+	status = "okay";
+
+	channel@0 {
+		reg = <0>;
+		status = "okay";
+	};
+};
+
+/* Verdin PWM_3_DSI */
+&tpm6 {
+	status = "okay";
 };
