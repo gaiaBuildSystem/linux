@@ -533,7 +533,7 @@
 		};
 
 		sdhci0: sdhci@f7aa0000 {
-			compatible = "snps,dwcmshc-sdhci";
+			compatible = "synaptics,syna-dwcmshc";
 			reg = <0xf7aa0000 0x1000>;
 			interrupts = <GIC_SPI 13 IRQ_TYPE_LEVEL_HIGH>;
 			clocks = <&clk CLK_EMMC>, <&gateclk CLK_EMMCSYS>;
@@ -549,7 +549,7 @@
 		};
 
 		sdhci1: sdhci@f7ab0000 {
-			compatible = "snps,dwcmshc-sdhci";
+			compatible = "synaptics,syna-dwcmshc";
 			reg = <0xf7ab0000 0x1000>;
 			interrupts = <GIC_SPI 15 IRQ_TYPE_LEVEL_HIGH>;
 			clocks = <&clk CLK_SD0>, <&gateclk CLK_SDIOSYS>;
