@@ -62,6 +62,12 @@ extern bool mem_accounting;
 struct dma_heap *dma_heap_find(const char *name);
 
 /**
+ * dma_heap_put - Release a reference to a dma_heap returned by dma_heap_find()
+ * @heap: dma_heap to release
+ */
+void dma_heap_put(struct dma_heap *heap);
+
+/**
  * dma_heap_buffer_alloc - Allocate dma-buf from a dma_heap
  * @heap:	dma_heap to allocate from
  * @len:	size to allocate
