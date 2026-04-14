@@ -1,7 +1,7 @@
 /* SPDX-License-Identifier: GPL-2.0-only */
 /*
  * Copyright (c) 2010 Google, Inc
- * Copyright (c) 2014-2024, NVIDIA CORPORATION. All rights reserved.
+ * Copyright (c) 2014-2026, NVIDIA CORPORATION. All rights reserved.
  *
  * Author:
  *	Colin Cross <ccross@google.com>
@@ -170,6 +170,13 @@ struct tegra_pmc_regs {
 	unsigned int scratch0;
 	unsigned int scratch_l0_1_0;
 	unsigned int scratch_l0_21_0;
+	unsigned int boot_chain_reg;
+	unsigned int boot_chain_status_a_mask;
+	unsigned int boot_chain_status_a_shift;
+	unsigned int boot_chain_status_b_mask;
+	unsigned int boot_chain_status_b_shift;
+	unsigned int boot_chain_current_mask;
+	unsigned int boot_chain_current_shift;
 	unsigned int rst_status;
 	unsigned int rst_source_shift;
 	unsigned int rst_source_mask;

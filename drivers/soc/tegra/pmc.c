@@ -2368,14 +2368,110 @@ TEGRA_PMC_SCRATCH_ATTR_RW(br_fail_bitmap, scratch_l0_1_0,
 			  BR_FAIL_BITMAP_MASK, BR_FAIL_BITMAP_SHIFT, 0, 0xF);
 TEGRA_PMC_SCRATCH_ATTR_RW(br_active_chain, scratch_l0_1_0,
 			  BR_ACTIVE_CHAIN_MASK, BR_ACTIVE_CHAIN_SHIFT, 0, 3);
-TEGRA_PMC_SCRATCH_ATTR_RW(boot_chain_status_a, scratch_l0_1_0,
-			  BOOT_CHAIN_STATUS_A_MASK, BOOT_CHAIN_STATUS_A_SHIFT, 0, 1);
-TEGRA_PMC_SCRATCH_ATTR_RW(boot_chain_status_b, scratch_l0_1_0,
-			  BOOT_CHAIN_STATUS_B_MASK, BOOT_CHAIN_STATUS_B_SHIFT, 0, 1);
-TEGRA_PMC_SCRATCH_ATTR_RO(boot_chain_current, scratch_l0_1_0,
-			  BOOT_CHAIN_CURRENT_MASK, BOOT_CHAIN_CURRENT_SHIFT);
 TEGRA_PMC_SCRATCH_ATTR_RO(last_boot_chain_failed, scratch_l0_1_0,
 			  LAST_BOOT_CHAIN_FAILED_MASK, LAST_BOOT_CHAIN_FAILED_SHIFT);
+
+static ssize_t boot_chain_status_a_show(struct device *dev,
+					struct device_attribute *attr, char *buf)
+{
+	struct tegra_pmc *pmc = dev_get_drvdata(dev);
+	u32 value;
+
+	if (!pmc->scratch || !pmc->soc->regs->boot_chain_reg)
+		return -ENODEV;
+
+	value = tegra_pmc_scratch_readl(pmc, pmc->soc->regs->boot_chain_reg);
+	value = (value >> pmc->soc->regs->boot_chain_status_a_shift) &
+		pmc->soc->regs->boot_chain_status_a_mask;
+	return sprintf(buf, "%u\n", value);
+}
+
+static ssize_t boot_chain_status_a_store(struct device *dev,
+					 struct device_attribute *attr,
+					 const char *buf, size_t count)
+{
+	struct tegra_pmc *pmc = dev_get_drvdata(dev);
+	unsigned long value;
+	u32 reg_val;
+	int ret;
+
+	if (!pmc->scratch || !pmc->soc->regs->boot_chain_reg)
+		return -ENODEV;
+
+	ret = kstrtoul(buf, 0, &value);
+	if (ret)
+		return ret;
+	if (value > pmc->soc->regs->boot_chain_status_a_mask)
+		return -EINVAL;
+
+	reg_val = tegra_pmc_scratch_readl(pmc, pmc->soc->regs->boot_chain_reg);
+	reg_val &= ~(pmc->soc->regs->boot_chain_status_a_mask <<
+		     pmc->soc->regs->boot_chain_status_a_shift);
+	reg_val |= (value & pmc->soc->regs->boot_chain_status_a_mask) <<
+		   pmc->soc->regs->boot_chain_status_a_shift;
+	tegra_pmc_scratch_writel(pmc, reg_val, pmc->soc->regs->boot_chain_reg);
+	return count;
+}
+static DEVICE_ATTR_RW(boot_chain_status_a);
+
+static ssize_t boot_chain_status_b_show(struct device *dev,
+					struct device_attribute *attr, char *buf)
+{
+	struct tegra_pmc *pmc = dev_get_drvdata(dev);
+	u32 value;
+
+	if (!pmc->scratch || !pmc->soc->regs->boot_chain_reg)
+		return -ENODEV;
+
+	value = tegra_pmc_scratch_readl(pmc, pmc->soc->regs->boot_chain_reg);
+	value = (value >> pmc->soc->regs->boot_chain_status_b_shift) &
+		pmc->soc->regs->boot_chain_status_b_mask;
+	return sprintf(buf, "%u\n", value);
+}
+
+static ssize_t boot_chain_status_b_store(struct device *dev,
+					 struct device_attribute *attr,
+					 const char *buf, size_t count)
+{
+	struct tegra_pmc *pmc = dev_get_drvdata(dev);
+	unsigned long value;
+	u32 reg_val;
+	int ret;
+
+	if (!pmc->scratch || !pmc->soc->regs->boot_chain_reg)
+		return -ENODEV;
+
+	ret = kstrtoul(buf, 0, &value);
+	if (ret)
+		return ret;
+	if (value > pmc->soc->regs->boot_chain_status_b_mask)
+		return -EINVAL;
+
+	reg_val = tegra_pmc_scratch_readl(pmc, pmc->soc->regs->boot_chain_reg);
+	reg_val &= ~(pmc->soc->regs->boot_chain_status_b_mask <<
+		     pmc->soc->regs->boot_chain_status_b_shift);
+	reg_val |= (value & pmc->soc->regs->boot_chain_status_b_mask) <<
+		   pmc->soc->regs->boot_chain_status_b_shift;
+	tegra_pmc_scratch_writel(pmc, reg_val, pmc->soc->regs->boot_chain_reg);
+	return count;
+}
+static DEVICE_ATTR_RW(boot_chain_status_b);
+
+static ssize_t boot_chain_current_show(struct device *dev,
+				       struct device_attribute *attr, char *buf)
+{
+	struct tegra_pmc *pmc = dev_get_drvdata(dev);
+	u32 value;
+
+	if (!pmc->scratch || !pmc->soc->regs->boot_chain_reg)
+		return -ENODEV;
+
+	value = tegra_pmc_scratch_readl(pmc, pmc->soc->regs->boot_chain_reg);
+	value = (value >> pmc->soc->regs->boot_chain_current_shift) &
+		pmc->soc->regs->boot_chain_current_mask;
+	return sprintf(buf, "%u\n", value);
+}
+static DEVICE_ATTR_RO(boot_chain_current);
 
 TEGRA_PMC_SCRATCH_ATTR_RW(rootfs_sr_magic, scratch_l0_21_0,
 			  ROOTFS_SR_MAGIC_MASK, ROOTFS_SR_MAGIC_SHIFT, 0, 0xFFFF);
@@ -2396,7 +2492,6 @@ void tegra_pmc_scratch_sysfs_init(struct tegra_pmc *pmc)
 		return;
 	}
 
-	/* Only create attributes if the register fields are defined */
 	if (pmc->soc->regs->scratch_l0_1_0) {
 		err = device_create_file(dev, &dev_attr_br_fail_bitmap);
 		if (err)
@@ -2406,6 +2501,12 @@ void tegra_pmc_scratch_sysfs_init(struct tegra_pmc *pmc)
 		if (err)
 			dev_warn(dev, "failed to create br_active_chain sysfs: %d\n", err);
 
+		err = device_create_file(dev, &dev_attr_last_boot_chain_failed);
+		if (err)
+			dev_warn(dev, "failed to create last_boot_chain_failed sysfs: %d\n", err);
+	}
+
+	if (pmc->soc->regs->boot_chain_reg) {
 		err = device_create_file(dev, &dev_attr_boot_chain_status_a);
 		if (err)
 			dev_warn(dev, "failed to create boot_chain_status_a sysfs: %d\n", err);
@@ -2417,10 +2518,6 @@ void tegra_pmc_scratch_sysfs_init(struct tegra_pmc *pmc)
 		err = device_create_file(dev, &dev_attr_boot_chain_current);
 		if (err)
 			dev_warn(dev, "failed to create boot_chain_current sysfs: %d\n", err);
-
-		err = device_create_file(dev, &dev_attr_last_boot_chain_failed);
-		if (err)
-			dev_warn(dev, "failed to create last_boot_chain_failed sysfs: %d\n", err);
 	}
 
 	if (pmc->soc->regs->scratch_l0_21_0) {
@@ -2452,10 +2549,13 @@ void tegra_pmc_scratch_sysfs_remove(struct tegra_pmc *pmc)
 	if (pmc->soc->regs->scratch_l0_1_0) {
 		device_remove_file(dev, &dev_attr_br_fail_bitmap);
 		device_remove_file(dev, &dev_attr_br_active_chain);
+		device_remove_file(dev, &dev_attr_last_boot_chain_failed);
+	}
+
+	if (pmc->soc->regs->boot_chain_reg) {
 		device_remove_file(dev, &dev_attr_boot_chain_status_a);
 		device_remove_file(dev, &dev_attr_boot_chain_status_b);
 		device_remove_file(dev, &dev_attr_boot_chain_current);
-		device_remove_file(dev, &dev_attr_last_boot_chain_failed);
 	}
 
 	if (pmc->soc->regs->scratch_l0_21_0) {
@@ -3270,6 +3370,7 @@ static int tegra_pmc_probe(struct platform_device *pdev)
 
 	tegra_pmc_clock_register(pmc, pdev->dev.of_node);
 	platform_set_drvdata(pdev, pmc);
+	tegra_pmc_scratch_sysfs_init(pmc);
 	tegra_pm_init_suspend();
 
 	/* Some wakes require specific filter configuration */
@@ -4440,6 +4541,14 @@ static const struct pinctrl_pin_desc tegra234_pin_descs[] = {
 
 static const struct tegra_pmc_regs tegra234_pmc_regs = {
 	.scratch0 = 0x2000,
+	.scratch_l0_21_0 = 0x3a8,
+	.boot_chain_reg = 0x3cc,
+	.boot_chain_status_a_mask = 0x1,
+	.boot_chain_status_a_shift = 0,
+	.boot_chain_status_b_mask = 0x1,
+	.boot_chain_status_b_shift = 1,
+	.boot_chain_current_mask = 0x3,
+	.boot_chain_current_shift = 4,
 	.rst_status = 0x70,
 	.rst_source_shift = 0x2,
 	.rst_source_mask = 0xfc,
