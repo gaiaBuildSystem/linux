@@ -15,6 +15,59 @@
 		     "toradex,verdin-imx8mp-wifi",
 		     "toradex,verdin-imx8mp",
 		     "fsl,imx8mp";
+
+	hdmi-connector {
+		compatible = "hdmi-connector";
+		ddc-i2c-bus = <&i2c2>;
+		/* Verdin PWM_3_DSI (SODIMM 19) */
+		hpd-gpios = <&gpio3 20 GPIO_ACTIVE_HIGH>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_pwm_3_dsi_hpd_gpio>;
+		label = "hdmi";
+		type = "a";
+
+		port {
+			hdmi_connector_in: endpoint {
+				remote-endpoint = <&lt8912_out>;
+			};
+		};
+	};
+
+	reg_dsi_hdmi: regulator-dsi-hdmi {
+		compatible = "regulator-fixed";
+		enable-active-high;
+		/* Verdin CTRL_SLEEP_MOCI# (SODIMM 256) */
+		gpio = <&gpio4 29 GPIO_ACTIVE_HIGH>;
+		regulator-boot-on;
+		regulator-name = "DSI_1_PWR_EN";
+	};
+};
+
+/* Verdin I2C_2_DSI */
+&i2c2 {
+	/* Lower frequency to avoid DDC/EDID issues with certain displays/screens. */
+	clock-frequency = <10000>;
+	status = "okay";
+};
+
+&mipi_dsi {
+	#address-cells = <1>;
+	#size-cells = <0>;
+	status = "okay";
+
+	port@1 {
+		reg = <1>;
+
+		mipi_dsi_bridge1_out: endpoint {
+			attach-bridge;
+			remote-endpoint = <&lt8912_1_in>;
+		};
+	};
+};
+
+/* LCDIF to MIPI-DSI */
+&lcdif1 {
+	status = "okay";
 };
 
 &aud2htx {
@@ -49,9 +102,42 @@
 	status = "okay";
 };
 
+&hdmi_lontium_lt8912 {
+	pinctrl-0 = <&pinctrl_gpio_10_dsi>;
+	vdd-supply = <&reg_dsi_hdmi>;
+	status = "okay";
+
+	ports {
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		port@0 {
+			reg = <0>;
+
+			lt8912_1_in: endpoint {
+				data-lanes = <1 2 3 4>;
+				remote-endpoint = <&mipi_dsi_bridge1_out>;
+			};
+		};
+
+		port@1 {
+			reg = <1>;
+
+			lt8912_out: endpoint {
+				remote-endpoint = <&hdmi_connector_in>;
+			};
+		};
+	};
+};
+
 /* LCDIF to on-SoC Samsung HDMI PHY */
 &lcdif3 {
 	status = "okay";
+};
+
+&pwm3 {
+	/* PWM 3 conflicts with the HPD signal from the adapter */
+	status = "disabled";
 };
 
 &ml_vipsi {
