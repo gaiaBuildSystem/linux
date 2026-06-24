@@ -32,7 +32,7 @@
 #include "dolphin.dtsi"
 
 / {
-	model = "Synaptics Dolphin RDK";
+	model = "Astra Machina sl1680 Dev Kit";
 	compatible = "syna,dolphin-evk", "syna,dolphin";
 
 	aliases {
