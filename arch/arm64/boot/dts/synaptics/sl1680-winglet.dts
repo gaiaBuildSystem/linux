@@ -108,6 +108,12 @@
 		};
 	};
 
+	sdhci1_pwrseq: sdhci1-pwrseq {
+		compatible = "mmc-pwrseq-simple";
+		reset-gpios = <&expander1 2 GPIO_ACTIVE_LOW>;
+		post-power-on-delay-ms = <50>;
+	};
+
 	bt_reg_on: bt_reg_on {
 		compatible = "syna,rfkill";
 		bt-power-gpio = <&expander1 5 GPIO_ACTIVE_HIGH>;
@@ -116,6 +122,12 @@
 	bluesleep: bluesleep {
 		compatible = "syna,bluesleep";
 		bt-dev-wake-gpio = <&expander1 3 GPIO_ACTIVE_HIGH>;
+	};
+
+	bcmdhd {
+		compatible = "synaptics,bcmdhd_wlan";
+		wl_reg_on = <&expander1 2 GPIO_ACTIVE_HIGH>;         /* wifi reg_on pin */
+		wl_host_wake = <&expander1 3 GPIO_ACTIVE_HIGH>;      /* wifi host wake (OOB) pin */
 	};
 
 	gpioi2c3: gpioi2c3 {
@@ -377,13 +389,15 @@
 	status = "okay";
 	pinctrl-0 = <&sdhci1_pmux>, <&sdhci1_gpio_pmux>;
 	pinctrl-names = "default";
-	no-sdio;
-	no-mmc;
-	disable-wp;
 	sdclkdl-dc = /bits/ 8 <75>;
 	pad-sp = /bits/ 8 <4>;
 	pad-sn = /bits/ 8 <4>;
-	vmmc-supply = <&vmmc_sdhci1>;
+	no-sd;
+	no-mmc;
+	non-removable;
+	mmc-pwrseq = <&sdhci1_pwrseq>;
+	mode1-tune;
+	keep-power-in-suspend;
 };
 
 &pcie_phy0 {
@@ -392,7 +406,7 @@
 
 &pcie0 {
 	status = "okay";
-	reset-gpios = <&expander1 1 GPIO_ACTIVE_LOW>;
+	/* reset-gpios = <&expander1 1 GPIO_ACTIVE_LOW>; */
 };
 
 &i2c0 {
@@ -401,50 +415,6 @@
 	pinctrl-0 = <&i2c0_pmux>;
 	no-irq-suspend;
 	clock-frequency = <100000>;
-
-	ina3221@40{
-		compatible = "ti,ina3221";
-		reg = <0x40>;
-		#address-cells = <1>;
-		#size-cells = <0>;
-
-		input@0 {
-			reg = <0x0>;
-			label = "VCORE";
-		};
-
-		input@1 {
-			reg = <0x1>;
-			label = "VCPU";
-		};
-
-		input@2 {
-			reg = <0x2>;
-			label = "VDDM";
-		};
-	};
-
-	ina3221@41{
-		compatible = "ti,ina3221";
-		reg = <0x41>;
-		#address-cells = <1>;
-		#size-cells = <0>;
-
-		input@0 {
-			reg = <0x0>;
-			label = "PWR_3V3";
-		};
-
-		input@1 {
-			reg = <0x1>;
-			label = "VDDM_1V8";
-		};
-
-		input@2 {
-			reg = <0x2>;
-			label = "VDDM_1V1";
-		};
-	};
 };
 
 &mux0 {
