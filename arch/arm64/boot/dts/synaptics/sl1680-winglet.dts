@@ -27,6 +27,7 @@
 /memreserve/ 0x7f000000 0x01000000;
 
 #include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/thermal/thermal.h>
 
 #include "dolphin.dtsi"
 
@@ -105,6 +106,46 @@
 			regulator-max-microvolt = <5000000>;
 			gpio = <&expander0 5 GPIO_ACTIVE_HIGH>;
 			enable-active-high;
+		};
+	};
+
+	fan0: pwm-fan {
+		compatible = "pwm-fan";
+		pinctrl-0 = <&fan_tach_pmux>;
+		pinctrl-names = "default";
+		pwms = <&pwm0 2 40000 0>;
+		interrupts-extended = <&porta 4 IRQ_TYPE_EDGE_RISING>;
+		pulses-per-revolution = <2>;
+		cooling-levels = <0 64 128 192 255>;
+		#cooling-cells = <2>;
+	};
+
+	thermal-zones {
+		soc-thermal {
+			polling-delay-passive = <1000>;
+			polling-delay = <5000>;
+			thermal-sensors = <&sm>;
+
+			trips {
+				soc_alert: soc-alert {
+					temperature = <50000>;
+					hysteresis = <2000>;
+					type = "passive";
+				};
+
+				soc_crit: soc-crit {
+					temperature = <85000>;
+					hysteresis = <2000>;
+					type = "critical";
+				};
+			};
+
+			cooling-maps {
+				map0 {
+					trip = <&soc_alert>;
+					cooling-device = <&fan0 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
+				};
+			};
 		};
 	};
 
@@ -384,9 +425,9 @@
 		function = "spdifo";
 	};
 
-	spdifi_pmux: spdifi-pmux {
+	fan_tach_pmux: fan-tach-pmux {
 		groups = "SPDIFI";
-		function = "spdifi";
+		function = "gpio";
 	};
 };
 

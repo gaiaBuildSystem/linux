@@ -962,6 +962,7 @@
 			mode-fastboot = <0x12510399>;
 			mode-recovery,quiescent = <0x06012021>;
 			mode-quiescent = <0x01112021>;
+			#thermal-sensor-cells = <0>;
 			status = "disabled";
 		};
 
