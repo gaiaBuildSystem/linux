@@ -455,34 +455,8 @@
 	pinctrl-0 = <&audio_pins>;
 };
 
-// GPU
-&cma {
-	/*
-	 * The default size when using this overlay is 256 MB
-	 * and should be kept as is for backwards
-	 * compatibility.
-	 */
-	size = <((512-4)*1024*1024)>;
-};
-
 cam0_reg: &cam1_reg {
 	gpio = <&expgpio 5 GPIO_ACTIVE_HIGH>;
-};
-
-&fb {
-	status = "disabled";
-};
-
-&firmwarekms {
-	status = "okay";
-};
-
-&v3d {
-	status = "okay";
-};
-
-&vc4 {
-	status = "okay";
 };
 
 i2c_csi_dsi0: &i2c0 {
@@ -519,17 +493,5 @@ i2c_csi_dsi0: &i2c0 {
 			<&ant2>, "status=disabled";
 
 		pcie_tperst_clk_ms = <&pcie0>,"brcm,tperst-clk-ms:0";
-
-		cma-512 = <&cma>,"size:0=",<0x20000000>;
-		cma-448 = <&cma>,"size:0=",<0x1c000000>;
-		cma-384 = <&cma>,"size:0=",<0x18000000>;
-		cma-320 = <&cma>,"size:0=",<0x14000000>;
-		cma-256 = <&cma>,"size:0=",<0x10000000>;
-		cma-192 = <&cma>,"size:0=",<0xC000000>;
-		cma-128 = <&cma>,"size:0=",<0x8000000>;
-		cma-96  = <&cma>,"size:0=",<0x6000000>;
-		cma-64  = <&cma>,"size:0=",<0x4000000>;
-		cma-size = <&cma>,"size:0"; /* in bytes, 4MB aligned */
-		cma-default = <0>,"-0";
 	};
 };
