@@ -185,6 +185,10 @@
 	status = "okay";
 };
 
+&pixelvalve3 {
+	status = "okay";
+};
+
 &pixelvalve4 {
 	status = "okay";
 };
@@ -264,10 +268,6 @@
 &uart1 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&uart1_gpio14>;
-	status = "okay";
-};
-
-&vc4 {
 	status = "okay";
 };
 
@@ -486,6 +486,48 @@
 	gpio = <&expgpio 5 GPIO_ACTIVE_HIGH>;
 };
 
+// GPU
+&cma {
+	/*
+	 * The default size when using this overlay is 256 MB
+	 * and should be kept as is for backwards
+	 * compatibility.
+	 */
+	size = <((512-4)*1024*1024)>;
+};
+
+&hvs {
+	status = "okay";
+};
+
+&fb {
+	status = "disabled";
+};
+
+&firmwarekms {
+	status = "disabled";
+};
+
+&v3d {
+	status = "okay";
+};
+
+&vc4 {
+	status = "okay";
+};
+
+&txp {
+	status = "okay";
+};
+
+&dvp {
+	status = "okay";
+};
+
+&aon_intr {
+	status = "okay";
+};
+
 cam0_reg: &cam_dummy_reg {
 };
 
@@ -506,5 +548,36 @@ i2c_csi_dsi0: &i2c0 {
 
 		eth_led0 = <&phy1>,"led-modes:0";
 		eth_led1 = <&phy1>,"led-modes:4";
+
+		cma-512 = <&cma>,"size:0=",<0x20000000>;
+		cma-448 = <&cma>,"size:0=",<0x1c000000>;
+		cma-384 = <&cma>,"size:0=",<0x18000000>;
+		cma-320 = <&cma>,"size:0=",<0x14000000>;
+		cma-256 = <&cma>,"size:0=",<0x10000000>;
+		cma-192 = <&cma>,"size:0=",<0xC000000>;
+		cma-128 = <&cma>,"size:0=",<0x8000000>;
+		cma-96  = <&cma>,"size:0=",<0x6000000>;
+		cma-64  = <&cma>,"size:0=",<0x4000000>;
+		cma-size = <&cma>,"size:0"; /* in bytes, 4MB aligned */
+		cma-default = <0>,"-0";
+
+		audio   = <0>,"!17";
+		audio1   = <0>,"!18";
+		noaudio = <0>,"=17", <0>,"=18";
+		composite = <0>, "!1",
+			    <0>, "!2",
+			    <0>, "!3",
+			    <0>, "!4",
+			    <0>, "!6",
+			    <0>, "!7",
+			    <0>, "!8",
+			    <0>, "!9",
+			    <0>, "!10",
+			    <0>, "!16",
+			    <0>, "=21",
+			    <0>, "=22";
+		nohdmi0 =   <0>, "-1-3-8";
+		nohdmi1 =   <0>, "-2-4-10";
+		nohdmi =    <0>, "-1-2-3-4-8-10";
 	};
 };
