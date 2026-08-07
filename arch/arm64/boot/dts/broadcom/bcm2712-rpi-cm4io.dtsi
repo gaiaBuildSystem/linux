@@ -26,3 +26,22 @@ i2c_csi_dsi: &i2c_csi_dsi1 { }; // The connector that needs no jumper to enable
 &rp1_usb1 {
 	status = "disabled";
 };
+
+// CM4IO has no JST-SH debug UART connector, only the 40-pin header,
+// so route the system console to uart0 (GPIO14/15) instead of uart10.
+
+&uart10 {
+	status = "disabled";
+};
+
+&uart0 {
+	status = "okay";
+};
+
+&chosen {
+	stdout-path = "serial0:115200n8";
+};
+
+&aliases {
+	console = &uart0;
+};
