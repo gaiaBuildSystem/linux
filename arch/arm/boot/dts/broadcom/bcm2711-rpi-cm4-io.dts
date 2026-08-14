@@ -7,6 +7,12 @@
 
 / {
 	model = "Raspberry Pi Compute Module 4 IO Board";
+
+	version {
+		major = <1>;
+		minor = <0>;
+		patch = <1>;
+	};
 };
 
 &ddc0 {
