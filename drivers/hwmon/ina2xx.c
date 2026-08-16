@@ -400,12 +400,11 @@ static u16 ina226_alert_to_reg(struct ina2xx_data *data, int reg, long val)
 		val = DIV_ROUND_CLOSEST(val, data->power_lsb_uW);
 		return clamp_val(val, 0, USHRT_MAX);
 	case INA2XX_CURRENT:
-		limit = (LONG_MAX - (data->current_lsb_uA / 2)) / 1000;
-		val = min_t(long, val, limit);
+		val = clamp_val(val, INT_MIN / 1000, INT_MAX / 1000);
 		/* signed register, result in mA */
 		val = DIV_ROUND_CLOSEST(val * 1000, data->current_lsb_uA);
-		limit = SHRT_MAX >> data->config->current_shift;
-		return (u16)(min_t(long, val, limit) << data->config->current_shift);
+		val <<= data->config->current_shift;
+		return clamp_val(val, SHRT_MIN, SHRT_MAX);
 	default:
 		/* programmer goofed */
 		WARN_ON_ONCE(1);
