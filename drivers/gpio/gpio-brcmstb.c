@@ -665,7 +665,7 @@ static int brcmstb_gpio_probe(struct platform_device *pdev)
 			err = -EINVAL;
 			goto fail;
 		} else {
-			bank->width = bank_width;
+			bank->width = bank_width
 		}
 
 		/*

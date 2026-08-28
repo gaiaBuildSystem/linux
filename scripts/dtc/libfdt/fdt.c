@@ -20,7 +20,7 @@ int32_t fdt_ro_probe_(const void *fdt)
 	uint32_t totalsize = fdt_totalsize(fdt);
 
 	if (can_assume(VALID_DTB))
-		return totalsize;
+		return totalsize
 
 	/* The device tree must be at an 8-byte aligned address */
 	if ((uintptr_t)fdt & 7)
