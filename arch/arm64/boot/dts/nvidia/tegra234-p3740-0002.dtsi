@@ -1,248 +1,235 @@
-// SPDX-License-Identifier: GPL-2.0
+// SPDX-License-Identifier: GPL-2.0-only
+// SPDX-FileCopyrightText: Copyright (c) 2023-2026, NVIDIA CORPORATION & AFFILIATES.  All rights reserved.
 
-#include <dt-bindings/sound/rt5640.h>
+#include "nv-soc/tegra234-soc-audio-dai-links.dtsi"
 
 / {
-	compatible = "nvidia,p3740-0002";
-
 	bus@0 {
-		aconnect@2900000 {
-			ahub@2900800 {
-				i2s@2901300 {
-					ports {
-						port@1 {
-							endpoint {
-								dai-format = "i2s";
-								remote-endpoint = <&rt5640_ep>;
-							};
-						};
+		i2c@31c0000 {
+			audio-codec@1c {
+				port {
+					endpoint {
+						link-name = "rt5640-playback";
 					};
 				};
+			};
 
-				i2s@2901500 {
-					ports {
-						port@1 {
-							endpoint {
-								bitclock-master;
-								frame-master;
-							};
+			typec: stusb1600@28 {
+				status = "okay";
+				compatible = "st,stusb1600";
+				reg = <0x28>;
+				vdd-supply = <&p3740_vdd_5v_sys>;
+				vsys-supply = <&vdd_3v3_sys>;
+				interrupt-parent = <&gpio>;
+				interrupts = <TEGRA234_MAIN_GPIO(K, 6) IRQ_TYPE_LEVEL_LOW>;
+				typec_con: connector {
+					compatible = "usb-c-connector";
+					label = "USB-C";
+					data-role = "dual";
+					power-role = "dual";
+					typec-power-opmode = "default";
+
+					port {
+						typec_con_ep: endpoint {
+							remote-endpoint = <&usb_role_switch0>;
 						};
 					};
 				};
 			};
 		};
 
-		i2c@31c0000 {
-			rt5640: audio-codec@1c {
-				compatible = "realtek,rt5640";
-				reg = <0x1c>;
-				interrupt-parent = <&gpio>;
-				interrupts = <TEGRA234_MAIN_GPIO(F, 3) GPIO_ACTIVE_HIGH>;
-				clocks = <&bpmp TEGRA234_CLK_AUD_MCLK>;
-				clock-names = "mclk";
+		i2c@c250000 {
+			power-sensor@44 {
+				label = "CVB_ATX_12V_8P";
+			};
 
-				realtek,dmic1-data-pin = <RT5640_DMIC1_DATA_PIN_NONE>;
-				realtek,dmic2-data-pin = <RT5640_DMIC2_DATA_PIN_NONE>;
-				realtek,jack-detect-source = <RT5640_JD_SRC_HDA_HEADER>;
+			f75308@4d {
+				compatible = "fintek,f75308";
+				reg = <0x4d>;
+				#address-cells = <1>;
+				#size-cells = <0>;
 
-				sound-name-prefix = "CVB-RT";
+				fan@0 {
+					reg = <0x0>;
+					type = "pwm";
+					duty = "manual_duty";
+					5seg = <100 80 60 40 20>;
+				};
 
-				port {
-					rt5640_ep: endpoint {
-						remote-endpoint = <&i2s4_dap>;
-						mclk-fs = <256>;
-					};
+				fan@1 {
+					reg = <0x1>;
+					type = "pwm";
+					duty = "manual_duty";
+					5seg = <100 80 60 40 20>;
+				};
+
+				fan@2 {
+					reg = <0x2>;
+					type = "pwm";
+					duty = "manual_duty";
+					5seg = <100 80 60 40 20>;
+				};
+
+				fan@3 {
+					reg = <0x3>;
+					type = "pwm";
+					duty = "manual_duty";
+					5seg = <100 80 60 40 20>;
 				};
 			};
 
-			/* carrier board ID EEPROM */
-			eeprom@55 {
-				compatible = "atmel,24c02";
-				reg = <0x55>;
+			tca9539@74 {
+				compatible = "ti,tca9539";
+				reg = <0x74>;
 
-				label = "system";
-				vcc-supply = <&vdd_1v8_ls>;
-				address-width = <8>;
-				pagesize = <8>;
-				size = <256>;
-				read-only;
+				status = "okay";
+				interrupt-parent = <&gpio>;
+				interrupts = <TEGRA234_MAIN_GPIO(G, 5) IRQ_TYPE_LEVEL_LOW>;
+				vcc-supply = <&vdd_3v3_ao>;
+				#gpio-cells = <2>;
+				gpio-controller;
 			};
 		};
 
 		padctl@3520000 {
-			vclamp-usb-supply = <&vdd_1v8_ao>;
-			avdd-usb-supply = <&vdd_3v3_ao>;
-			status = "okay";
-
-			pads {
-				usb2 {
-					lanes {
-						usb2-0 {
-							nvidia,function = "xusb";
-							status = "okay";
-						};
-
-						usb2-1 {
-							nvidia,function = "xusb";
-							status = "okay";
-						};
-
-						usb2-2 {
-							nvidia,function = "xusb";
-							status = "okay";
-						};
-
-						usb2-3 {
-							nvidia,function = "xusb";
-							status = "okay";
-						};
-					};
-				};
-
-				usb3 {
-					lanes {
-						usb3-0 {
-							nvidia,function = "xusb";
-							status = "okay";
-						};
-
-						usb3-1 {
-							nvidia,function = "xusb";
-							status = "okay";
-						};
-
-						usb3-2 {
-							nvidia,function = "xusb";
-							status = "okay";
-						};
-					};
-				};
-			};
-
 			ports {
 				usb2-0 {
-					mode = "otg";
-					usb-role-switch;
-					status = "okay";
-					vbus-supply = <&vdd_5v0_sys>;
-				};
-
-				usb2-1 {
-					mode = "host";
-					status = "okay";
-					vbus-supply = <&vdd_5v0_sys>;
-				};
-
-				usb2-2 {
-					mode = "host";
-					status = "okay";
-					vbus-supply = <&vdd_5v0_sys>;
-				};
-
-				usb2-3 {
-					mode = "host";
-					status = "okay";
-					vbus-supply = <&vdd_5v0_sys>;
-				};
-
-				usb3-0 {
-					nvidia,usb2-companion = <2>;
-					status = "okay";
-				};
-
-				usb3-1 {
-					nvidia,usb2-companion = <0>;
-					status = "okay";
-				};
-
-				usb3-2 {
-					nvidia,usb2-companion = <1>;
-					status = "okay";
+					port {
+						usb_role_switch0: endpoint {
+							remote-endpoint = <&typec_con_ep>;
+						};
+					};
 				};
 			};
 		};
+	};
 
-		usb@3550000 {
+	/* TSC signal generator for cam_fsync (external fsync) - used by SIPL without camera overlay */
+	tsc_sig_gen@c6a0000 {
+		status = "okay";
+		generator@380 {
 			status = "okay";
-
-			phys = <&{/bus@0/padctl@3520000/pads/usb2/lanes/usb2-0}>,
-				<&{/bus@0/padctl@3520000/pads/usb3/lanes/usb3-1}>;
-			phy-names = "usb2-0", "usb3-0";
 		};
-
-		usb@3610000 {
-			status = "okay";
-
-			phys =	<&{/bus@0/padctl@3520000/pads/usb2/lanes/usb2-0}>,
-				<&{/bus@0/padctl@3520000/pads/usb2/lanes/usb2-1}>,
-				<&{/bus@0/padctl@3520000/pads/usb2/lanes/usb2-2}>,
-				<&{/bus@0/padctl@3520000/pads/usb2/lanes/usb2-3}>,
-				<&{/bus@0/padctl@3520000/pads/usb3/lanes/usb3-0}>,
-				<&{/bus@0/padctl@3520000/pads/usb3/lanes/usb3-1}>,
-				<&{/bus@0/padctl@3520000/pads/usb3/lanes/usb3-2}>;
-			phy-names = "usb2-0", "usb2-1", "usb2-2", "usb2-3",
-				"usb3-0", "usb3-1", "usb3-2";
+		fsync-groups {
+			status = "disabled";
 		};
+	};
 
-		i2c@c250000 {
-			power-sensor@41 {
-				compatible = "ti,ina3221";
-				reg = <0x41>;
-				#address-cells = <1>;
-				#size-cells = <0>;
+	sound {
+		clocks = <&bpmp TEGRA234_CLK_PLLA>,
+			 <&bpmp TEGRA234_CLK_PLLA_OUT0>,
+			 <&bpmp TEGRA234_CLK_AUD_MCLK>;
+		clock-names = "pll_a", "plla_out0", "extern1";
+		assigned-clocks = <&bpmp TEGRA234_CLK_AUD_MCLK>;
+		assigned-clock-parents = <&bpmp TEGRA234_CLK_PLLA_OUT0>;
 
-				input@0 {
-					reg = <0x0>;
-					label = "CVB_ATX_12V";
-					shunt-resistor-micro-ohms = <2000>;
-				};
+		mclk-fs = <256>;
 
-				input@1 {
-					reg = <0x1>;
-					label = "CVB_ATX_3V3";
-					shunt-resistor-micro-ohms = <2000>;
-				};
+		widgets =
+			"Headphone",    "CVB-RT Headphone Jack",
+			"Microphone",   "CVB-RT Mic Jack",
+			"Speaker",      "CVB-RT Int Spk",
+			"Microphone",   "CVB-RT Int Mic";
 
-				input@2 {
-					reg = <0x2>;
-					label = "CVB_ATX_5V";
-					shunt-resistor-micro-ohms = <2000>;
-				};
-			};
+		routing =
+			/* I2S4 <-> RT5640 */
+			"CVB-RT AIF1 Playback",       "I2S4 DAP-Playback",
+			"I2S4 DAP-Capture",           "CVB-RT AIF1 Capture",
+			/* RT5640 codec controls */
+			"CVB-RT Headphone Jack",     "CVB-RT HPOL",
+			"CVB-RT Headphone Jack",     "CVB-RT HPOR",
+			"CVB-RT IN1P",               "CVB-RT Mic Jack",
+			"CVB-RT IN2P",               "CVB-RT Mic Jack",
+			"CVB-RT IN2N",               "CVB-RT Mic Jack",
+			"CVB-RT IN3P",               "CVB-RT Mic Jack",
+			"CVB-RT Int Spk",            "CVB-RT SPOLP",
+			"CVB-RT Int Spk",            "CVB-RT SPORP",
+			"CVB-RT Int Spk",            "CVB-RT LOUTL",
+			"CVB-RT Int Spk",            "CVB-RT LOUTR",
+			"CVB-RT DMIC1",              "CVB-RT Int Mic",
+			"CVB-RT DMIC2",              "CVB-RT Int Mic";
+	};
 
-			power-sensor@44 {
-				compatible = "ti,ina219";
-				reg = <0x44>;
-				shunt-resistor = <2000>;
+	eeprom-manager {
+		bus@1 {
+			i2c-bus = <&dp_aux_ch2_i2c>;
+			eeprom@0 {
+				slave-address = <0x55>;
+				label = "cvb";
 			};
 		};
 	};
 
-	vdd_3v3_dp: regulator-vdd-3v3-dp {
-				compatible = "regulator-fixed";
-				regulator-name = "VDD_3V3_DP";
-				regulator-min-microvolt = <3300000>;
-				regulator-max-microvolt = <3300000>;
-				vin-supply = <&vdd_3v3_sys>;
-				gpio = <&gpio TEGRA234_MAIN_GPIO(H, 6) 0>;
-				enable-active-high;
-				regulator-always-on;
+	p3740_vdd_0v95_AO: regulator-vdd-0v95-AO {
+		compatible = "regulator-fixed";
+		regulator-name = "vdd-0v95-AO";
+		regulator-min-microvolt = <950000>;
+		regulator-max-microvolt = <950000>;
 	};
-
-	vdd_3v3_sys: regulator-vdd-3v3-sys {
-				compatible = "regulator-fixed";
-				regulator-name = "VDD_3V3_SYS";
-				regulator-min-microvolt = <3300000>;
-				regulator-max-microvolt = <3300000>;
+	p3740_vdd_12v_sys: regulator-vdd-12v-sys {
+		compatible = "regulator-fixed";
+		regulator-name = "vdd-12v-sys";
+		regulator-min-microvolt = <12000000>;
+		regulator-max-microvolt = <12000000>;
 	};
-
-	vdd_3v3_wifi: regulator-vdd-3v3-wifi {
-				compatible = "regulator-fixed";
-				regulator-name = "VDD_3V3_WIFI";
-				regulator-min-microvolt = <3300000>;
-				regulator-max-microvolt = <3300000>;
-				gpio = <&gpio TEGRA234_MAIN_GPIO(G, 3) GPIO_ACTIVE_HIGH>;
-				regulator-boot-on;
-				enable-active-high;
+	p3740_vdd_1v05_AO: regulator-vdd-1v05-AO {
+		compatible = "regulator-fixed";
+		regulator-name = "vdd-1v05-AO";
+		regulator-min-microvolt = <1050000>;
+		regulator-max-microvolt = <1050000>;
+	};
+	p3740_vdd_1v0_sys: regulator-vdd-1v0-sys {
+		compatible = "regulator-fixed";
+		regulator-name = "vdd-1v0-sys";
+		regulator-min-microvolt = <1000000>;
+		regulator-max-microvolt = <1000000>;
+	};
+	p3740_vdd_1v1_sys: regulator-vdd-1v1-sys {
+		compatible = "regulator-fixed";
+		regulator-name = "vdd-1v1-sys";
+		regulator-min-microvolt = <1100000>;
+		regulator-max-microvolt = <1100000>;
+	};
+	p3740_vdd_1v8_AO: regulator-vdd-1v8-AO {
+		compatible = "regulator-fixed";
+		regulator-name = "vdd-1v8-AO";
+		regulator-min-microvolt = <1800000>;
+		regulator-max-microvolt = <1800000>;
+	};
+	p3740_vdd_1v8_sys: regulator-vdd-1v8-sys {
+		compatible = "regulator-fixed";
+		regulator-name = "vdd-1v8-sys";
+		regulator-min-microvolt = <1800000>;
+		regulator-max-microvolt = <1800000>;
+	};
+	p3740_vdd_2v5_sys: regulator-vdd-2v5-sys {
+		compatible = "regulator-fixed";
+		regulator-name = "vdd-2v5-sys";
+		regulator-min-microvolt = <2500000>;
+		regulator-max-microvolt = <2500000>;
+	};
+	p3740_vdd_2v8_sys: regulator-vdd-2v8-sys {
+		compatible = "regulator-fixed";
+		regulator-name = "vdd-2v8-sys";
+		regulator-min-microvolt = <2800000>;
+		regulator-max-microvolt = <2800000>;
+	};
+	p3740_vdd_3v3_AO: regulator-vdd-3v3-AO {
+		compatible = "regulator-fixed";
+		regulator-name = "vdd-3v3-AO";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+	};
+	p3740_vdd_3v7_AO: regulator-vdd-3v7-AO {
+		compatible = "regulator-fixed";
+		regulator-name = "vdd-3v7-AO";
+		regulator-min-microvolt = <3700000>;
+		regulator-max-microvolt = <3700000>;
+	};
+	p3740_vdd_5v_sys: regulator-vdd-5v-sys {
+		compatible = "regulator-fixed";
+		regulator-name = "vdd-5v-sys";
+		regulator-min-microvolt = <5000000>;
+		regulator-max-microvolt = <5000000>;
 	};
 };

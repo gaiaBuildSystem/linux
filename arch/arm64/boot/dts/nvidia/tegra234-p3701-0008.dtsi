@@ -1,112 +1,151 @@
-// SPDX-License-Identifier: GPL-2.0
+// SPDX-License-Identifier: GPL-2.0-only
+// SPDX-FileCopyrightText: Copyright (c) 2023-2024, NVIDIA CORPORATION & AFFILIATES.  All rights reserved.
 
-#include "tegra234.dtsi"
-#include "tegra234-p3701.dtsi"
+#include "tegra234-p3701-0000.dtsi"
+
+#define TEGRA234_INDUSTRIAL_THERMAL_SLOWDOWN_TEMP 112000
+#define TEGRA234_INDUSTRIAL_THERMAL_SHUTDOWN_TEMP 117500
 
 / {
-	compatible = "nvidia,p3701-0008", "nvidia,tegra234";
+	opp-table-cluster0 {
+		opp-1971200000 {
+			opp-hz = /bits/ 64 <1971200000>;
+			opp-peak-kBps = <3200000>;
+		};
+	};
 
-	bus@0 {
-		i2c@3160000 {
+	opp-table-cluster1 {
+		opp-1971200000 {
+			opp-hz = /bits/ 64 <1971200000>;
+			opp-peak-kBps = <3200000>;
+		};
+	};
+
+	opp-table-cluster2 {
+		opp-1971200000 {
+			opp-hz = /bits/ 64 <1971200000>;
+			opp-peak-kBps = <3200000>;
+		};
+	};
+
+	reserved-memory {
+		#address-cells = <2>;
+		#size-cells = <2>;
+		ranges;
+
+		linux,cma { /* Needed for nvgpu comptags */
+			compatible = "shared-dma-pool";
+			reusable;
+			size = <0x0 0x20000000>; /* 512MB */
+			alignment = <0x0 0x10000>;
+			linux,cma-default;
 			status = "okay";
+		};
+	};
 
-			eeprom@50 {
-				compatible = "atmel,24c02";
-				reg = <0x50>;
-				label = "module";
-				vcc-supply = <&vdd_1v8_hs>;
-				address-width = <8>;
-				pagesize = <8>;
-				size = <256>;
-				read-only;
+	thermal-zones {
+		cpu-thermal {
+			trips {
+				cpu-sw-slowdown {
+					temperature = <TEGRA234_INDUSTRIAL_THERMAL_SLOWDOWN_TEMP>;
+				};
+
+				cpu-sw-shutdown {
+					temperature = <TEGRA234_INDUSTRIAL_THERMAL_SHUTDOWN_TEMP>;
+				};
 			};
 		};
 
-		spi@3270000 {
-			status = "okay";
+		cv0-thermal {
+			trips {
+				cv0-sw-slowdown {
+					temperature = <TEGRA234_INDUSTRIAL_THERMAL_SLOWDOWN_TEMP>;
+				};
 
-			flash@0 {
-				compatible = "jedec,spi-nor";
-				reg = <0>;
-				spi-max-frequency = <102000000>;
-				spi-tx-bus-width = <4>;
-				spi-rx-bus-width = <4>;
+				cv0-sw-shutdown {
+					temperature = <TEGRA234_INDUSTRIAL_THERMAL_SHUTDOWN_TEMP>;
+				};
 			};
 		};
 
-		mmc@3460000 {
-			status = "okay";
-			bus-width = <8>;
-			non-removable;
-		};
+		cv1-thermal {
+			trips {
+				cv1-sw-slowdown {
+					temperature = <TEGRA234_INDUSTRIAL_THERMAL_SLOWDOWN_TEMP>;
+				};
 
-		i2c@c240000 {
-			status = "okay";
-		};
-
-		rtc@c2a0000 {
-			status = "okay";
-		};
-
-		pmc@c360000 {
-			nvidia,invert-interrupt;
-		};
-	};
-
-	bpmp {
-		i2c {
-			status = "okay";
-
-			thermal-sensor@4c {
-				status = "okay";
-				reg = <0x4c>;
-				vcc-supply = <&vdd_1v8_ao>;
+				cv1-sw-shutdown {
+					temperature = <TEGRA234_INDUSTRIAL_THERMAL_SHUTDOWN_TEMP>;
+				};
 			};
 		};
 
-		thermal {
-			status = "okay";
+		cv2-thermal {
+			trips {
+				cv2-sw-slowdown {
+					temperature = <TEGRA234_INDUSTRIAL_THERMAL_SLOWDOWN_TEMP>;
+				};
+
+				cv2-sw-shutdown {
+					temperature = <TEGRA234_INDUSTRIAL_THERMAL_SHUTDOWN_TEMP>;
+				};
+			};
 		};
-	};
 
-	vdd_1v8_ao: regulator-vdd-1v8-ao {
-		compatible = "regulator-fixed";
-		regulator-name = "VDD_1V8_AO";
-		regulator-min-microvolt = <1800000>;
-		regulator-max-microvolt = <1800000>;
-		regulator-always-on;
-	};
+		gpu-thermal {
+			trips {
+				gpu-sw-slowdown {
+					temperature = <TEGRA234_INDUSTRIAL_THERMAL_SLOWDOWN_TEMP>;
+				};
 
-	vdd_1v8_hs: regulator-vdd-1v8-hs {
-		compatible = "regulator-fixed";
-		regulator-name = "VDD_1V8_HS";
-		regulator-min-microvolt = <1800000>;
-		regulator-max-microvolt = <1800000>;
-		regulator-always-on;
-	};
+				gpu-sw-shutdown {
+					temperature = <TEGRA234_INDUSTRIAL_THERMAL_SHUTDOWN_TEMP>;
+				};
+			};
+		};
 
-	vdd_1v8_ls: regulator-vdd-1v8-ls {
-		compatible = "regulator-fixed";
-		regulator-name = "VDD_1V8_LS";
-		regulator-min-microvolt = <1800000>;
-		regulator-max-microvolt = <1800000>;
-		regulator-always-on;
-	};
+		soc0-thermal {
+			trips {
+				soc0-sw-slowdown {
+					temperature = <TEGRA234_INDUSTRIAL_THERMAL_SLOWDOWN_TEMP>;
+				};
 
-	vdd_3v3_ao: regulator-vdd-3v3-ao {
-		compatible = "regulator-fixed";
-		regulator-name = "vdd-AO-3v3";
-		regulator-min-microvolt = <3300000>;
-		regulator-max-microvolt = <3300000>;
-		regulator-always-on;
-	};
+				soc0-sw-shutdown {
+					temperature = <TEGRA234_INDUSTRIAL_THERMAL_SHUTDOWN_TEMP>;
+				};
+			};
+		};
 
-	vdd_5v0_sys: regulator-vdd-5v0-sys {
-		compatible = "regulator-fixed";
-		regulator-name = "VIN_SYS_5V0";
-		regulator-min-microvolt = <5000000>;
-		regulator-max-microvolt = <5000000>;
-		regulator-always-on;
-		regulator-boot-on;
+		soc1-thermal {
+			trips {
+				soc1-sw-slowdown {
+					temperature = <TEGRA234_INDUSTRIAL_THERMAL_SLOWDOWN_TEMP>;
+				};
+
+				soc1-sw-shutdown {
+					temperature = <TEGRA234_INDUSTRIAL_THERMAL_SHUTDOWN_TEMP>;
+				};
+			};
+		};
+
+		soc2-thermal {
+			trips {
+				soc2-sw-slowdown {
+					temperature = <TEGRA234_INDUSTRIAL_THERMAL_SLOWDOWN_TEMP>;
+				};
+
+				soc2-sw-shutdown {
+					temperature = <TEGRA234_INDUSTRIAL_THERMAL_SHUTDOWN_TEMP>;
+				};
+			};
+		};
+
+		tj-thermal {
+			trips {
+				tj-sw-shutdown {
+					temperature = <TEGRA234_INDUSTRIAL_THERMAL_SHUTDOWN_TEMP>;
+				};
+			};
+		};
 	};
 };
