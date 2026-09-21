@@ -1,31 +1,26 @@
-// SPDX-License-Identifier: GPL-2.0
-// SPDX-FileCopyrightText: Copyright (c) 2024, NVIDIA CORPORATION & AFFILIATES.  All rights reserved.
+// SPDX-License-Identifier: GPL-2.0-only
+// SPDX-FileCopyrightText: Copyright (c) 2022-2026, NVIDIA CORPORATION & AFFILIATES.  All rights reserved.
 
-/dts-v1/;
-
-#include "tegra234-p3768-0000+p3767-0005-nv.dts"
+#include <dt-bindings/power/tegra234-powergate.h>
 
 / {
-	compatible = "nvidia,p3768-0000+p3767-0005-super", "nvidia,p3767-0005", "nvidia,tegra234";
-	model = "NVIDIA Jetson Orin Nano Engineering Reference Developer Kit Super";
-
 	reserved-memory {
 		#address-cells = <2>;
 		#size-cells = <2>;
-		fb0_reserved_super: framebuffer@2,79e00000 {
+		fb0_reserved: framebuffer@0,0 {
 			compatible = "framebuffer";
-			reg = <0x02 0x79e00000 0x00 0x870000>;
-			iommu-addresses = <&nvdisplay 0x02 0x79e00000 0x00 0x870000>;
+			reg = <0x00 0x00 0x00 0x00>;
+			iommu-addresses = <&nvdisplay 0x0 0x0 0x0 0x0>;
 			no-map;
-			status = "okay";
+			status = "disabled";
 		};
 	};
 
 	chosen {
 		framebuffer {
 			compatible = "simple-framebuffer";
-			status = "okay";
-			memory-region = <&fb0_reserved_super>;
+			status = "disabled";
+			memory-region = <&fb0_reserved>;
 			power-domains = <&bpmp TEGRA234_POWER_DOMAIN_DISP>;
 			#power-domain-cells = <1>;
 			clocks = <&bpmp TEGRA234_CLK_HUB>,
@@ -90,9 +85,9 @@
 				 <&bpmp TEGRA234_CLK_MIPI_CAL>,
 				 <&bpmp TEGRA234_CLK_UART_FST_MIPI_CAL>,
 				 <&bpmp TEGRA234_CLK_SOR0_DIV>;
-			width  = <0x780>;
-			height = <0x438>;
-			stride = <0x2000>;
+			width  = <0>;
+			height = <0>;
+			stride = <0>;
 			format = "x8b8g8r8";
 			display = <&nvdisplay>;
 		};
@@ -107,7 +102,7 @@
 		interrupt-names = "wdt-remote",
 			"dce-sm0";
 		iommus = <&smmu_niso0 TEGRA234_SID_DCE>;
-		status = "okay";
+		status = "disabled";
 	};
 
 	nvdisplay: display@13800000 {
@@ -257,8 +252,8 @@
 			"dsi_core_reset",
 			"mipi_cal_reset";
 		hdcp_enabled;
-		status = "okay";
-		memory-region = <&fb0_reserved_super>;
+		status = "disabled";
+		memory-region = <&fb0_reserved>;
 		nvidia,disp-sw-soc-chip-id = <0x2350>;
 		nvidia,max-disp-clk-rate-khz = <0 0>;
 		nvidia,max-hub-clk-rate-khz = <0>;
@@ -276,7 +271,3 @@
 		};
 	};
 };
-
-/delete-node/ &{/opp-table-cluster0/opp-1510400000};
-/delete-node/ &{/opp-table-cluster1/opp-1510400000};
-/delete-node/ &{/opp-table-cluster2/opp-1510400000};
