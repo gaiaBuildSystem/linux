@@ -1,4 +1,5 @@
-// SPDX-License-Identifier: GPL-2.0
+// SPDX-License-Identifier: GPL-2.0-only
+// SPDX-FileCopyrightText: Copyright (c) 2023-2024, NVIDIA CORPORATION & AFFILIATES.  All rights reserved.
 
 #include <dt-bindings/input/linux-event-codes.h>
 #include <dt-bindings/input/gpio-keys.h>
@@ -6,6 +7,7 @@
 #include "tegra234-p3767.dtsi"
 
 / {
+<<<<<<<< HEAD:arch/arm64/boot/dts/nvidia/tegra234-p3768-0000+p3767.dtsi
 
 	aliases {
 		serial0 = &tcu;
@@ -32,106 +34,24 @@
 
 		i2c@3160000 {
 			status = "okay";
+========
+	bus@0 {
+>>>>>>>> 1306c3c11e643 (arm64: dts: nvidia: Sync with jetpack 39.2.1 (8/11/2026)):arch/arm64/boot/dts/nvidia/tegra234-p3768-0000.dtsi
 
-			eeprom@57 {
-				compatible = "atmel,24c02";
-				reg = <0x57>;
-
-				label = "system";
-				vcc-supply = <&vdd_1v8_sys>;
-				address-width = <8>;
-				pagesize = <8>;
-				size = <256>;
-				read-only;
-			};
-		};
-
-		serial@31d0000 {
-			current-speed = <115200>;
-			status = "okay";
-		};
-
-		pwm@32a0000 {
-			assigned-clocks = <&bpmp TEGRA234_CLK_PWM3>;
-			assigned-clock-parents = <&bpmp TEGRA234_CLK_PLLP_OUT0>;
-			status = "okay";
-		};
-
-		padctl@3520000 {
-			status = "okay";
-
-			pads {
-				usb2 {
-					lanes {
-						usb2-0 {
-							nvidia,function = "xusb";
-							status = "okay";
-						};
-
-						usb2-1 {
-							nvidia,function = "xusb";
-							status = "okay";
-						};
-
-						usb2-2 {
-							nvidia,function = "xusb";
-							status = "okay";
-						};
-					};
-				};
-
-				usb3 {
-					lanes {
-						usb3-0 {
-							nvidia,function = "xusb";
-							status = "okay";
-						};
-
-						usb3-1 {
-							nvidia,function = "xusb";
-							status = "okay";
+		aconnect@2900000 {
+			ahub@2900800 {
+				i2s@2901100 {
+					ports {
+						port@1 {
+							hdr40_snd_i2s_dap_ep: endpoint {
+							};
 						};
 					};
 				};
 			};
-
-			ports {
-				/* recovery port */
-				usb2-0 {
-					mode = "otg";
-					vbus-supply = <&vdd_5v0_sys>;
-					status = "okay";
-					usb-role-switch;
-				};
-
-				/* hub */
-				usb2-1 {
-					mode = "host";
-					vbus-supply = <&vdd_1v1_hub>;
-					status = "okay";
-				};
-
-				/* M.2 Key-E */
-				usb2-2 {
-					mode = "host";
-					vbus-supply = <&vdd_5v0_sys>;
-					status = "okay";
-				};
-
-				/* hub */
-				usb3-0 {
-					nvidia,usb2-companion = <1>;
-					status = "okay";
-				};
-
-				/* J5 */
-				usb3-1 {
-					nvidia,usb2-companion = <0>;
-					status = "okay";
-				};
-			};
 		};
 
+<<<<<<<< HEAD:arch/arm64/boot/dts/nvidia/tegra234-p3768-0000+p3767.dtsi
 		usb@3550000 {
 			status = "okay";
 
@@ -264,6 +184,17 @@
 
 	serial {
 		status = "okay";
+========
+	};
+
+	tegra_sound: sound {
+		clocks = <&bpmp TEGRA234_CLK_PLLA>,
+			 <&bpmp TEGRA234_CLK_PLLA_OUT0>,
+			 <&bpmp TEGRA234_CLK_AUD_MCLK>;
+		clock-names = "pll_a", "plla_out0", "extern1";
+		assigned-clocks = <&bpmp TEGRA234_CLK_AUD_MCLK>;
+		assigned-clock-parents = <&bpmp TEGRA234_CLK_PLLA_OUT0>;
+>>>>>>>> 1306c3c11e643 (arm64: dts: nvidia: Sync with jetpack 39.2.1 (8/11/2026)):arch/arm64/boot/dts/nvidia/tegra234-p3768-0000.dtsi
 	};
 
 	thermal-zones {
