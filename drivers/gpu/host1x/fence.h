@@ -27,4 +27,10 @@ struct host1x_fence_list {
 
 void host1x_fence_signal(struct host1x_syncpt_fence *fence);
 
+struct dma_fence *host1x_fence_create(struct host1x_syncpt *sp, u32 threshold,
+				      bool timeout);
+int host1x_fence_extract(struct dma_fence *fence, u32 *id, u32 *threshold);
+int host1x_fence_get_node(struct dma_fence *fence);
+void host1x_fence_cancel(struct dma_fence *fence);
+
 #endif

@@ -66,6 +66,13 @@ unsigned int host1x_syncpt_nb_bases(struct host1x *host);
 unsigned int host1x_syncpt_nb_mlocks(struct host1x *host);
 
 /*
+ * Return physical base address and stride of the syncpoint shim, if
+ * present, and the number of syncpoints.
+ */
+int host1x_syncpt_get_shim_info(struct host1x *host, phys_addr_t *base,
+				u32 *stride, u32 *num_syncpts);
+
+/*
  * Check sync point sanity. If max is larger than min, there have too many
  * sync point increments.
  *

@@ -492,6 +492,41 @@ static int host1x_get_resets(struct host1x *host)
 	return 0;
 }
 
+static int host1x_get_syncpt_shim(struct host1x *host)
+{
+	struct device_node *np = host->dev->of_node, *shim_np;
+	u64 base, size;
+	int err;
+
+	shim_np = of_parse_phandle(np, "nvidia,syncpoint-shim", 0);
+	if (!shim_np)
+		return 0;
+
+	{
+		u32 data[4];
+
+		err = of_property_read_u32_array(shim_np, "reg", data, ARRAY_SIZE(data));
+		of_node_put(shim_np);
+		if (err) {
+			dev_err(host->dev, "syncpoint shim has invalid reg property: %d\n", err);
+			return err;
+		}
+
+		base = ((u64)data[0] << 32) | data[1];
+		size = data[3];
+	}
+
+	host->shim_stride = size / host->info->nb_pts;
+	if (host->shim_stride != 0x1000 && host->shim_stride != 0x10000) {
+		dev_err(host->dev, "syncpoint shim has unexpected stride %u\n", host->shim_stride);
+		return -EINVAL;
+	}
+
+	host->shim_base = base;
+
+	return 0;
+}
+
 static int host1x_probe(struct platform_device *pdev)
 {
 	struct host1x *host;
@@ -552,6 +587,10 @@ static int host1x_probe(struct platform_device *pdev)
 	INIT_LIST_HEAD(&host->devices);
 	INIT_LIST_HEAD(&host->list);
 	host->dev = &pdev->dev;
+
+	err = host1x_get_syncpt_shim(host);
+	if (err)
+		return err;
 
 	/* set common host1x device data */
 	platform_set_drvdata(pdev, host);

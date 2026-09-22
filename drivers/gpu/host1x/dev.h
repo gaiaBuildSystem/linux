@@ -170,6 +170,10 @@ struct host1x {
 	struct device_dma_parameters dma_parms;
 
 	struct host1x_bo_cache cache;
+
+	/* physical base + stride of the syncpoint shim (for RM) */
+	phys_addr_t shim_base;
+	u32 shim_stride;
 };
 
 void host1x_common_writel(struct host1x *host1x, u32 v, u32 r);

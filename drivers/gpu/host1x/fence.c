@@ -11,6 +11,7 @@
 #include <linux/slab.h>
 #include <linux/sync_file.h>
 
+#include "dev.h"
 #include "fence.h"
 #include "intr.h"
 #include "syncpt.h"
@@ -143,6 +144,38 @@ struct dma_fence *host1x_fence_create(struct host1x_syncpt *sp, u32 threshold,
 	return &fence->base;
 }
 EXPORT_SYMBOL(host1x_fence_create);
+
+int host1x_fence_extract(struct dma_fence *fence, u32 *id, u32 *threshold)
+{
+	struct host1x_syncpt_fence *f;
+
+	if (fence->ops != &host1x_syncpt_fence_ops)
+		return -EINVAL;
+
+	f = container_of(fence, struct host1x_syncpt_fence, base);
+
+	*id = f->sp->id;
+	*threshold = f->threshold;
+
+	return 0;
+}
+EXPORT_SYMBOL(host1x_fence_extract);
+
+int host1x_fence_get_node(struct dma_fence *fence)
+{
+	struct host1x_syncpt_fence *f;
+	int node;
+
+	if (fence->ops != &host1x_syncpt_fence_ops)
+		return -EINVAL;
+
+	f = container_of(fence, struct host1x_syncpt_fence, base);
+
+	node = dev_to_node(f->sp->host->dev);
+
+	return node == NUMA_NO_NODE ? 0 : node;
+}
+EXPORT_SYMBOL(host1x_fence_get_node);
 
 void host1x_fence_cancel(struct dma_fence *f)
 {

@@ -36,6 +36,17 @@ config TEGRA_HSIERRRPTINJ
 	  mechanism for HSI error report transmission
 	  from T23x to the MCU communications interface.
 
+config TEGRA_DCE
+	tristate "Tegra Display Controller Engine (DCE) driver"
+	depends on MAILBOX && TEGRA_IVC && ARCH_TEGRA
+	select FIRMWARE
+	select RESET_CONTROLLER
+	help
+	  The Display Controller Engine (DCE) driver loads the display
+	  firmware on the DCE island and provides the IPC channel used by
+	  the NVIDIA display (RM) kernel driver to talk to the display
+	  subsystem.
+
 endif # TEGRA_PLATFORM_DEVICES
 
 config TEGRA_PROD_LEGACY

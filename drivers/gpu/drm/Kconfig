@@ -49,9 +49,24 @@ config DRM_DEBUG_MM
 	  Enable allocation tracking of memory manager and leak detection on
 	  shutdown.
 
-	  Recommended for driver developers only.
+config NVIDIA_GPU
+	tristate "NVIDIA GPU support"
+	select DRM_KMS_HELPER
+	help
+	  Enable support for NVIDIA GPUs.
 
-	  If in doubt, say "N".
+config NVIDIA_DRM
+	bool "NVIDIA DRM driver"
+	depends on DRM
+	select NVIDIA_GPU
+	help
+	  Enable the NVIDIA DRM driver.
+
+config NVIDIA_MODESET
+	bool "NVIDIA Modeset driver"
+	depends on NVIDIA_GPU
+	help
+	  Enable the NVIDIA modeset driver.
 
 config DRM_USE_DYNAMIC_DEBUG
 	bool "use dynamic debug to implement drm.debug"

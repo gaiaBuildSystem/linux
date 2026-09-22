@@ -3,3 +3,4 @@
 obj-$(CONFIG_TEGRA_PROD_LEGACY) += tegra_prod.o
 obj-$(CONFIG_TEGRA_EPL) += tegra-epl.o
 obj-$(CONFIG_TEGRA_HSIERRRPTINJ) += tegra-hsierrrptinj.o
+obj-$(CONFIG_TEGRA_DCE) += dce/

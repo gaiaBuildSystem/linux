@@ -4,6 +4,7 @@ obj-y += cbb/
 
 obj-y += common.o
 obj-y += tegra-soc.o
+obj-y += mc-utils.o
 obj-$(CONFIG_SOC_TEGRA_FLOWCTRL) += flowctrl.o
 obj-$(CONFIG_SOC_TEGRA_PMC) += pmc.o
 obj-$(CONFIG_SOC_TEGRA_PMC) += tegra264-pmc.o
