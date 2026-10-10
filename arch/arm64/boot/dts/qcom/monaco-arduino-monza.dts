@@ -276,6 +276,11 @@
 	};
 };
 
+/* gpio32 is the cci1_i2c1 SCL (fan controller), not the GP M/N output */
+&gp_mn {
+	status = "disabled";
+};
+
 &i2c12 {
 	clock-frequency = <400000>;
 
@@ -455,17 +460,39 @@
 		polling-delay = <2000>;
 
 		trips {
-			cpuss0_active: cpuss-active {
-				temperature = <32000>;
-				hysteresis = <2000>;
+			cpuss0_fan_low: fan-low {
+				temperature = <50000>;
+				hysteresis = <5000>;
+				type = "active";
+			};
+
+			cpuss0_fan_mid: fan-mid {
+				temperature = <65000>;
+				hysteresis = <5000>;
+				type = "active";
+			};
+
+			cpuss0_fan_high: fan-high {
+				temperature = <80000>;
+				hysteresis = <5000>;
 				type = "active";
 			};
 		};
 
 		cooling-maps {
-			map-active {
-				trip = <&cpuss0_active>;
-				cooling-device = <&fan 0 THERMAL_NO_LIMIT>;
+			map-low {
+				trip = <&cpuss0_fan_low>;
+				cooling-device = <&fan 1 3>;
+			};
+
+			map-mid {
+				trip = <&cpuss0_fan_mid>;
+				cooling-device = <&fan 4 6>;
+			};
+
+			map-high {
+				trip = <&cpuss0_fan_high>;
+				cooling-device = <&fan 7 THERMAL_NO_LIMIT>;
 			};
 		};
 	};
