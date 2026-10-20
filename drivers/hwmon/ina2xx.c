@@ -440,10 +440,65 @@ static u16 ina226_alert_to_reg(struct ina2xx_data *data, int reg, long val)
 	}
 }
 
-static int ina226_alert_limit_read(struct ina2xx_data *data, u32 mask, int reg, long *val)
+static u32 ina2xx_alert_type_to_mask(enum ina2xx_alert_type alert)
+{
+	switch (alert) {
+	case INA2XX_ALERT_CURRENT_LOW:
+	case INA2XX_ALERT_SHUNT_VOLTAGE_LOW:
+		return INA226_SHUNT_UNDER_VOLTAGE_MASK;
+	case INA2XX_ALERT_CURRENT_HIGH:
+	case INA2XX_ALERT_SHUNT_VOLTAGE_HIGH:
+		return INA226_SHUNT_OVER_VOLTAGE_MASK;
+	case INA2XX_ALERT_BUS_VOLTAGE_LOW:
+		return INA226_BUS_UNDER_VOLTAGE_MASK;
+	case INA2XX_ALERT_BUS_VOLTAGE_HIGH:
+		return INA226_BUS_OVER_VOLTAGE_MASK;
+	case INA2XX_ALERT_POWER_HIGH:
+		return INA226_POWER_OVER_LIMIT_MASK;
+	case INA2XX_ALERT_NONE:
+		return 0;
+	default:
+		/* programmer error */
+		WARN_ON_ONCE(1);
+		return 0;
+	}
+}
+
+static enum ina2xx_alert_type ina2xx_mask_to_alert_type(u32 mask)
+{
+	int top_bit = fls(mask & INA226_ALERT_CONFIG_MASK);
+
+	if (!top_bit)
+		return INA2XX_ALERT_NONE;
+
+	/*
+	 * Multiple bits may be set, with the highest-set function taking
+	 * precedence according to the datasheet. Shunt voltage masks are
+	 * assumed to map to voltage monitoring rather than current monitoring,
+	 * since the latter isn't directly implemented in the hardware.
+	 */
+	switch (BIT(top_bit - 1)) {
+	case INA226_SHUNT_OVER_VOLTAGE_MASK:
+		return INA2XX_ALERT_SHUNT_VOLTAGE_HIGH;
+	case INA226_SHUNT_UNDER_VOLTAGE_MASK:
+		return INA2XX_ALERT_SHUNT_VOLTAGE_LOW;
+	case INA226_BUS_OVER_VOLTAGE_MASK:
+		return INA2XX_ALERT_BUS_VOLTAGE_HIGH;
+	case INA226_BUS_UNDER_VOLTAGE_MASK:
+		return INA2XX_ALERT_BUS_VOLTAGE_LOW;
+	case INA226_POWER_OVER_LIMIT_MASK:
+		return INA2XX_ALERT_POWER_HIGH;
+	default:
+		return INA2XX_ALERT_NONE;
+	}
+}
+
+static int ina226_alert_limit_read(struct ina2xx_data *data, enum ina2xx_alert_type alert,
+				   int reg, long *val)
 {
 	struct regmap *regmap = data->regmap;
 	int regval;
+	u32 mask;
 	int ret;
 
 	/* Avoid nonzero reads from inactive alerts caused by shared limit register */
@@ -456,6 +511,7 @@ static int ina226_alert_limit_read(struct ina2xx_data *data, u32 mask, int reg, 
 	if (ret)
 		return ret;
 
+	mask = ina2xx_alert_type_to_mask(alert);
 	if (regval & mask) {
 		ret = regmap_read(regmap, INA226_ALERT_LIMIT, &regval);
 		if (ret)
@@ -467,9 +523,11 @@ static int ina226_alert_limit_read(struct ina2xx_data *data, u32 mask, int reg, 
 	return 0;
 }
 
-static int ina226_alert_limit_write(struct ina2xx_data *data, u32 mask, int reg, long val)
+static int ina226_alert_limit_write(struct ina2xx_data *data, enum ina2xx_alert_type alert,
+				    int reg, long val)
 {
 	struct regmap *regmap = data->regmap;
+	u32 mask;
 	int ret;
 
 	if (val < 0)
@@ -523,15 +581,26 @@ static int ina2xx_chip_read(struct device *dev, u32 attr, long *val)
 	return 0;
 }
 
-static int ina226_alert_read(struct regmap *regmap, u32 mask, long *val)
+static int ina226_alert_read(struct ina2xx_data *data, enum ina2xx_alert_type alert, long *val)
 {
 	unsigned int regval;
+	u32 mask;
 	int ret;
 
-	ret = regmap_read_bypassed(regmap, INA226_MASK_ENABLE, &regval);
+	/*
+	 * With alert latching, reading alerts from hardware also clears the
+	 * alert, so return early if the alert is inactive.
+	 */
+	if (data->active_alert != alert) {
+		*val = 0;
+		return 0;
+	}
+
+	ret = regmap_read_bypassed(data->regmap, INA226_MASK_ENABLE, &regval);
 	if (ret)
 		return ret;
 
+	mask = ina2xx_alert_type_to_mask(alert);
 	*val = (regval & mask) && (regval & INA226_ALERT_FUNCTION_FLAG);
 
 	return 0;

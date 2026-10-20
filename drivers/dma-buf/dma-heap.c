@@ -259,6 +259,54 @@ void dma_heap_put(struct dma_heap *h)
 }
 EXPORT_SYMBOL_GPL(dma_heap_put);
 
+struct dma_buf *dma_heap_buffer_alloc(struct dma_heap *heap, size_t len,
+				      u32 fd_flags,
+				      u64 heap_flags)
+{
+	if (fd_flags & ~DMA_HEAP_VALID_FD_FLAGS)
+		return ERR_PTR(-EINVAL);
+
+	if (heap_flags & ~DMA_HEAP_VALID_HEAP_FLAGS)
+		return ERR_PTR(-EINVAL);
+
+	/*
+	 * Allocations from all heaps have to begin
+	 * and end on page boundaries.
+	 */
+	len = PAGE_ALIGN(len);
+	if (!len)
+		return ERR_PTR(-EINVAL);
+
+	return heap->ops->allocate(heap, len, fd_flags, heap_flags);
+}
+EXPORT_SYMBOL_GPL(dma_heap_buffer_alloc);
+
+void dma_heap_buffer_free(struct dma_buf *dmabuf)
+{
+	dma_buf_put(dmabuf);
+}
+EXPORT_SYMBOL_GPL(dma_heap_buffer_free);
+
+int dma_heap_bufferfd_alloc(struct dma_heap *heap, size_t len,
+			    u32 fd_flags,
+			    u64 heap_flags)
+{
+	struct dma_buf *dmabuf;
+	int fd;
+
+	dmabuf = dma_heap_buffer_alloc(heap, len, fd_flags, heap_flags);
+	if (IS_ERR(dmabuf))
+		return PTR_ERR(dmabuf);
+
+	fd = dma_buf_fd(dmabuf, fd_flags);
+	if (fd < 0) {
+		dma_buf_put(dmabuf);
+		/* just return, as put will call release and that will free */
+	}
+	return fd;
+}
+EXPORT_SYMBOL_GPL(dma_heap_bufferfd_alloc);
+
 /**
  * dma_heap_get_dev() - get device struct for the heap
  * @heap: DMA-Heap to retrieve device struct from
